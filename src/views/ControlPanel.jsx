@@ -82,7 +82,7 @@ const ControlPanel = () => {
 
 	const [fieldsWithChanges, setFieldsWithChanges] = useState([]);
 	const [streamTypeField, setStreamTypeField] = useState("RSC3-regular"); // default to regular season if not already set
-	const [logoField, setLogoField] = useState("");
+	const [logoField, setBrandLogoField] = useState("");
 	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers? or send season/matchday/tier data separately?
 	const [seasonNumberField, setSeasonNumberField] = useState(currentSeason);
 	const [matchdayNumberField, setMatchdayNumberField] = useState(1);
@@ -429,7 +429,7 @@ const ControlPanel = () => {
 		setSeriesLengthField(loadedConfig.series.maxGames);
 		setShowSeriesField(loadedConfig.series.show);
 		setHeaderField(loadedConfig.general.headers[0]);
-		setLogoField(loadedConfig.general.brandLogo);
+		setBrandLogoField(loadedConfig.general.brandLogo);
 		setSeasonNumberField(loadedConfig.general.season);
 		setMatchdayNumberField(loadedConfig.general.matchday);
 		changeTierField(loadedConfig.general.tier);
@@ -464,8 +464,8 @@ const ControlPanel = () => {
 		setHeaderField(text);
 	}
 
-	const changeLogoField = (logo) => {
-		setLogoField(logo);
+	const changeBrandLogoField = (logo) => {
+		setBrandLogoField(logo);
 	}
 
 	const changeStreamTypeField = (streamType) => {
@@ -479,6 +479,7 @@ const ControlPanel = () => {
 				setSeriesLengthField(4);
 				setShowSeriesField(true);
 				setLeagueId(1);
+				changeBrandLogoField("RSC-3s.png");
 				break;
 
 			case "RSC3-final":
@@ -486,9 +487,17 @@ const ControlPanel = () => {
 				setSeriesLengthField(7);
 				setShowSeriesField(true);
 				setLeagueId(1);
+				changeBrandLogoField("RSC-3s.png");
+				break;
+
+			case "RSC3-event":
+				changeBrandLogoField("RSC-3s.png");
+			break;
 
 			default:
 				setLeagueId(-1);
+				changeBrandLogoField("");
+
 				break;
 		}
 
