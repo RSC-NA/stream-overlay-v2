@@ -20,11 +20,23 @@ const socketServerUrl = "wss://rlws.kdoughboy.com:8321";
 const Overlay = () => {
 
 	const transitionDefault = {
+		delay: true,
 		logo: null,
+		name: "stripeWipe",
 		show: false,
-		styleClass: "stripeWipe",
+		team: null,
 		text: "",
 	};
+	// TODO: REMOVE AFTER TESTING
+/* 	const transitionDefault = {
+		delay: true,
+		logo: "rsc-splatter-logo.png",
+		name: "triangleMerge",
+		show: true,
+		team: 0,
+		text: "GOAL!",
+	};
+ */
 	const teamColorsDefault = ["206cff", "f88521"];
 
 	const [clientId, setClientId] = useState("");
@@ -199,9 +211,11 @@ const Overlay = () => {
 			case "game:initialized":
 				setClockRunning(false);
 				triggerTransition(
-					"stripeWipe noDelay",
+					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
 					"GO!",
-					activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ? `${activeConfig.general.brandLogo}` : null,
+					activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ? activeConfig.general.brandLogo : null,
+					null,
+					false,
 				);
 				setTimeout(() => {
 					setViewState("live");
@@ -211,9 +225,11 @@ const Overlay = () => {
 			case "game:goal_scored":
 				setLastGoal(data);
 				triggerTransition(
-					`stripeWipe team${data.scorer.teamnum}`,
+					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
 					"GOAL!",
 					activeConfig.teams[data.scorer.teamnum].hasOwnProperty("logo") && activeConfig.teams[data.scorer.teamnum].logo ? `teams/${activeConfig.teams[data.scorer.teamnum].logo}` : activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ? `${activeConfig.general.brandLogo}` : null,
+					data.scorer.teamnum,
+					true,
 				);
 				break;
 
@@ -225,9 +241,11 @@ const Overlay = () => {
 					playerData,
 				});
 				setTimeout(() => triggerTransition(
-					`stripeWipe team${winningTeam}`,
+					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
 					"WINNER!",
 					activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo ? `teams/${activeConfig.teams[winningTeam].logo}` : activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ? `${activeConfig.general.brandLogo}` : null,
+					winningTeam,
+					true,
 				), 1000);
 				setTimeout(() => {
 					setSeriesScore(sd => ([
@@ -369,11 +387,13 @@ const Overlay = () => {
 	}
 
 	// visual transitions
-	const triggerTransition = (styleClass, text, logo) => {
+	const triggerTransition = (name, text, logo, team, delay) => {
 		setTransition({
+			delay,
 			logo,
+			name,
 			show: true,
-			styleClass,
+			team,
 			text,
 		});
 		setTimeout(() => {
@@ -392,15 +412,23 @@ const Overlay = () => {
 							&& Array.isArray(gameData.teams)
 							&& gameData.teams[0].hasOwnProperty("color_primary")
 							? gameData.teams[0].color_primary
-						: teamColorsDefault[0]
+								: teamColorsDefault[0]
 				, 100),
+				"--team0tone": hexToRgba(
+					activeConfig.teams[0].color ? activeConfig.teams[0].color
+						: gameData.hasOwnProperty("teams")
+							&& Array.isArray(gameData.teams)
+							&& gameData.teams[0].hasOwnProperty("color_primary")
+							? gameData.teams[0].color_primary
+								: teamColorsDefault[0]
+				, 70),
 				"--team0fade": hexToRgba(
 					activeConfig.teams[0].color ? activeConfig.teams[0].color
 						: gameData.hasOwnProperty("teams")
 							&& Array.isArray(gameData.teams)
 							&& gameData.teams[0].hasOwnProperty("color_primary")
 							? gameData.teams[0].color_primary
-						: teamColorsDefault[0]
+								: teamColorsDefault[0]
 				, 25),
 				"--team1": hexToRgba(
 					activeConfig.teams[1].color ? activeConfig.teams[1].color
@@ -408,15 +436,23 @@ const Overlay = () => {
 							&& Array.isArray(gameData.teams)
 							&& gameData.teams[1].hasOwnProperty("color_primary")
 							? gameData.teams[1].color_primary
-						: teamColorsDefault[1]
+								: teamColorsDefault[1]
 				, 100),
+				"--team1tone": hexToRgba(
+					activeConfig.teams[1].color ? activeConfig.teams[1].color
+						: gameData.hasOwnProperty("teams")
+							&& Array.isArray(gameData.teams)
+							&& gameData.teams[1].hasOwnProperty("color_primary")
+							? gameData.teams[1].color_primary
+								: teamColorsDefault[1]
+				, 70),
 				"--team1fade": hexToRgba(
 					activeConfig.teams[1].color ? activeConfig.teams[1].color
 						: gameData.hasOwnProperty("teams")
 							&& Array.isArray(gameData.teams)
 							&& gameData.teams[1].hasOwnProperty("color_primary")
 							? gameData.teams[1].color_primary
-						: teamColorsDefault[1]
+								: teamColorsDefault[1]
 				, 25),
 			}}
 		>

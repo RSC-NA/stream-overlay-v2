@@ -58,5 +58,7 @@ $textColor: #ffffff;
 	@import "pregame";
 	@import "postgame";
 	@import "transition";
+	//TODO: reorganize transition files
+	@import "triangleMerge";
 
 }

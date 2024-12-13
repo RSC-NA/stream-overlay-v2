@@ -7,9 +7,8 @@ $stripeMaxWidth: $windowWidth * .5;
 $transitionDelay: 3s;
 $transitionDuration: 1.5s;
 
-
 #Transition.stripeWipe {
-	--transitionDelay: #{$transitionDelay};
+	--transitionDelay: 0s;
 
 	position: absolute;
     left: 0;
@@ -20,8 +19,8 @@ $transitionDuration: 1.5s;
     overflow: hidden;
     visibility: hidden;
 
-	&.noDelay {
-		--transitionDelay: 0s;
+	&.delay {
+		--transitionDelay: #{$transitionDelay};
 	}
 
 	.bg {
@@ -199,4 +198,3 @@ $transitionDuration: 1.5s;
         height: $logoLarge;
     }
 }
-

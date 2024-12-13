@@ -479,7 +479,8 @@ const ControlPanel = () => {
 				setSeriesLengthField(4);
 				setShowSeriesField(true);
 				setLeagueId(1);
-				changeBrandLogoField("RSC-3s.png");
+				changeBrandLogoField("rsc-splatter-logo.png");
+				changeHeaderField("Rocket Soccar Confederation");
 				break;
 
 			case "RSC3-final":
@@ -487,11 +488,14 @@ const ControlPanel = () => {
 				setSeriesLengthField(7);
 				setShowSeriesField(true);
 				setLeagueId(1);
-				changeBrandLogoField("RSC-3s.png");
+				changeBrandLogoField("rsc-splatter-logo.png");
+				changeHeaderField("Rocket Soccar Confederation");
 				break;
 
 			case "RSC3-event":
+				// TODO: change when S22 is ready to start
 				changeBrandLogoField("RSC-3s.png");
+				// changeHeaderField("Rocket Soccar Confederation");
 			break;
 
 			default:
@@ -521,6 +525,9 @@ const ControlPanel = () => {
 				matchday: matchdayNumberField,
 				tier: tierField,
 				brandLogo: logoField,
+				// TODO: select transition for non-RSC streams
+				// TODO: change for other RSC events when S22 is ready to start
+				transition: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "triangleMerge" : "stripeWipe",
 			},
 			series: {
 				show: showSeriesField,

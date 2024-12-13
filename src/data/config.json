@@ -7,6 +7,7 @@
 		"tier": "",
 		"headers": [""],
 		"brandLogo": "",
+		"transition": "",
 		"show": {
 			"players": true,
 			"playerStats": true,
