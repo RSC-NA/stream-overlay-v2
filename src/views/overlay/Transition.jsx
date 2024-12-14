@@ -1,26 +1,26 @@
 import React from "react";
 
+import StripeWipe from "@/views/transitions/StripeWipe";
+import TriangleMerge from "@/views/transitions/TriangleMerge";
+
 const Transition = (props) => {
 
-    return (
-        <div id="Transition" className={`${props.transition.styleClass} ${props.transition.show ? "show" : ""}`}>
+	return (
+		<div id="Transition" className={`${props.transition.name} ${props.transition.delay ? "delay" : ""} ${props.transition.show ? "show" : ""} ${props.transition.team !== null ? `team${props.transition.team}` : ""}`}>
 
-            <div className="bg">
-                {props.transition.logo && props.transition.logo !== null && props.transition.logo !== "" ? (
-                    <div className="logo">
-                        <img src={`/logos/${props.transition.logo}`}></img>
-                    </div>
-                ): null}
-            </div>
-            <div className="stripe">
-                {props.transition.text ? (
-                    <div className="text">{props.transition.text}</div>
-                ) : null}
-            </div>
+			{props.transition.name === "stripeWipe" ?
 
-        </div>
-    )
+				<StripeWipe transition={props.transition}/>
 
-}
+			: props.transition.name === "triangleMerge" ?
+
+				<TriangleMerge transition={props.transition}/>
+
+			: null}
+
+		</div>
+	)
+
+};
 
 export default Transition;

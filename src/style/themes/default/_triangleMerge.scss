@@ -1,0 +1,331 @@
+@use "sass:math";
+
+$logoSmall: 400px;
+$logoLarge: 700px;
+
+// TODO: move to RSC theme when it's made
+$rscOrange: #f48020;
+$rscOrangeTone: rgba($rscOrange, .7);
+$rscOrangeFade: rgba($rscOrange, .25);
+$rscBlue: rgba(67, 120, 187, 1);
+$rscBlueTone: rgba(67, 120, 187, .7);
+$rscBlueFade: rgba(67, 120, 187, .25);
+
+$highlightSidePadding: 400px;
+$highlightWidth: calc($windowWidth + $highlightSidePadding * 2);
+
+#Transition.triangleMerge {
+	--transitionDelay: 0s;
+	position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 255;
+	width: $windowWidth;
+	height: $windowHeight;
+    overflow: hidden;
+    visibility: hidden;
+
+	&.delay {
+		--transitionDelay: #{$transitionDelay};
+	}
+
+	.bgLeft,
+	.trianglesLeft,
+	.logoLeft,
+	.bgRight,
+	.trianglesRight,
+	.logoRight,
+	.highlight {
+		position: absolute;
+		top: 0;
+		width: $windowWidth;
+		height: $windowHeight;
+	}
+
+	.bgLeft,
+	.trianglesLeft,
+	.logoLeft {
+		left: calc(0px - $windowWidth);
+		mask-size: contain;
+	}
+
+	.bgRight,
+	.trianglesRight,
+	.logoRight {
+		left: $windowWidth;
+		mask-size: contain;
+	}
+
+	.bgLeft {
+		z-index: 1;
+		opacity: 0;
+		mask-image: url("http://localhost:5173/rsc/triangle-transition-mask-large-left.png");
+	}
+
+	.bgRight {
+		z-index: 2;
+		opacity: 0;
+		mask-image: url("http://localhost:5173/rsc/triangle-transition-mask-large-right.png");
+	}
+
+	.trianglesLeft {
+		z-index: 4;
+		mask-image: url("http://localhost:5173/rsc/triangle-transition-mask-left.png");
+	}
+
+	.trianglesRight {
+		z-index: 5;
+		mask-image: url("http://localhost:5173/rsc/triangle-transition-mask-right.png");
+	}
+
+	.logoLeft {
+		z-index: 6;
+		mask-image: url("http://localhost:5173/rsc/triangle-transition-mask-large-left.png");
+	}
+
+	.logoRight {
+		z-index: 7;
+		mask-image: url("http://localhost:5173/rsc/triangle-transition-mask-large-right.png");
+	}
+
+	.bgLeft,
+	.bgRight {
+		background: $backgroundColor;
+	}
+
+	// TODO: replace colors intelligently
+	.highlight {
+		z-index: 3;
+		left: calc(0px - $highlightWidth);
+		width: $highlightWidth;
+		background: linear-gradient(
+			120deg,
+			$backgroundTransparent 0px,
+			$backgroundTransparent $highlightSidePadding,
+			var(--team0tone) calc($highlightSidePadding * 1.5),
+			var(--team0tone) calc($highlightSidePadding * 2),
+			var(--team1tone) calc($highlightWidth - $highlightSidePadding * 2),
+			var(--team1tone) calc($highlightWidth - $highlightSidePadding * 1.5),
+			$backgroundTransparent calc($highlightWidth - $highlightSidePadding)
+		);
+	}
+
+	&.team0 .highlight {
+		background: linear-gradient(
+			120deg,
+			$backgroundTransparent 0px,
+			$backgroundTransparent $highlightSidePadding,
+			var(--team0tone) calc($highlightSidePadding * 1.5),
+			var(--team0tone) calc($highlightWidth - $highlightSidePadding * 1.5),
+			$backgroundTransparent calc($highlightWidth - $highlightSidePadding)
+		);
+	}
+
+	&.team1 .highlight {
+		background: linear-gradient(
+			120deg,
+			$backgroundTransparent 0px,
+			$backgroundTransparent $highlightSidePadding,
+			var(--team1tone) calc($highlightSidePadding * 1.5),
+			var(--team1tone) calc($highlightWidth - $highlightSidePadding * 1.5),
+			$backgroundTransparent calc($highlightWidth - $highlightSidePadding)
+		);
+	}
+
+
+
+
+	.trianglesLeft,
+	.trianglesRight {
+		opacity: 0;
+		background: url("/rsc/triangle-bg-transparent.png");
+	}
+
+	.logo {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		z-index: 2;
+		transform: translate(-50%, -50%);
+        width: $logoSmall;
+        height: $logoSmall;
+		opacity: 0;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+			object-position: 50% 50%;
+		}
+
+	}
+
+	&.show {
+		visibility: visible;
+
+		.bgLeft {
+			animation: TriangleMergeLeft, TriangleMergeBackground;
+			animation-duration: $transitionDuration;
+			animation-fill-mode: forwards;
+			animation-delay: var(--transitionDelay);
+		}
+
+		.bgRight {
+			animation: TriangleMergeLeft, TriangleMergeBackground;
+			animation-duration: $transitionDuration;
+			animation-fill-mode: forwards;
+			animation-delay: var(--transitionDelay);
+		}
+
+		.highlight {
+			animation: TriangleMergeHighlight;
+			animation-duration: $transitionDuration;
+			animation-fill-mode: forwards;
+			animation-delay: var(--transitionDelay);
+		}
+
+		.trianglesLeft {
+			animation: TriangleMergeLeft, TriangleMergeTriangles;
+			animation-duration: $transitionDuration;
+			animation-fill-mode: forwards;
+			animation-delay: var(--transitionDelay);
+		}
+
+		.trianglesRight {
+			animation: TriangleMergeRight, TriangleMergeTriangles;
+			animation-duration: $transitionDuration;
+			animation-fill-mode: forwards;
+			animation-delay: var(--transitionDelay);
+		}
+
+		.logoLeft {
+			animation: TriangleMergeLeft;
+			animation-duration: $transitionDuration;
+			animation-fill-mode: forwards;
+			animation-delay: var(--transitionDelay);
+		}
+
+		.logoRight {
+			animation: TriangleMergeRight;
+			animation-duration: $transitionDuration;
+			animation-fill-mode: forwards;
+			animation-delay: var(--transitionDelay);
+		}
+
+		.logo {
+				animation: TriangleMergeLogo;
+				animation-duration: math.div($transitionDuration, 2.5);
+				animation-fill-mode: forwards;
+				animation-delay: var(--transitionDelay);
+		}
+
+	}
+
+}
+
+@keyframes TriangleMergeLeft {
+    0% {
+        left: $windowWidth;
+    }
+    25% {
+        left: 0px;
+    }
+    75% {
+        left: 0px;
+    }
+    100% {
+        left: calc(0px - $windowWidth);
+    }
+}
+
+@keyframes TriangleMergeRight {
+    0% {
+        left: calc(0px - $windowWidth);
+    }
+    25% {
+        left: 0px;
+    }
+    75% {
+        left: 0px;
+    }
+    100% {
+        left: $windowWidth;
+    }
+}
+
+@keyframes TriangleMergeLogo {
+    0% {
+        opacity: 0;
+        width: $logoSmall;
+        height: $logoSmall;
+    }
+    30% {
+        opacity: 0;
+    }
+	50% {
+		width: $logoSmall;
+        height: $logoSmall;
+	}
+	85% {
+        opacity: 1;
+	}
+    100% {
+        width: $logoLarge;
+        height: $logoLarge;
+		opacity: 1;
+	}
+}
+
+@keyframes TriangleMergeHighlight {
+    0% {
+        left: calc(0px - $highlightWidth);
+    }
+    19% {
+        left: calc(0px - $highlightWidth);
+    }
+	47% {
+        left: calc(0px - $highlightSidePadding * .5);
+	}
+    70% {
+        left: calc($windowWidth + $highlightSidePadding);
+    }
+    100% {
+        left: $highlightWidth;
+    }
+}
+
+@keyframes TriangleMergeBackground {
+    0% {
+        opacity: 0;
+    }
+    13% {
+        opacity: 0;
+    }
+	30% {
+        opacity: 1;
+	}
+    71% {
+        opacity: 1;
+    }
+    95% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes TriangleMergeTriangles {
+    0% {
+        opacity: 0;
+    }
+    13% {
+        opacity: 1;
+	}
+    87% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
