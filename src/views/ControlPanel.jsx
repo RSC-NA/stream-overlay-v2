@@ -200,7 +200,22 @@ const ControlPanel = () => {
 			setFieldsWithChanges(tempFieldsWithChanges);
 		}
 
-	}, [teamNameFields, franchiseFields, teamLogoFields, seriesScoreFields, headerField, seriesTypeField, seriesLengthField, showSeriesField, logoField, streamTypeField, seasonNumberField, matchdayNumberField, tierField]);
+	}, [
+		franchiseFields,
+		headerField,
+		logoField,
+		matchdayNumberField,
+		seasonNumberField,
+		seriesLengthField,
+		seriesScoreFields,
+		seriesTypeField,
+		showSeriesField,
+		streamTypeField,
+		teamFields,
+		teamLogoFields,
+		teamNameFields,
+		tierField,
+	]);
 
 	// load tiers on league change
 	useEffect(() => {
@@ -311,7 +326,7 @@ const ControlPanel = () => {
 
 	const loadTeamList = (league, tier) => {
 
-		if (league === -1) {
+		if (league === -1 || !tier) {
 			return;
 		}
 
@@ -437,6 +452,8 @@ const ControlPanel = () => {
 	}
 
 	const setConfigValuesToDefault = () => {
+		setTeamFields(["", ""]);
+		setTierField("");
 		setConfig(defaultConfig);
 		localStorage.setItem("config", JSON.stringify(defaultConfig));
 	}
