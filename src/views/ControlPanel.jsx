@@ -492,27 +492,18 @@ const ControlPanel = () => {
 		// TODO: set style based on stream type
 		switch(streamType) {
 			case "RSC3-regular":
-				setSeriesTypeField("set");
-				setSeriesLengthField(4);
-				setShowSeriesField(true);
 				setLeagueId(1);
 				changeBrandLogoField("rsc-splatter-logo.png");
-				changeHeaderField("Rocket Soccar Confederation");
 				break;
 
 			case "RSC3-final":
-				setSeriesTypeField("bestof");
-				setSeriesLengthField(7);
-				setShowSeriesField(true);
 				setLeagueId(1);
 				changeBrandLogoField("rsc-splatter-logo.png");
-				changeHeaderField("Rocket Soccar Confederation");
 				break;
 
 			case "RSC3-event":
 				// TODO: change when S22 is ready to start
 				changeBrandLogoField("RSC-3s.png");
-				// changeHeaderField("Rocket Soccar Confederation");
 			break;
 
 			default:
@@ -547,10 +538,10 @@ const ControlPanel = () => {
 				transition: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "triangleMerge" : "stripeWipe",
 			},
 			series: {
-				show: showSeriesField,
-				type: seriesTypeField,
+				show: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? true : showSeriesField,
+				type: streamTypeField === "RSC3-regular" ? "set" : streamTypeField === "RSC3-final" ? "bestof" : seriesTypeField,
 				display: "both",
-				maxGames: seriesLengthField,
+				maxGames: streamTypeField === "RSC3-regular" ? 4 : streamTypeField === "RSC3-final" ? 7 : seriesLengthField,
 				override: "",
 			},
 			teams: [
@@ -862,48 +853,56 @@ const ControlPanel = () => {
 										</Item>
 									</Grid>
 
-									<Grid size={6}>
-										<Item>
-											<FormControl size="small" fullWidth>
-												<InputLabel id="seriesTypeLabel" shrink>Series Type</InputLabel>
-												<Select
-													notched
-													labelId="seriesTypeLabel"
-													id="seriesType"
-													value={seriesTypeField}
-													label="Series Type"
-													className={fieldHasChanges("seriesTypeField") ? "changedField" : ""}
-													onChange={(e) => changeSeriesTypeField(e.target.value)}
-												>
-													<MenuItem value="bestof">Best of</MenuItem>
-													<MenuItem value="set">Set number of games</MenuItem>
-													<MenuItem value="unlimited">Unlimited</MenuItem>
-												</Select>
-											</FormControl>
+									{showSeriesField === true ?
 
-										</Item>
-									</Grid>
+										<>
 
-									<Grid size={3}>
-										<Item>
-											<TextField
-												fullWidth
-												required
-												inputProps={{
-													min: 1,
-													step: 1,
-												}}
-												id="seriesLength"
-												type="number"
-												size="small"
-												label="Games"
-												disabled={seriesTypeField === "unlimited"}
-												value={seriesLengthField}
-												onChange={(e) => changeSeriesLengthField(e.target.value)}
-												className={fieldHasChanges("seriesLengthField") ? "changedField" : ""}
-											/>
-										</Item>
-									</Grid>
+											<Grid size={6}>
+												<Item>
+													<FormControl size="small" fullWidth>
+														<InputLabel id="seriesTypeLabel" shrink>Series Type</InputLabel>
+														<Select
+															notched
+															labelId="seriesTypeLabel"
+															id="seriesType"
+															value={seriesTypeField}
+															label="Series Type"
+															className={fieldHasChanges("seriesTypeField") ? "changedField" : ""}
+															onChange={(e) => changeSeriesTypeField(e.target.value)}
+														>
+															<MenuItem value="bestof">Best of</MenuItem>
+															<MenuItem value="set">Set number of games</MenuItem>
+															<MenuItem value="unlimited">Unlimited</MenuItem>
+														</Select>
+													</FormControl>
+
+												</Item>
+											</Grid>
+
+											<Grid size={3}>
+												<Item>
+													<TextField
+														fullWidth
+														required
+														inputProps={{
+															min: 1,
+															step: 1,
+														}}
+														id="seriesLength"
+														type="number"
+														size="small"
+														label="Games"
+														disabled={seriesTypeField === "unlimited"}
+														value={seriesLengthField}
+														onChange={(e) => changeSeriesLengthField(e.target.value)}
+														className={fieldHasChanges("seriesLengthField") ? "changedField" : ""}
+													/>
+												</Item>
+											</Grid>
+
+										</>
+
+									: null}
 
 								</>
 
