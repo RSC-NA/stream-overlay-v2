@@ -637,14 +637,16 @@ const ControlPanel = () => {
 		const newConfig = {
 			general: {
 				...config.general,
-				headers: [headerField],
+				headers: [streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "Rocket Soccar Confederation" : headerField],
 				streamType: streamTypeField,
 				season: seasonNumberField,
 				matchday: matchdayNumberField,
 				tier: tierField,
 				brandLogo: logoField,
+				// TODO: change theme to rsc for other RSC events when S22 is ready to start
+				theme: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "rsc" : "default",
 				// TODO: select transition for non-RSC streams
-				// TODO: change for other RSC events when S22 is ready to start
+				// TODO: change transition to triangleMerge for other RSC events when S22 is ready to start
 				transition: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "triangleMerge" : "stripeWipe",
 			},
 			series: {

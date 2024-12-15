@@ -1,0 +1,9 @@
+.scoreboard {
+	position: absolute;
+	left: 50%;
+	top: 0;
+	transform: translateX(-50%);
+	width: $scoreboardWidth;
+	max-height: 140px;
+	background: $backgroundColor url("/images/themes/rsc/scoreboard-triangles-bg.png") no-repeat center top;
+}

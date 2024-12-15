@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 const Header = (props) => {
 
     return (
-		<Fragment>
+		<>
 
 			{props.headers.map((text, index) => (
 
@@ -13,7 +13,7 @@ const Header = (props) => {
 
 			))}
 
-		</Fragment>
+		</>
     )
 
 }

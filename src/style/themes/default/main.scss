@@ -47,7 +47,6 @@ $secondaryTextColor: #cccccc;
 $highlightColor: #d2b156;
 $textColor: #ffffff;
 
-
 :root {
 	background: transparent;
 }
@@ -57,8 +56,6 @@ $textColor: #ffffff;
 	@import "live";
 	@import "pregame";
 	@import "postgame";
-	@import "transition";
-	//TODO: reorganize transition files
-	@import "triangleMerge";
+	@import "../transitions/stripeWipe";
 
 }

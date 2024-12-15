@@ -27,9 +27,9 @@ const Overlay = () => {
 		team: null,
 		text: "",
 	};
-	// TODO: REMOVE AFTER TESTING
+	// For testing
 /* 	const transitionDefault = {
-		delay: true,
+		delay: false,
 		logo: "rsc-splatter-logo.png",
 		name: "triangleMerge",
 		show: true,
@@ -401,6 +401,8 @@ const Overlay = () => {
 		}, 10000);
 	}
 
+	//TODO: There's got to be some better way to get the alpha channel values into CSS without generating them all individually here
+
 	return (
 		<div
 			className={`App ${activeConfig.general.theme || "default"}`}
@@ -456,8 +458,6 @@ const Overlay = () => {
 				, 25),
 			}}
 		>
-
-			{/* <div>{clientId}</div> */}
 
 			{viewState === "postgame" ? (
 				<Postgame

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 const TeamSeriesScore = (props) => {
 
@@ -7,7 +7,7 @@ const TeamSeriesScore = (props) => {
 // props.display for display type (numbers / boxes)
 
     return (
-		<Fragment>
+		<>
 
 			{props.hasOwnProperty("seriesConfig") && props.seriesConfig.hasOwnProperty("display") ?
 
@@ -32,7 +32,7 @@ const TeamSeriesScore = (props) => {
 				</div>
 
 			: null}
-		</Fragment>
+		</>
 
     )
 

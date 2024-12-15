@@ -7,10 +7,6 @@ import SeriesInfo from "@/components/SeriesInfo";
 
 import hexToRgba from "@/utils/hexToRgba";
 
-// import ("@/components/styles/Rsc")
-
-// import Rsc from "@/components/styles/Rsc";
-
 import "@/style/statboard.scss";
 
 // const expireEventsInMs = 7000;
@@ -107,7 +103,7 @@ const Statboard = () => {
 
 				{dataReceived ?
 
-					<Fragment>
+					<>
 
 						<Clock time={gameData.time_seconds} overtime={gameData.isOT} />
 
@@ -167,7 +163,7 @@ const Statboard = () => {
 						))}
 						</table>
 
-					</Fragment>
+					</>
 
 				: "No data received" }
 

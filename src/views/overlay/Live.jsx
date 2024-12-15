@@ -26,26 +26,30 @@ const Live = (props) => {
 	return (
 		<div className={`livePlay ${props.gameData.isOT ? "overtime" : ""}`}>
 
-            <Header headers={props.config.general.headers} />
+			<div className="scoreboard">
 
-            <Clock time={props.gameData.time_seconds} overtime={props.gameData.isOT} />
+				<Header headers={props.config.general.headers} />
 
-            {props.config.series.show || props.config.series.override ? (
-                <SeriesInfo seriesScore={props.seriesScore} seriesGame={props.seriesGame} seriesConfig={props.config.series} />
-            ) : null}
+				<Clock time={props.gameData.time_seconds} overtime={props.gameData.isOT} />
 
-            {props.gameData.teams.map((team, teamnum) => (
-                <Fragment key={teamnum}>
-                    <TeamName name={props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name} team={teamnum} franchiseName={props.config.teams[teamnum].franchise} />
-                    {props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? (
-                        <TeamLogo team={teamnum} logo={props.config.teams[teamnum].logo} />
-                    ) : null}
-                    <TeamScore score={team.score} team={teamnum} long={longScores} />
-                    {props.config.series.show ? (
-                        <TeamSeriesScore score={props.seriesScore[teamnum]} seriesConfig={props.config.series} team={teamnum} />
-                    ) : null}
-                </Fragment>
-            ))}
+				{props.config.series.show || props.config.series.override ? (
+					<SeriesInfo seriesScore={props.seriesScore} seriesGame={props.seriesGame} seriesConfig={props.config.series} />
+				) : null}
+
+				{props.gameData.teams.map((team, teamnum) => (
+					<Fragment key={teamnum}>
+						<TeamName name={props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name} team={teamnum} franchiseName={props.config.teams[teamnum].franchise} />
+						{props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? (
+							<TeamLogo team={teamnum} logo={props.config.teams[teamnum].logo} />
+						) : null}
+						<TeamScore score={team.score} team={teamnum} long={longScores} />
+						{props.config.series.show ? (
+							<TeamSeriesScore score={props.seriesScore[teamnum]} seriesConfig={props.config.series} team={teamnum} />
+						) : null}
+					</Fragment>
+				))}
+
+			</div>
 
 			{props.config.general.show.players ? (
 				<Fragment>

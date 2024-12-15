@@ -1,0 +1,77 @@
+// general
+$borderSize: 5px;
+
+// element grid
+$windowWidth: 1920px;
+$windowHeight: 1080px;
+
+$scoreboardWidth: 852px;
+
+$topHeaderHeight: 15px;
+$headerHeight: 33px;
+
+$mainBarHeight: 66px;
+$clockWidth: 230px;
+$teamNameWidth: 300px;
+$teamScoreWidth: 65px;
+
+$seriesInfoWidth: 621px;
+$seriesInfoHeight: 25px;
+
+$teamLogoSize: 80px;
+
+/*
+$watchingHeight: 40px;
+$watchingWidth: 800px;
+$ballHeight: 32px;
+$ballWidth: 340px;
+
+$replayHeight: 75px;
+$replayLabelHeight: 38px;
+
+$playerBoxWidth: 340px;
+$playerBoxHeight: 60px;
+$playerBoxBoost: 70px;
+$playerBoxEvents: 28px;
+$playerBoxEventLimit: 3;
+$playerBoxMargin: 10px;
+$playerBoxBorderSize: 3px;
+$playerBoxPadding: 2px;
+ */
+
+// colors (team colors use css variables from React component)
+$overtimeColor: #d8262e;
+$textColor: #ffffff;
+$secondaryTextColor: #cccccc;
+$highlightColor: #f5ca19;
+
+$backgroundColor: #231f20;
+$backgroundHighlight: #333333;
+$backgroundTranslucent: rgba($backgroundColor, .7);
+$backgroundTransparent: rgba($backgroundColor, 0);
+
+$rscOrange: #f48020;
+$rscOrangeTone: rgba($rscOrange, .7);
+$rscOrangeFade: rgba($rscOrange, .25);
+$rscBlue: rgba(#4378bb, 1);
+$rscBlueTone: rgba($rscBlue, .7);
+$rscBlueFade: rgba($rscBlue, .25);
+
+$transitionDelay: 3s;
+
+:root {
+	background: transparent;
+}
+
+#Overlay.rsc {
+
+	--fontCooper: "CooperHewitt", Helvetica, Arial, sans-serif;
+	--fontUltimatum: "Ultimatum", Helvetica, Arial, sans-serif;
+
+	@import "fonts";
+	@import "live";
+	// @import "pregame";
+	// @import "postgame";
+	@import "../transitions/triangleMerge";
+
+}

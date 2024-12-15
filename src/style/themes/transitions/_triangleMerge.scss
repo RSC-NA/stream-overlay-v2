@@ -14,6 +14,9 @@ $rscBlueFade: rgba(67, 120, 187, .25);
 $highlightSidePadding: 400px;
 $highlightWidth: calc($windowWidth + $highlightSidePadding * 2);
 
+$transitionDelay: 3s;
+$transitionDuration: 1.5s;
+
 #Transition.triangleMerge {
 	--transitionDelay: 0s;
 	position: absolute;
@@ -59,33 +62,33 @@ $highlightWidth: calc($windowWidth + $highlightSidePadding * 2);
 	.bgLeft {
 		z-index: 1;
 		opacity: 0;
-		mask-image: url("/images/styles/rsc/triangle-transition-mask-large-left.png");
+		mask-image: url("/images/themes/rsc/triangle-transition-mask-large-left.png");
 	}
 
 	.bgRight {
 		z-index: 2;
 		opacity: 0;
-		mask-image: url("/images/styles/rsc/triangle-transition-mask-large-right.png");
+		mask-image: url("/images/themes/rsc/triangle-transition-mask-large-right.png");
 	}
 
 	.trianglesLeft {
 		z-index: 4;
-		mask-image: url("/images/styles/rsc/triangle-transition-mask-left.png");
+		mask-image: url("/images/themes/rsc/triangle-transition-mask-left.png");
 	}
 
 	.trianglesRight {
 		z-index: 5;
-		mask-image: url("/images/styles/rsc/triangle-transition-mask-right.png");
+		mask-image: url("/images/themes/rsc/triangle-transition-mask-right.png");
 	}
 
 	.logoLeft {
 		z-index: 6;
-		mask-image: url("/images/styles/rsc/triangle-transition-mask-large-left.png");
+		mask-image: url("/images/themes/rsc/triangle-transition-mask-large-left.png");
 	}
 
 	.logoRight {
 		z-index: 7;
-		mask-image: url("/images/styles/rsc/triangle-transition-mask-large-right.png");
+		mask-image: url("/images/themes/rsc/triangle-transition-mask-large-right.png");
 	}
 
 	.bgLeft,
@@ -138,7 +141,7 @@ $highlightWidth: calc($windowWidth + $highlightSidePadding * 2);
 	.trianglesLeft,
 	.trianglesRight {
 		opacity: 0;
-		background: url("/images/styles/rsc/triangle-bg-transparent.png");
+		background: url("/images/themes/rsc/triangle-bg-transparent.png");
 	}
 
 	.logo {
