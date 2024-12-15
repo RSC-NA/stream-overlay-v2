@@ -17,12 +17,12 @@ const TriangleMerge = (props) => {
 			</div>
 			<div className="logoLeft">
 				<div className="logo">
-					<img src={`/logos/${props.transition.logo}`}></img>
+					<img src={`/images/logos/${props.transition.logo}`}></img>
 				</div>
 			</div>
 			<div className="logoRight">
 				<div className="logo">
-					<img src={`/logos/${props.transition.logo}`}></img>
+					<img src={`/images/logos/${props.transition.logo}`}></img>
 				</div>
 			</div>
 
@@ -32,7 +32,7 @@ const TriangleMerge = (props) => {
 {/* 			<div className="bg">
 				{props.transition.logo && props.transition.logo !== null && props.transition.logo !== "" ? (
 					<div className="logo">
-						<img src={`/logos/${props.transition.logo}`}></img>
+						<img src={`/images/logos/${props.transition.logo}`}></img>
 					</div>
 				): null}
 			</div>

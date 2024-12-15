@@ -7,7 +7,7 @@ const TeamLogo = (props) => {
             <img
 				src={
 				props.logo.substr(0,8) === "https://" || props.logo.substr(0,10) === "data:image/" ? props.logo
-				 : `/logos/teams/${props.logo}`
+				 : `/images/logos/teams/${props.logo}`
 			} />
         </div>
     )

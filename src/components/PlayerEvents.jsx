@@ -12,22 +12,22 @@ const PlayerEvents = (props) => {
                     <Fragment key={eventIndex}>
                         {
                             event.name === "Assist" ? (
-								<ReactSVG className="eventIcon" src="/eventIcons/assist.svg" />
+								<ReactSVG className="eventIcon" src="/images/eventIcons/assist.svg" />
                             )
                             : event.name === "Dead" ? (
-								<ReactSVG className="eventIcon" src="/eventIcons/dead.svg" />
+								<ReactSVG className="eventIcon" src="/images/eventIcons/dead.svg" />
                             )
                             : event.name === "Demolish" ? (
-								<ReactSVG className="eventIcon" src="/eventIcons/demo.svg" />
+								<ReactSVG className="eventIcon" src="/images/eventIcons/demo.svg" />
                             )
                             : event.name === "Goal" ? (
-								<ReactSVG className="eventIcon" src="/eventIcons/goal.svg" />
+								<ReactSVG className="eventIcon" src="/images/eventIcons/goal.svg" />
                             )
                             : event.name === "Save" || event.name === "EpicSave" ? (
-								<ReactSVG className="eventIcon" src="/eventIcons/save.svg" />
+								<ReactSVG className="eventIcon" src="/images/eventIcons/save.svg" />
                             )
                             : event.name === "Shot" ? (
-								<ReactSVG className="eventIcon" src="/eventIcons/shot.svg" />
+								<ReactSVG className="eventIcon" src="/images/eventIcons/shot.svg" />
                             )
 						: null}
 

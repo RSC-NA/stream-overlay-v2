@@ -92,10 +92,10 @@ const Postgame = (props) => {
 
 				<div className="branding">
 					<div className="brandLogo">
-						<img src={`/logos/${props.config.general.brandLogo}`}></img>
+						<img src={`/images/logos/${props.config.general.brandLogo}`}></img>
 					</div>
 					<div className="brandLogo">
-						<img src={`/logos/${props.config.general.brandLogo}`}></img>
+						<img src={`/images/logos/${props.config.general.brandLogo}`}></img>
 					</div>
 				</div>
 
@@ -111,7 +111,7 @@ const Postgame = (props) => {
                         {teams[0].map((player, playerIndex) => (
                             <th className={`playerName team0 ${player.name.length > longPlayerName ? "long" : ""}`} key={`team0player${playerIndex}`}>
                                 {winningTeam === 0 && playerIndex === 0 ? (
-									<ReactSVG className="mvpIcon" src="/eventIcons/mvp.svg" />
+									<ReactSVG className="mvpIcon" src="/images/eventIcons/mvp.svg" />
                                 ) : null}
 								<span>{player.name}</span>
                             </th>
@@ -120,7 +120,7 @@ const Postgame = (props) => {
                         {teams[1].map((player, playerIndex) => (
                             <th className={`playerName team1 ${player.name.length > longPlayerName ? "long" : ""}`} key={`team1player${playerIndex}`}>
                                 {winningTeam === 1 && playerIndex === 0 ? (
-									<ReactSVG className="mvpIcon" src="/eventIcons/mvp.svg" />
+									<ReactSVG className="mvpIcon" src="/images/eventIcons/mvp.svg" />
                                 ) : null}
 								<span>{player.name}</span>
                             </th>

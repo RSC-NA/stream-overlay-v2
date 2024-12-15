@@ -68,7 +68,7 @@ const Live = (props) => {
 
 			{props.config.general.hasOwnProperty("brandLogo") && props.config.general.brandLogo ?
 				<div className="watermark">
-					<img src={`/logos/${props.config.general.brandLogo}`}></img>
+					<img src={`/images/logos/${props.config.general.brandLogo}`}></img>
 				</div>
 			: null }
 

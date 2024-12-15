@@ -33,7 +33,7 @@ const Pregame = (props) => {
 						<div className={`team team${teamnum} ${props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? "hasLogo" : ""}`}>
 							{props.config.teams[teamnum].logo ? (
 								<div className="logo">
-									<img src={`/logos/teams/${props.config.teams[teamnum].logo}`}></img>
+									<img src={`/images/logos/teams/${props.config.teams[teamnum].logo}`}></img>
 								</div>
 							) : null }
 
@@ -50,7 +50,7 @@ const Pregame = (props) => {
 						{teamnum === 0 ?
 							<div className="pregameCenter">
 								{props.config.general.brandLogo ?
-									<img src={`/logos/${props.config.general.brandLogo}`}></img>
+									<img src={`/images/logos/${props.config.general.brandLogo}`}></img>
 								:
 									<div className="vs">VS</div>
 								}
