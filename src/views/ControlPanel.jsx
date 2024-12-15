@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { v4 as uuidv4 } from "uuid";
 
+import { getFranchiseList } from "@/services/franchiseService";
 import { getTeamListByTier } from "@/services/teamService";
 import { getTierList } from "@/services/tierService";
 
@@ -75,6 +76,7 @@ const ControlPanel = () => {
 	const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 
+	const [franchiseLists, setFranchiseLists] = useState({});
 	const [leagueId, setLeagueId] = useState(-1);
 	const [tierLists, setTierLists] = useState({});
 	const [teamLists, setTeamLists] = useState({});
@@ -299,28 +301,59 @@ const ControlPanel = () => {
 	const loadTierList = (league) => {
 		if(!Array.isArray(tierLists[league]) || tierLists[league].length < 1 ) {
 			const currentTierLists = {...tierLists};
+			const apiPromises = [];
+
 			openDialog("loading");
-			getTierList(league)
-				.then((loadedTierList) => {
-					currentTierLists[league] = loadedTierList;
-					setTierLists(currentTierLists);
 
-					// create new empty entry in teams object for league
-					const currentTeamLists = {...teamLists}
-					currentTeamLists[league] = {};
-					setTeamLists(currentTeamLists);
+			apiPromises.push(
+				getTierList(league)
+					.then((loadedTierList) => {
+						currentTierLists[league] = loadedTierList;
+						setTierLists(currentTierLists);
 
-					if (tierField) {
-						loadTeamList(leagueId, tierField);
-					}
+						// create new empty entry in teams object for league
+						const currentTeamLists = {...teamLists}
+						currentTeamLists[league] = {};
+						setTeamLists(currentTeamLists);
 
+						if (tierField) {
+							loadTeamList(leagueId, tierField);
+						}
+					})
+					.catch((error) => {
+						console.error(error);
+						openSnackbar("Error getting tier list from API");
+					})
+			);
+
+			// if franchise list isn't loaded, load it
+			if(!Array.isArray(franchiseFields[league]) || franchiseFields[league].length < 1 ) {
+				const currentFranchiseLists = {...franchiseLists};
+
+				apiPromises.push(
+					getFranchiseList(league)
+						.then((loadedFranchiseList) => {
+							currentFranchiseLists[league] = loadedFranchiseList;
+							setFranchiseLists(currentFranchiseLists);
+						})
+						.catch((error) => {
+							console.error(error);
+							openSnackbar("Error getting franchise list from API");
+						})
+				);
+
+			}
+
+			Promise.all(apiPromises)
+				.then(() => {
 					closeDialog();
 				})
 				.catch((error) => {
 					closeDialog();
 					console.error(error);
-					openSnackbar("Error getting tier list from API");
+					openSnackbar("Error loading from API");
 				});
+
 		}
 	}
 
@@ -539,8 +572,9 @@ const ControlPanel = () => {
 	}
 
 	const saveToLocalStorage = () => {
-		// check for required fields
+		const teamFranchiseLogos = ["", ""];
 
+		// check for required fields
 		if (streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final") {
 
 			if (tierField === "") {
@@ -568,6 +602,21 @@ const ControlPanel = () => {
 				return;
 			}
 
+			console.log(franchiseLists);
+
+			if (Array.isArray(franchiseLists[leagueId]) && franchiseLists[leagueId].length > 0) {
+				for (let team in teamFields) {
+					const teamFranchise = franchiseLists[leagueId].filter((franchise) => franchise.id === teamFields[team].franchise.id);
+					console.log(teamFields[team].franchise.id, teamFranchise, franchiseLists[leagueId][teamFields[team].franchise.id]);
+					if (teamFranchise.length === 1) {
+						teamFranchiseLogos[team] = teamFranchise[0].logo;
+					}
+				}
+			}
+
+			console.log(teamFranchiseLogos);
+
+
 		} else {
 
 			if (teamNameFields.includes[""]) {
@@ -581,8 +630,6 @@ const ControlPanel = () => {
 			}
 
 		}
-
-
 
 		setSeriesScore(seriesScoreFields);
 		localStorage.setItem("seriesScore", JSON.stringify(seriesScoreFields));
@@ -612,13 +659,13 @@ const ControlPanel = () => {
 					...config.teams[0],
 					name: teamNameFields[0],
 					franchise: franchiseFields[0],
-					logo: teamLogoFields[0],
+					logo: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? teamFranchiseLogos[0] : teamLogoFields[0],
 				},
 				{
 					...config.teams[1],
 					name: teamNameFields[1],
 					franchise: franchiseFields[1],
-					logo: teamLogoFields[1],
+					logo: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? teamFranchiseLogos[1] : teamLogoFields[1],
 				},
 			],
 		};
@@ -1022,6 +1069,7 @@ const ControlPanel = () => {
 														className={fieldHasChanges(`franchiseField${teamnum}`) ? "changedField" : ""}
 													/>
 												</FormControl>
+												{/* TODO: upload team logo */}
 												<FormControl variant="outlined" size="small" fullWidth>
 													<InputLabel shrink htmlFor={`teamLogoField${teamnum}`}>Team Logo</InputLabel>
 													<OutlinedInput
