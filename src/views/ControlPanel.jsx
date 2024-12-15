@@ -187,10 +187,10 @@ const ControlPanel = () => {
 			if (streamTypeField !== config.general.streamType) {
 				tempFieldsWithChanges.push("streamTypeField");
 			}
-			if (seasonNumberField !== config.general.season) {
+			if (Number(seasonNumberField) !== Number(config.general.season)) {
 				tempFieldsWithChanges.push("seasonNumberField");
 			}
-			if (matchdayNumberField !== config.general.matchday) {
+			if (Number(matchdayNumberField) !== Number(config.general.matchday)) {
 				tempFieldsWithChanges.push("matchdayNumberField");
 			}
 			if (tierField !== config.general.tier) {
@@ -239,9 +239,9 @@ const ControlPanel = () => {
 		if (!customClientId) {
 			openSnackbar("Client ID is required");
 		} else {
-			await setClientId(customClientId);
+			setClientId(customClientId);
 			try {
-				await localStorage.setItem("clientId", customClientId);
+				localStorage.setItem("clientId", customClientId);
 				openSnackbar("New Client ID saved");
 				closeDialog();
 			} catch (err) {
@@ -262,9 +262,9 @@ const ControlPanel = () => {
 	}
 
 	const saveClientId = async (newClientId) => {
-		await setClientId(newClientId);
+		setClientId(newClientId);
 		try {
-			await localStorage.setItem("clientId", newClientId);
+			localStorage.setItem("clientId", newClientId);
 		} catch (err) {
 			console.error(err.message);
 			openSnackbar("Error saving Client ID");
@@ -374,9 +374,9 @@ const ControlPanel = () => {
 	}
 
 	const changeSeriesScoreField = (score, teamNumber) => {
-		if (Number.isInteger(Number(score))) {
+		if (score === "" || Number.isInteger(Number(score))) {
 			const tempSeriesScoreField = [... seriesScoreFields];
-			tempSeriesScoreField[teamNumber]= Number(score);
+			tempSeriesScoreField[teamNumber] = score === "" ? "" : Number(score);
 			setSeriesScoreFields(tempSeriesScoreField);
 		}
 	}
@@ -408,8 +408,8 @@ const ControlPanel = () => {
 	}
 
 	const changeSeriesLengthField = (length) => {
-		if (Number.isInteger(Number(length))) {
-			setSeriesLengthField(Number(length));
+		if (length === "" || Number.isInteger(Number(length))) {
+			setSeriesLengthField(length === "" ? "" : Number(length));
 		}
 	}
 
@@ -485,6 +485,22 @@ const ControlPanel = () => {
 		setBrandLogoField(logo);
 	}
 
+	const setNamesFromDropdowns = () => {
+		const tempTeamNames = [];
+		const tempFranchises = [];
+		for (let team in teamFields) {
+			if (teamFields[team].hasOwnProperty("franchise")) {
+				tempTeamNames[team] = teamFields[team].name;
+				tempFranchises[team] = teamFields[team].franchise.name;
+			} else {
+				tempTeamNames[team] = teamNameFields[team];
+				tempFranchises[team] = franchiseFields[team];
+			}
+		}
+		setTeamNameFields(tempTeamNames);
+		setFranchiseFields(tempFranchises);
+	}
+
 	const changeStreamTypeField = (streamType) => {
 		setStreamTypeField(streamType);
 
@@ -494,11 +510,13 @@ const ControlPanel = () => {
 			case "RSC3-regular":
 				setLeagueId(1);
 				changeBrandLogoField("rsc-splatter-logo.png");
+				setNamesFromDropdowns();
 				break;
 
 			case "RSC3-final":
 				setLeagueId(1);
 				changeBrandLogoField("rsc-splatter-logo.png");
+				setNamesFromDropdowns();
 				break;
 
 			case "RSC3-event":
@@ -521,6 +539,51 @@ const ControlPanel = () => {
 	}
 
 	const saveToLocalStorage = () => {
+		// check for required fields
+
+		if (streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final") {
+
+			if (tierField === "") {
+				openSnackbar("Tier and teams must be chosen.");
+				return;
+			}
+
+			if (teamFields.includes("")) {
+				openSnackbar("Teams must be chosen.");
+				return;
+			}
+
+			if (seasonNumberField === "" || seasonNumberField < 1) {
+				openSnackbar("Season number must be set.");
+				return;
+			}
+
+			if (matchdayNumberField === "" || matchdayNumberField < 1) {
+				openSnackbar("Matchday number must be set.");
+				return;
+			}
+
+			if (showSeriesField && seriesScoreFields.includes("")) {
+				openSnackbar("Team series score can't be blank.");
+				return;
+			}
+
+		} else {
+
+			if (teamNameFields.includes[""]) {
+				openSnackbar("Team names must be set.")
+				return;
+			}
+
+			if (showSeriesField && seriesScoreFields.includes("")) {
+				openSnackbar("Team series score can't be blank.");
+				return;
+			}
+
+		}
+
+
+
 		setSeriesScore(seriesScoreFields);
 		localStorage.setItem("seriesScore", JSON.stringify(seriesScoreFields));
 
@@ -746,8 +809,9 @@ const ControlPanel = () => {
 												size="small"
 												label="Season"
 												value={seasonNumberField}
+												onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
 												onChange={(e) => changeSeasonNumberField(e.target.value)}
-												className={fieldHasChanges("seasonNumberField") ? "changedField" : ""}
+												className={`${fieldHasChanges("seasonNumberField") ? "changedField" : ""} ${seasonNumberField === "" || seasonNumberField < 1 ? "errorField" : ""}`}
 											/>
 										</Item>
 									</Grid>
@@ -766,8 +830,9 @@ const ControlPanel = () => {
 												size="small"
 												label="Matchday"
 												value={matchdayNumberField}
+												onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
 												onChange={(e) => changeMatchdayNumberField(e.target.value)}
-												className={fieldHasChanges("matchdayNumberField") ? "changedField" : ""}
+												className={`${fieldHasChanges("matchdayNumberField") ? "changedField" : ""} ${matchdayNumberField === "" || matchdayNumberField < 1 ? "errorField" : ""}`}
 											/>
 										</Item>
 									</Grid>
@@ -785,8 +850,8 @@ const ControlPanel = () => {
 														value={tierField}
 														required
 														label="Tier"
-														className={fieldHasChanges("tierField") ? "changedField" : ""}
 														onChange={(e) => changeTierField(e.target.value)}
+														className={`${fieldHasChanges("tierField") ? "changedField" : ""} ${tierField === "" ? "errorField" : ""}`}
 													>
 														{tierLists[leagueId]
 															.sort((a,b) => Number(a.position) < Number(b.position) ? 1 : Number(a.position) > Number(b.position) ? -1 : 0)
@@ -894,8 +959,9 @@ const ControlPanel = () => {
 														label="Games"
 														disabled={seriesTypeField === "unlimited"}
 														value={seriesLengthField}
+														onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
 														onChange={(e) => changeSeriesLengthField(e.target.value)}
-														className={fieldHasChanges("seriesLengthField") ? "changedField" : ""}
+														className={`${fieldHasChanges("seriesLengthField") ? "changedField" : ""} ${seriesTypeField !== "unlimited" && !seriesLengthField ? "errorField" : ""}`}
 													/>
 												</Item>
 											</Grid>
@@ -941,6 +1007,7 @@ const ControlPanel = () => {
 														label="Team Name"
 														onChange={(e) => changeTeamNameField(e.target.value, teamnum)}
 														value={teamNameFields[teamnum]}
+														placeholder={team.name}
 														className={fieldHasChanges(`teamNameField${teamnum}`) ? "changedField" : ""}
 													/>
 												</FormControl><br />
@@ -978,7 +1045,7 @@ const ControlPanel = () => {
 														value={teamFields[teamnum]}
 														required
 														label="Team"
-														className={fieldHasChanges(`teamField${teamnum}`) ? "changedField" : ""}
+														className={`${fieldHasChanges(`teamField${teamnum}`) ? "changedField" : ""} ${teamFields[teamnum] === "" ? "errorField" : ""}`}
 														onChange={(e) => changeTeamField(e.target.value, teamnum)}
 													>
 														{teamLists[leagueId][tierField]
@@ -995,24 +1062,29 @@ const ControlPanel = () => {
 									</Item>
 								</Grid>
 
-								<Grid size={3}>
-									<Item>
-										<TextField
-											required
-											inputProps={{
-												min: 0,
-												step: 1,
-											}}
-											id={`seriesScoreField${teamnum}`}
-											type="number"
-											size="small"
-											label="Games"
-											value={seriesScoreFields[teamnum]}
-											onChange={(e) => changeSeriesScoreField(e.target.value, teamnum)}
-											className={fieldHasChanges(`seriesScoreField${teamnum}`) ? "changedField" : ""}
-										/>
-									</Item>
-								</Grid>
+								{showSeriesField ?
+
+									<Grid size={3}>
+										<Item>
+											<TextField
+												required
+												inputProps={{
+													min: 0,
+													step: 1,
+												}}
+												id={`seriesScoreField${teamnum}`}
+												type="number"
+												size="small"
+												label="Games"
+												value={seriesScoreFields[teamnum]}
+												onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+												onChange={(e) => changeSeriesScoreField(e.target.value, teamnum)}
+												className={`${fieldHasChanges(`seriesScoreField${teamnum}`) ? "changedField" : ""} ${seriesScoreFields[teamnum] === "" ? "errorField" : ""}`}
+											/>
+										</Item>
+									</Grid>
+
+								: null}
 
 							</Grid>
 
@@ -1020,13 +1092,9 @@ const ControlPanel = () => {
 
 					</Grid>
 
-
 				</Container>
 
 			</ThemeProvider>
-
-
-
 
 		</div>
 	)
