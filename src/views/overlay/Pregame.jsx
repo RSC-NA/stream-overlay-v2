@@ -3,6 +3,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import Header from "@/components/Header";
 import SeriesInfo from "@/components/SeriesInfo";
 
+import imageLocation from "@/utils/imageLocation";
+
 const longTeamName = 16;
 const longFranchiseName = 25;
 
@@ -33,7 +35,7 @@ const Pregame = (props) => {
 						<div className={`team team${teamnum} ${props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? "hasLogo" : ""}`}>
 							{props.config.teams[teamnum].logo ? (
 								<div className="logo">
-									<img src={`/images/logos/teams/${props.config.teams[teamnum].logo}`}></img>
+									<img src={imageLocation(props.config.teams[teamnum].logo, "images/logos/teams")}></img>
 								</div>
 							) : null }
 
@@ -50,7 +52,7 @@ const Pregame = (props) => {
 						{teamnum === 0 ?
 							<div className="pregameCenter">
 								{props.config.general.brandLogo ?
-									<img src={`/images/logos/${props.config.general.brandLogo}`}></img>
+									<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
 								:
 									<div className="vs">VS</div>
 								}

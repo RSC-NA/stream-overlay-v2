@@ -2,6 +2,8 @@ import React from "react";
 
 const TriangleMerge = (props) => {
 
+	console.log(props);
+
 	return (
 		<>
 
@@ -19,12 +21,12 @@ const TriangleMerge = (props) => {
 				<>
 					<div className="logoLeft">
 						<div className="logo">
-							<img src={`/images/logos/${props.transition.logo}`}></img>
+							<img src={props.transition.logo}></img>
 						</div>
 					</div>
 					<div className="logoRight">
 						<div className="logo">
-							<img src={`/images/logos/${props.transition.logo}`}></img>
+							<img src={props.transition.logo}></img>
 						</div>
 					</div>
 				</>

@@ -8,6 +8,8 @@ import TeamName from "@/components/TeamName";
 import TeamScore from "@/components/TeamScore";
 import TeamSeriesScore from "@/components/TeamSeriesScore";
 
+import imageLocation from "@/utils/imageLocation";
+
 const longPlayerName = 16;
 const longTeamScore = 20;
 const statList = [
@@ -92,10 +94,10 @@ const Postgame = (props) => {
 
 				<div className="branding">
 					<div className="brandLogo">
-						<img src={`/images/logos/${props.config.general.brandLogo}`}></img>
+						<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
 					</div>
 					<div className="brandLogo">
-						<img src={`/images/logos/${props.config.general.brandLogo}`}></img>
+						<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
 					</div>
 				</div>
 

@@ -12,6 +12,8 @@ import TeamScore from "@/components/TeamScore";
 import TeamSeriesScore from "@/components/TeamSeriesScore";
 import Watching from "@/components/Watching";
 
+import imageLocation from "@/utils/imageLocation";
+
 const longTeamScore = 100;
 
 const Live = (props) => {
@@ -82,7 +84,7 @@ const Live = (props) => {
 
 			{props.config.general.hasOwnProperty("brandLogo") && props.config.general.brandLogo ?
 				<div className="watermark">
-					<img src={`/images/logos/${props.config.general.brandLogo}`}></img>
+					<img src={imageLocation(props.config.general.brandLogo, "images/logos")}></img>
 				</div>
 			: null }
 

@@ -10,6 +10,7 @@ import Pregame from "@/views/overlay/Pregame";
 import Transition from "@/views/overlay/Transition";
 
 import hexToRgba from "@/utils/hexToRgba";
+import imageLocation from "@/utils/imageLocation";
 import { v4 as uuidv4 } from "uuid";
 
 const expireEventsInMs = 7000;
@@ -30,10 +31,10 @@ const Overlay = () => {
 	// For testing
 /* 	const transitionDefault = {
 		delay: false,
-		logo: "rsc-splatter-logo.png",
+		logo: "/images/logos/rsc-splatter-logo.png",
 		name: "triangleMerge",
 		show: true,
-		team: 0,
+		team: null,
 		text: "GOAL!",
 	};
  */
@@ -137,48 +138,6 @@ const Overlay = () => {
 		shouldReconnect: (closeEvent) => true,
 	});
 
-	const subscribeToGameFeed = () => {
-/* 		sendJsonMessageGame({
-			event: "wsRelay:register",
-			data: "game:initialized",
-		});
-
-		sendJsonMessageGame({
-			event: "wsRelay:register",
-			data: "game:statfeed_event",
-		});
-
-		sendJsonMessageGame({
-			event: "wsRelay:register",
-			data: "game:update_state",
-		});
-
-		sendJsonMessageGame({
-			event: "wsRelay:register",
-			data: "game:goal_scored",
-		});
-
-		sendJsonMessageGame({
-			event: "wsRelay:register",
-			data: "game:pre_countdown_begin",
-		});
-
-		sendJsonMessageGame({
-			event: "wsRelay:register",
-			data: "game:clock_started",
-		});
-
-		sendJsonMessageGame({
-			event: "wsRelay:register",
-			data: "game:clock_stopped",
-		});
-
-		sendJsonMessageGame({
-			event: "wsRelay:register",
-			data: "game:match_ended",
-		});
- */	}
-
 	// handle data from BakkesMod websocket
 	const handleGameData = d => {
 		// console.log(d);
@@ -213,7 +172,9 @@ const Overlay = () => {
 				triggerTransition(
 					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
 					"GO!",
-					activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ? activeConfig.general.brandLogo : null,
+					activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
+						imageLocation(activeConfig.general.brandLogo, "images/logos")
+						: null,
 					null,
 					false,
 				);
@@ -227,7 +188,11 @@ const Overlay = () => {
 				triggerTransition(
 					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
 					"GOAL!",
-					activeConfig.teams[data.scorer.teamnum].hasOwnProperty("logo") && activeConfig.teams[data.scorer.teamnum].logo ? `teams/${activeConfig.teams[data.scorer.teamnum].logo}` : activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ? `${activeConfig.general.brandLogo}` : null,
+					activeConfig.teams[data.scorer.teamnum].hasOwnProperty("logo") && activeConfig.teams[data.scorer.teamnum].logo ?
+						imageLocation(activeConfig.teams[data.scorer.teamnum].logo, "images/logos/teams/")
+						: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
+							imageLocation(activeConfig.general.brandLogo, "images/logos")
+						: null,
 					data.scorer.teamnum,
 					true,
 				);
@@ -243,7 +208,11 @@ const Overlay = () => {
 				setTimeout(() => triggerTransition(
 					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
 					"WINNER!",
-					activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo ? `teams/${activeConfig.teams[winningTeam].logo}` : activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ? `${activeConfig.general.brandLogo}` : null,
+					activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo ?
+						imageLocation(activeConfig.teams[winningTeam].logo, "images/logos/teams/")
+						: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
+							imageLocation(activeConfig.general.brandLogo, "images/logos")
+						: null,
 					winningTeam,
 					true,
 				), 1000);
@@ -388,6 +357,7 @@ const Overlay = () => {
 
 	// visual transitions
 	const triggerTransition = (name, text, logo, team, delay) => {
+		console.log("transition", name);
 		setTransition({
 			delay,
 			logo,
