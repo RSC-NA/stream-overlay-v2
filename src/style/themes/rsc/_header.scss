@@ -5,15 +5,32 @@ $pipeSpacing: .2em;
 .header0 {
 	height: $topHeaderHeight;
 	font-family: var(--fontUltimatum);
-	font-weight: bold;
 	font-style: italic;
-	font-size: 14px;
+	font-size: 15px;
 	color: $highlightColor;
 	text-transform: uppercase;
 	text-align: center;
 	line-height: $topHeaderHeight;
 	letter-spacing: .5em;
-	background: $backgroundColor;
+	background-image:
+		linear-gradient(to right,
+			$backgroundTranslucent 0,
+			$backgroundColor calc($headerGradientWidth * 2),
+			$backgroundColor calc($scoreboardWidth - $headerGradientWidth * 2),
+			$backgroundTranslucent $scoreboardWidth
+		);
+	background-size:
+		cover,
+		50% 100%,
+		50% 100%;
+	background-position:
+		center center,
+		left top,
+		right top;
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat;
 }
 
 // rsc-specific header

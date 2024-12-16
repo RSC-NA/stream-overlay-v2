@@ -1,0 +1,22 @@
+.seriesInfo {
+	width: $headerWidth;
+	height: $seriesInfoHeight;
+	font-family: var(--fontCooper);
+	font-size: 16px;
+	color: $textColor;
+	text-transform: uppercase;
+	text-align: center;
+	line-height: $seriesInfoHeight;
+	margin: 0 auto;
+	background: linear-gradient(to right,
+		$backgroundTransparent 0,
+		$backgroundColor $headerGradientWidth,
+		$backgroundColor calc($headerWidth - $headerGradientWidth),
+		$backgroundTransparent $headerWidth
+	);
+}
+
+.pipe {
+	color: $secondaryTextColor;
+	margin: 0 $pipeSpacing;
+}

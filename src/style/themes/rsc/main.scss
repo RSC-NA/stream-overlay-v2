@@ -7,13 +7,14 @@ $windowHeight: 1080px;
 
 $scoreboardWidth: 852px;
 
-$topHeaderHeight: 20px;
+$topHeaderHeight: 22px;
 $mainHeaderHeight: 33px;
 $headerWidth: 586px;
 $headerGradientWidth: 120px;
 
 $mainBarHeight: 66px;
 $clockWidth: 230px;
+$overtimeHeight: 19px;
 
 $teamScoreFromMiddle: 85px;
 $teamScoreWidth: 66px;
@@ -27,7 +28,6 @@ $teamLogoSize: 90px;
 $teamLogoSpacing: 5px;
 $teamLogoOpacity: 50%;
 
-$seriesInfoHeight: 25px;
 
 /*
 $watchingHeight: 40px;
@@ -55,7 +55,7 @@ $highlightColor: #f5ca19;
 
 $backgroundColor: #231f20;
 $backgroundHighlight: #333333;
-$backgroundTranslucent: rgba($backgroundColor, .7);
+$backgroundTranslucent: rgba($backgroundColor, .4);
 $backgroundTransparent: rgba($backgroundColor, 0);
 
 $rscOrange: #f48020;

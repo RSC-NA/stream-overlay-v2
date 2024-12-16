@@ -57,16 +57,16 @@
 		left: 50%;
 		top: 100%;
 		transform: translateX(-50%);
-		height: 17px;
-		width: 100px;
+		height: $overtimeHeight;
 		font-family: var(--fontUltimatum);
 		font-size: 14px;
 		font-weight: bold;
 		font-style: italic;
 		color: #ffffff;
 		text-align: center;
-		line-height: 16px;
 		letter-spacing: .2em;
+		line-height: calc($overtimeHeight - 1px);
+		padding: 0 10px;
 		background: $overtimeColor;
 	}
 

@@ -25,12 +25,13 @@ const SeriesInfo = (props) => {
                 </>
             ) : props.seriesConfig.type === "set" ? (
                 <>
+					{props.seriesConfig.maxGames} game series
+
                     {!props.pregame ? (
                         <>
-                            Game {props.seriesGame} <span className="small"> of </span>
+                            <span className="pipe"> | </span>Game {props.seriesGame}
                         </>
                     ) : null}
-                    {props.seriesConfig.maxGames}{props.pregame ? " game series" : ""}
                 </>
             ) : null}
         </div>

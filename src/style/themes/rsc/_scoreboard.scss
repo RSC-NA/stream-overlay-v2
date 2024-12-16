@@ -4,22 +4,22 @@
 	top: 0;
 	transform: translateX(-50%);
 	width: $scoreboardWidth;
-	max-height: 140px;
+	max-height: calc($topHeaderHeight + $mainHeaderHeight + $mainBarHeight + $seriesInfoHeight);
 	background: $backgroundColor;
 	background-image:
 		url("/images/themes/rsc/scoreboard-triangles-bg.png"),
 		linear-gradient(120deg,
 			$backgroundColor 0px,
-			var(--team0tone) 250px),
+			var(--team0) 250px),
 		linear-gradient(240deg,
 			$backgroundColor 0px,
-			var(--team1tone) 250px);
+			var(--team1) 250px);
 	background-size:
-		100% 100%,
+		cover,
 		50% 100%,
 		50% 100%;
 	background-position:
-		center $topHeaderHeight,
+		center top,
 		left top,
 		right top;
 	background-repeat:
