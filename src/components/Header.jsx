@@ -9,9 +9,9 @@ const Header = (props) => {
 
 				header === "%%RSCHEADER%%" ?
 
-					<div className={`header header${index} pipes ${props.streamType === "RSC-final" ? "tierFinal" : ""} tier${props.tier}`} key={index}>
+					<div className={`header header${index} pipes ${props.streamType === "RSC3-final" ? "tierFinal" : ""} tier${props.tier}`} key={index}>
 
-						{props.streamType === "RSC-final" ?
+						{props.streamType === "RSC3-final" ?
 							<span className="season">Season {props.season} {props.tier} Tier Final</span>
 						:
 							<>

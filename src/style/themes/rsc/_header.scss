@@ -29,9 +29,9 @@ $pipeSpacing: .2em;
 	margin: 0 auto;
 	background: linear-gradient(to right,
 		$backgroundTransparent 0,
-		$backgroundColor 15%,
-		$backgroundColor 85%,
-		$backgroundTransparent 100%
+		$backgroundColor $headerGradientWidth,
+		$backgroundColor calc($headerWidth - $headerGradientWidth),
+		$backgroundTransparent $headerWidth
 	);
 }
 
@@ -63,31 +63,40 @@ $pipeSpacing: .2em;
 
 	}
 
-	&.tierPremier .tier {
+	&.tierPremier .tier,
+	&.tierFinal.tierPremier {
 		color: var(--tierPremier);
 	}
-	&.tierMaster .tier {
+	&.tierMaster .tier,
+	&.tierFinal.tierMaster  {
 		color: var(--tierMaster);
 	}
-	&.tierElite .tier {
+	&.tierElite .tier,
+	&.tierFinal.tierElite  {
 		color: var(--tierElite);
 	}
-	&.tierVeteran .tier {
+	&.tierVeteran .tier,
+	&.tierFinal.tierVeteran  {
 		color: var(--tierVeteran);
 	}
-	&.tierRival .tier {
+	&.tierRival .tier,
+	&.tierFinal.tierRival  {
 		color: var(--tierRival);
 	}
-	&.tierChallenger .tier {
+	&.tierChallenger .tier,
+	&.tierFinal.tierChallenger  {
 		color: var(--tierChallenger);
 	}
-	&.tierProspect .tier {
+	&.tierProspect .tier,
+	&.tierFinal.tierProspect  {
 		color: var(--tierProspect);
 	}
-	&.tierContender .tier {
+	&.tierContender .tier,
+	&.tierFinal.tierContender  {
 		color: var(--tierContender);
 	}
-	&.tierAmateur .tier {
+	&.tierAmateur .tier,
+	&.tierFinal.tierAmateur {
 		color: var(--tierAmateur);
 	}
 
