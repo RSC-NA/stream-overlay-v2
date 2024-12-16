@@ -381,8 +381,10 @@ const ControlPanel = () => {
 					const currentTeamFields = [...teamFields];
 					const currentTeamNameFields = [...teamNameFields];
 					const currentFranchiseFields = [...franchiseFields];
+
 					for (let teamNum in teamNameFields) {
 						const matchedTeam = loadedTeamList.filter((team) => team.name === teamNameFields[teamNum]);
+
 						if (matchedTeam.length === 1) {
 							currentTeamFields[teamNum] = matchedTeam[0];
 						} else {
@@ -390,6 +392,7 @@ const ControlPanel = () => {
 							currentTeamNameFields[teamNum] = "";
 							currentFranchiseFields[teamNum] = "";
 						}
+
 						setTeamFields(currentTeamFields);
 						setTeamNameFields(currentTeamNameFields);
 						setFranchiseFields(currentFranchiseFields);
@@ -481,7 +484,7 @@ const ControlPanel = () => {
 		setSeasonNumberField(loadedConfig.general.season);
 		setMatchdayNumberField(loadedConfig.general.matchday);
 		changeTierField(loadedConfig.general.tier);
-		changeStreamTypeField(loadedConfig.general.streamType);
+		changeStreamTypeField(loadedConfig.general.streamType, true);
 	}
 
 	const setConfigValuesToDefault = () => {
@@ -534,22 +537,26 @@ const ControlPanel = () => {
 		setFranchiseFields(tempFranchises);
 	}
 
-	const changeStreamTypeField = (streamType) => {
+	// don't set team names based on dropdowns on initial load
+	const changeStreamTypeField = (streamType, skipTeamNames) => {
 		setStreamTypeField(streamType);
 
 		// TODO: If another league happens, clear tier selection when switching leagues
-		// TODO: set style based on stream type
 		switch(streamType) {
 			case "RSC3-regular":
 				setLeagueId(1);
 				changeBrandLogoField("rsc-splatter-logo.png");
-				setNamesFromDropdowns();
+				if (!skipTeamNames) {
+					setNamesFromDropdowns();
+				}
 				break;
 
 			case "RSC3-final":
 				setLeagueId(1);
 				changeBrandLogoField("rsc-splatter-logo.png");
-				setNamesFromDropdowns();
+				if (!skipTeamNames) {
+					setNamesFromDropdowns();
+				}
 				break;
 
 			case "RSC3-event":
@@ -602,20 +609,14 @@ const ControlPanel = () => {
 				return;
 			}
 
-			console.log(franchiseLists);
-
 			if (Array.isArray(franchiseLists[leagueId]) && franchiseLists[leagueId].length > 0) {
 				for (let team in teamFields) {
 					const teamFranchise = franchiseLists[leagueId].filter((franchise) => franchise.id === teamFields[team].franchise.id);
-					console.log(teamFields[team].franchise.id, teamFranchise, franchiseLists[leagueId][teamFields[team].franchise.id]);
 					if (teamFranchise.length === 1) {
 						teamFranchiseLogos[team] = teamFranchise[0].logo;
 					}
 				}
 			}
-
-			console.log(teamFranchiseLogos);
-
 
 		} else {
 
