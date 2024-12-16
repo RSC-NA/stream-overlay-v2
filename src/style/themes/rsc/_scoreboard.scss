@@ -5,5 +5,25 @@
 	transform: translateX(-50%);
 	width: $scoreboardWidth;
 	max-height: 140px;
-	background: $backgroundColor url("/images/themes/rsc/scoreboard-triangles-bg.png") no-repeat center top;
+	background: $backgroundColor;
+	background-image:
+		url("/images/themes/rsc/scoreboard-triangles-bg.png"),
+		linear-gradient(120deg,
+			$backgroundColor 0px,
+			var(--team0tone) 250px),
+		linear-gradient(240deg,
+			$backgroundColor 0px,
+			var(--team1tone) 250px);
+	background-size:
+		100% 100%,
+		50% 100%,
+		50% 100%;
+	background-position:
+		center $topHeaderHeight,
+		left top,
+		right top;
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat;
 }

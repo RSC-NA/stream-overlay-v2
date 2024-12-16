@@ -7,6 +7,14 @@
 
 @font-face {
 	font-family: "Ultimatum";
+	src: url("/fonts/cc-ultimatum-italic.otf") format("opentype");
+	font-weight: normal;
+	font-style: italic;
+}
+
+
+@font-face {
+	font-family: "Ultimatum";
 	src: url("/fonts/cc-ultimatum-heavy.otf") format("opentype");
 	font-weight: bold;
 	font-style: normal;

@@ -1,0 +1,94 @@
+$spanSpacing: .5em;
+$pipeSpacing: .2em;
+
+
+.header0 {
+	height: $topHeaderHeight;
+	font-family: var(--fontUltimatum);
+	font-weight: bold;
+	font-style: italic;
+	font-size: 14px;
+	color: $highlightColor;
+	text-transform: uppercase;
+	text-align: center;
+	line-height: $topHeaderHeight;
+	letter-spacing: .5em;
+	background: $backgroundColor;
+}
+
+// rsc-specific header
+.header1 {
+	width: $headerWidth;
+	height: $mainHeaderHeight;
+	font-family: var(--fontCooper);
+	font-size: 20px;
+	color: $textColor;
+	text-transform: uppercase;
+	text-align: center;
+	line-height: $mainHeaderHeight;
+	margin: 0 auto;
+	background: linear-gradient(to right,
+		$backgroundTransparent 0,
+		$backgroundColor 15%,
+		$backgroundColor 85%,
+		$backgroundTransparent 100%
+	);
+}
+
+.header {
+
+	span {
+		display: inline-block;
+
+		&:not(:last-child) {
+			margin-right: .5em;
+		}
+
+	}
+
+	&.pipes {
+
+		span {
+			&:not(:last-child) {
+				margin-right: $spanSpacing;
+
+				&:after {
+					content: "|";
+					color: $secondaryTextColor;
+					margin: 0 $pipeSpacing 0 calc($pipeSpacing + $spanSpacing);
+				}
+			}
+
+		}
+
+	}
+
+	&.tierPremier .tier {
+		color: var(--tierPremier);
+	}
+	&.tierMaster .tier {
+		color: var(--tierMaster);
+	}
+	&.tierElite .tier {
+		color: var(--tierElite);
+	}
+	&.tierVeteran .tier {
+		color: var(--tierVeteran);
+	}
+	&.tierRival .tier {
+		color: var(--tierRival);
+	}
+	&.tierChallenger .tier {
+		color: var(--tierChallenger);
+	}
+	&.tierProspect .tier {
+		color: var(--tierProspect);
+	}
+	&.tierContender .tier {
+		color: var(--tierContender);
+	}
+	&.tierAmateur .tier {
+		color: var(--tierAmateur);
+	}
+
+}
