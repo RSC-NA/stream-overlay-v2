@@ -599,7 +599,7 @@ const ControlPanel = () => {
 				return;
 			}
 
-			if (matchdayNumberField === "" || matchdayNumberField < 1) {
+			if (streamTypeField === "RSC3-regular" && (matchdayNumberField === "" || matchdayNumberField < 1)) {
 				openSnackbar("Matchday number must be set.");
 				return;
 			}
@@ -880,9 +880,10 @@ const ControlPanel = () => {
 												size="small"
 												label="Matchday"
 												value={matchdayNumberField}
+												disabled={streamTypeField === "RSC3-final"}
 												onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
 												onChange={(e) => changeMatchdayNumberField(e.target.value)}
-												className={`${fieldHasChanges("matchdayNumberField") ? "changedField" : ""} ${matchdayNumberField === "" || matchdayNumberField < 1 ? "errorField" : ""}`}
+												className={`${fieldHasChanges("matchdayNumberField") ? "changedField" : ""} ${streamTypeField === "RSC3-regular" && (matchdayNumberField === "" || matchdayNumberField < 1) ? "errorField" : ""}`}
 											/>
 										</Item>
 									</Grid>
