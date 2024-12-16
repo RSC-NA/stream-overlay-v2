@@ -29,7 +29,7 @@ $seriesScoreIconWidth: 18px;
 
 $teamLogoSize: 100px;
 $teamLogoSpacing: 5px;
-$teamLogoOpacity: 50%;
+$teamLogoOpacity: .7;
 
 
 /*
@@ -40,16 +40,15 @@ $ballWidth: 340px;
 
 $replayHeight: 75px;
 $replayLabelHeight: 38px;
+ */
 
-$playerBoxWidth: 340px;
-$playerBoxHeight: 60px;
-$playerBoxBoost: 70px;
-$playerBoxEvents: 28px;
-$playerBoxEventLimit: 3;
+$playerBoxWidth: 360px;
 $playerBoxMargin: 10px;
 $playerBoxBorderSize: 3px;
-$playerBoxPadding: 2px;
- */
+$playerBoxPadding: 5px;
+$playerBoxBoostTextWidth: 60px;
+$playerBoxEventSize: 24px;
+$playerBoxEventLimit: 3;
 
 // colors (team colors use css variables from React component)
 $textColor: #ffffff;

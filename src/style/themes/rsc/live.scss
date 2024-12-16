@@ -5,14 +5,14 @@
     z-index: 10;
 	width: $windowWidth;
 	height: $windowHeight;
-	font-family: var(--fontOxanium);
+	font-family: var(--fontCooper);
 	font-weight: 400;
 	background: transparent;
 
 	// @import "ball";
 	@import "clock";
 	@import "header";
-	// @import "playerBoxes";
+	@import "playerBoxes";
 	// @import "replay";
 	@import "seriesInfo";
 	@import "scoreboard";

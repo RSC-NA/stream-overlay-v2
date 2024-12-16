@@ -1,0 +1,249 @@
+.teamPlayerBoxes {
+    position: absolute;
+    top: $topHeaderHeight;
+
+	.playerBox {
+		position: relative;
+		width: $playerBoxWidth;
+		justify-content: space-between;
+		margin-bottom: $playerBoxMargin;
+		background-image:
+			linear-gradient(var(--playerBoxColorDirection),
+				$backgroundTransparent,
+				$backgroundColor 50%
+			),
+			linear-gradient(var(--playerBoxColorFade),var(--playerBoxColorFade)),
+			url("/images/themes/rsc/scoreboard-triangles-bg.png");
+		background-size:
+			cover,
+			200%,
+			cover;
+		background-position:
+			left top,
+			left top,
+			left top;
+		background-repeat:
+			no-repeat,
+			no-repeat;
+		border-style: solid;
+		border-width: $playerBoxBorderSize;
+		border-image: linear-gradient(to bottom,
+			var(--playerBoxColor),
+			$backgroundColor
+		) 1;
+		border-bottom: none;
+
+		.name {
+			font-family: var(--fontUltimatum);
+			font-size: 22px;
+			font-weight: bold;
+			font-style: italic;
+			color: $textColor;
+			text-transform: uppercase;
+			margin-top: -5px;
+
+			&.long {
+				font-size: 20px;
+			}
+
+		}
+
+		.stats {
+			height: calc($playerBoxEventSize + $playerBoxPadding);
+			padding-top: calc($playerBoxPadding + 2px);
+
+			.stat {
+				font-size: 18px;
+				font-weight: 500;
+				margin: 0 calc($playerBoxPadding * 2);
+				line-height: 1em;
+
+				.label {
+					color: $secondaryTextColor;
+					font-size: 80%;
+					margin-left: .2em;
+				}
+
+			}
+
+		}
+
+		.events {
+			position: absolute;
+			bottom: $playerBoxPadding;
+			height: $playerBoxEventSize;
+
+			.eventIcon {
+				display: inline;
+				margin: $playerBoxPadding $playerBoxPadding * .5;
+
+
+				div {
+					display: inline;
+				}
+
+				svg {
+					fill: $textColor;
+					width: $playerBoxEventSize - $playerBoxBorderSize;
+					height: $playerBoxEventSize - $playerBoxBorderSize;
+				}
+
+			}
+
+		}
+
+		.boost {
+
+			.boostText {
+				position: absolute;
+				top: -5px;
+				width: 1.5em;
+				font-family: var(--fontUltimatum);
+				font-size: 24px;
+				font-weight: bold;
+				font-style: italic;
+			}
+
+			.boostBar {
+				position: absolute;
+				left: 0;
+				top: calc(0px - $playerBoxBorderSize);
+				z-index: 11;
+				width: 100%;
+				height: $playerBoxBorderSize;
+				background: $backgroundHighlight;
+
+				.fill {
+					position: absolute;
+					bottom: 0;
+					height: $playerBoxBorderSize;
+					background: var(--playerBoxColor);
+				}
+			}
+		}
+
+	}
+
+
+	&.team0 {
+		--playerBoxColor: var(--team0);
+		--playerBoxColorFade: var(--team0fade);
+		--playerBoxColorDirection: 160deg;
+		left: $playerBoxMargin;
+
+		.playerBox {
+			border-left: solid $playerBoxBorderSize;
+			border-right: none;
+
+			.name {
+				padding-left: 5px;
+			}
+
+			.boost {
+				text-align: right;
+				border-left: $playerBoxBorderSize solid var(--team0);
+
+				.boostText {
+					right: $playerBoxBorderSize + $playerBoxPadding;
+				}
+
+				.boostBar {
+
+					.fill {
+						left: 0;
+					}
+
+				}
+
+			}
+
+			.events {
+				right: $playerBoxPadding;
+				// right: calc($playerBoxBoostTextWidth + $playerBoxPadding * 2);
+				justify-self: end;
+			}
+
+			.stats {
+				text-align: left;
+				padding-left: calc($playerBoxPadding * 2);
+
+				.stat:first-child {
+					margin-left: 0;
+				}
+			}
+
+		}
+
+	}
+
+	&.team1 {
+		--playerBoxColor: var(--team1);
+		--playerBoxColorFade: var(--team1fade);
+		--playerBoxColorDirection: 200deg;
+		right: $playerBoxMargin;
+
+		.playerBox {
+			border-left: none;
+			border-right: solid $playerBoxBorderSize;
+
+			.name {
+				text-align: right;
+				padding-right: 5px;
+			}
+
+			.boost {
+
+				.boostText {
+					text-align: right;
+					left: $playerBoxBorderSize + $playerBoxPadding;
+				}
+
+				.boostBar {
+
+					.fill {
+						right: 0;
+					}
+
+				}
+
+			}
+
+			.events {
+				left: $playerBoxPadding;
+			}
+
+			.stats {
+				text-align: right;
+				padding-right: calc($playerBoxPadding * 2);
+
+				.stat:last-child {
+					margin-right: 0;
+				}
+			}
+
+		}
+
+	}
+
+	.playerBox.watching {
+		--playerBoxColor: #{$highlightColor};
+
+		.name {
+			color: $highlightColor;
+		}
+	}
+
+	.playerBox.dead {
+		opacity: .5;
+		background: $backgroundColor;
+
+		.boost .boostText {
+			opacity: 0;
+		}
+
+		.stats {
+			opacity: 0;
+		}
+	}
+
+}
