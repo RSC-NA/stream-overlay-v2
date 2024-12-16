@@ -5,15 +5,19 @@
 	transform: translateX(-50%);
 	width: $scoreboardWidth;
 	max-height: calc($topHeaderHeight + $mainHeaderHeight + $mainBarHeight + $seriesInfoHeight);
-	background: $backgroundColor;
+	background-color: $backgroundColor;
 	background-image:
 		url("/images/themes/rsc/scoreboard-triangles-bg.png"),
-		linear-gradient(120deg,
-			$backgroundColor 0px,
-			var(--team0) 250px),
 		linear-gradient(240deg,
 			$backgroundColor 0px,
-			var(--team1) 250px);
+			var(--team0fade) 150px,
+			var(--team0) 350px
+		),
+		linear-gradient(1200deg,
+			$backgroundColor 0px,
+			var(--team1fade) 150px,
+			var(--team1) 350px
+		);
 	background-size:
 		cover,
 		50% 100%,

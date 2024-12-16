@@ -1,7 +1,71 @@
+@use "sass:math";
+
 .teamSeriesScore {
+    position: absolute;
+    top: calc($topHeaderHeight + $mainHeaderHeight + $mainBarHeight);
+	z-index: 35;
+	height: $seriesInfoHeight;
+	width: $seriesScoreWidth;
 
 	.number {
 		display: none;
 	}
+
+	.icons {
+		margin: $borderSize 0;
+		width: $seriesScoreWidth;
+		height: calc($seriesInfoHeight - $borderSize * 2);
+		display: flex;
+		column-gap: $seriesScoreIconWidth;
+
+		.gameIcon {
+			display: block;
+			width: $seriesScoreIconWidth;
+			flex-grow: 1;
+		}
+
+	}
+
+
+	&.team0 {
+		left: calc($scoreboardWidth * .5 - $teamScoreFromMiddle - $teamScoreWidth - $seriesScoreWidth - 10px);
+
+		.icons {
+			flex-direction: row-reverse;
+
+			.gameIcon {
+				background:
+					linear-gradient(var(--team0fade), var(--team0fade)),
+					$backgroundColor;
+
+				&.on {
+					background: var(--team0);
+				}
+
+			}
+
+		}
+
+	}
+
+	&.team1 {
+		left: calc($scoreboardWidth * .5 + $teamScoreFromMiddle + $teamScoreWidth + 10px);
+
+		.icons {
+			flex-direction: row;
+
+			.gameIcon {
+				background:
+					linear-gradient(var(--team1fade), var(--team1fade)),
+					$backgroundColor;
+
+				&.on {
+					background: var(--team1);
+				}
+			}
+		}
+
+	}
+
 
 }

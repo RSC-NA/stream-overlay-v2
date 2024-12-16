@@ -1114,7 +1114,7 @@ const ControlPanel = () => {
 									</Item>
 								</Grid>
 
-								{showSeriesField ?
+								{(streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final") || showSeriesField ?
 
 									<Grid size={3}>
 										<Item>
