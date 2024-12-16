@@ -1,0 +1,74 @@
+.clock {
+	--clockBackgroundImage: url("/images/themes/rsc/clock-splatter.png");
+
+	&.overtime {
+		--clockBackgroundImage: url("/images/themes/rsc/clock-splatter-red.png");
+	}
+
+	height: $mainBarHeight;
+	background-image:
+		var(--clockBackgroundImage),
+		linear-gradient(to right,
+			transparent 0px,
+			transparent calc(($scoreboardWidth - $headerWidth) * .5 ),
+			var(--team0) calc(($scoreboardWidth - $headerWidth) * .5 + $headerGradientWidth)),
+		linear-gradient(to left,
+			transparent 0px,
+			transparent calc(($scoreboardWidth - $headerWidth) * .5 ),
+			var(--team1) calc(($scoreboardWidth - $headerWidth) * .5 + $headerGradientWidth));
+	background-size:
+		230px 72px,
+		50% 100%,
+		50% 100%;
+	background-position:
+		center top,
+		left top,
+		right top;
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat;
+
+
+	.time {
+		font-family: var(--fontUltimatum);
+		font-size: 58px;
+		font-weight: bold;
+		font-style: italic;
+		color: $timeColor;
+		text-align: center;
+		line-height: calc($mainBarHeight - 15px);
+
+		.colon {
+			position: relative;
+			top: -10px;
+			font-size: 90%;
+			padding-left: .15rem;
+		}
+
+		.plus {
+			display: none;
+		}
+
+	}
+
+	.overtimeText {
+		position: absolute;
+		left: 50%;
+		top: 100%;
+		transform: translateX(-50%);
+		height: 17px;
+		width: 100px;
+		font-family: var(--fontUltimatum);
+		font-size: 14px;
+		font-weight: bold;
+		font-style: italic;
+		color: #ffffff;
+		text-align: center;
+		line-height: 16px;
+		letter-spacing: .2em;
+		background: $overtimeColor;
+	}
+
+
+}

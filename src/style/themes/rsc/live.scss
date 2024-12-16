@@ -10,15 +10,15 @@
 	background: transparent;
 
 	// @import "ball";
-	// @import "clock";
+	@import "clock";
 	@import "header";
 	// @import "playerBoxes";
 	// @import "replay";
 	// @import "seriesInfo";
 	@import "scoreboard";
-	// @import "teamLogo";
-	// @import "teamName";
-	// @import "teamScore";
+	@import "teamLogo";
+	@import "teamName";
+	@import "teamScore";
 	// @import "teamSeriesScore";
 	// @import "watching";
 	@import "watermark";

@@ -1,0 +1,38 @@
+.teamNameBox {
+    position: absolute;
+	top: calc($mainHeaderHeight + $topHeaderHeight);
+    z-index: 25;
+    width: $teamNameWidth;
+    height: $mainBarHeight;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+	color: $textColor;
+    text-transform: uppercase;
+
+	&.team0 {
+		left: 0;
+		text-align: right;
+	}
+
+	&.team1 {
+		right: 0;
+		text-align: left;
+	}
+
+	.teamName {
+		font-family: var(--fontUltimatum);
+		font-weight: bold;
+		font-size: 26px;
+		color: $textColor;
+		text-align: top;
+		margin-top: 1px;
+	}
+
+	.franchiseName {
+		font-family: var(--fontCooper);
+		font-size: 14px;
+		color: $secondaryTextColor;
+	}
+
+}

@@ -10,16 +10,24 @@ $scoreboardWidth: 852px;
 $topHeaderHeight: 20px;
 $mainHeaderHeight: 33px;
 $headerWidth: 586px;
+$headerGradientWidth: 120px;
 
 $mainBarHeight: 66px;
 $clockWidth: 230px;
-$teamNameWidth: 300px;
-$teamScoreWidth: 65px;
+
+$teamScoreFromMiddle: 85px;
+$teamScoreWidth: 66px;
+
+$teamNameWidth: calc($scoreboardWidth * .5 - $teamScoreFromMiddle - $teamScoreWidth - 10px);
 
 $seriesInfoWidth: 621px;
 $seriesInfoHeight: 25px;
 
-$teamLogoSize: 80px;
+$teamLogoSize: 90px;
+$teamLogoSpacing: 5px;
+$teamLogoOpacity: 50%;
+
+$seriesInfoHeight: 25px;
 
 /*
 $watchingHeight: 40px;
@@ -41,7 +49,6 @@ $playerBoxPadding: 2px;
  */
 
 // colors (team colors use css variables from React component)
-$overtimeColor: #d8262e;
 $textColor: #ffffff;
 $secondaryTextColor: #cccccc;
 $highlightColor: #f5ca19;
@@ -57,6 +64,9 @@ $rscOrangeFade: rgba($rscOrange, .25);
 $rscBlue: rgba(#4378bb, 1);
 $rscBlueTone: rgba($rscBlue, .7);
 $rscBlueFade: rgba($rscBlue, .25);
+
+$timeColor: $backgroundColor;
+$overtimeColor: #d8262e;
 
 $transitionDelay: 3s;
 

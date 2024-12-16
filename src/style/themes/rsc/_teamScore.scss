@@ -1,0 +1,26 @@
+.teamScore {
+	position: absolute;
+	top: calc($mainHeaderHeight + $topHeaderHeight);
+	width: $teamScoreWidth;
+	height: $mainBarHeight;
+	color: $textColor;
+	font-family: var(--fontCooper);
+	font-weight: bold;
+	font-size: 52px;
+	text-align: center;
+	line-height: $mainBarHeight;
+	text-shadow: 2px 2px 1px $backgroundColor;
+
+	&.team0 {
+		left: calc($scoreboardWidth * .5 - $teamScoreFromMiddle - $teamScoreWidth);
+	}
+
+	&.team1 {
+		left: calc($scoreboardWidth * .5 + $teamScoreFromMiddle);
+	}
+
+	&.long {
+		font-size: 35px;
+	}
+
+}
