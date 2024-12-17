@@ -89,7 +89,10 @@ const Live = (props) => {
 			: null }
 
             {!props.gameData.isReplay && props.gameData.target && props.playerData.hasOwnProperty(props.gameData.target) ? (
-                <Watching player={props.playerData[props.gameData.target]} />
+                <Watching
+					player={props.playerData[props.gameData.target]}
+					config={props.config}
+				/>
             ) : null}
 
             {!props.gameData.isReplay && props.clockRunning && props.config.general.show.ball ? (

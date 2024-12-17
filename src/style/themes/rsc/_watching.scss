@@ -1,0 +1,192 @@
+.watchingView {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+
+	.logo {
+		display: none;
+	}
+
+	.stats {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		z-index: 10;
+		width: $watchingWidth;
+		height: $watchingHeight;
+		line-height: 40px;
+		vertical-align: baseline;
+		padding: $borderSize;
+		padding-right: calc($borderSize * 3);
+		background-image:
+			linear-gradient(340deg,
+				$backgroundTransparent,
+				$backgroundColor 50%
+			),
+			linear-gradient(var(--watchingColorFade),var(--watchingColorFade)),
+			url("/images/themes/rsc/scoreboard-triangles-bg.png");
+		background-size:
+			cover,
+			200%,
+			cover;
+		background-position:
+			left top,
+			left top,
+			left top;
+		background-repeat:
+			no-repeat,
+			no-repeat;
+			border-style: solid;
+			border-width: $borderSize;
+			border-image: linear-gradient(240deg,
+				var(--watchingColor) 25%,
+				$backgroundTransparent 100%
+			) 1;
+			border-bottom: none;
+
+		.name {
+			position: absolute;
+			z-index: 5;
+			top: calc(0px - $watchingHeight - $borderSize * 3);
+			left: 0;
+			width: calc($watchingWidth - $watchingBoostSize * .5 - $borderSize * 5 - 1.5em);
+			height: 40px;
+			overflow: hidden;
+			font-family: var(--fontUltimatum);
+			font-size: 32px;
+			font-weight: bold;
+			font-style: italic;
+			text-align: right;
+			text-transform: uppercase;
+			white-space: nowrap;
+			margin-right: 1.5em;
+			padding: $borderSize 1em;
+			background: linear-gradient(to left,
+				var(--watchingColorFade) 25%,
+				$backgroundTransparent 100%
+			);
+			&.long {
+				font-size: 26px;
+			}
+
+		}
+
+		.statLine {
+			display: flex;
+			justify-content: flex-end;
+			text-align: right;
+			column-gap: 30px;
+
+			.stat {
+				font-family: var(--fontCooper);
+				.label {
+					font-size: 22px;
+					color: $secondaryTextColor;
+					text-transform: uppercase;
+					margin-right: 7px;
+				}
+
+				.value {
+					color: $textColor;
+					font-size: 28px;
+					font-weight: bold;
+					text-transform: uppercase;
+				}
+
+			}
+
+		}
+
+
+	}
+
+	.boostText {
+		position: fixed;
+		z-index: 55;
+		bottom: calc($watchingHeight + 30px);
+		right: $borderSize * 2;
+		font-family: var(--fontUltimatum);
+		font-size: 48px;
+		font-weight: bold;
+		font-style: italic;
+		text-align: right;
+		font-weight: 700;
+		color: $textColor;
+	}
+
+	.boostDisplay {
+		position: absolute;
+		right: calc(0px - $watchingBoostSize * .5);
+		bottom: calc(0px - $watchingBoostSize * .5 + $watchingHeight + $borderSize * 4);
+		z-index: 5;
+		width: calc($watchingBoostSize + 20px);
+		height: calc($watchingBoostSize + 20px);
+		border-radius: 50%;
+		background: $backgroundTranslucent;
+
+		.boost {
+			// position: absolute;
+			width: $watchingBoostSize;
+			height: $watchingBoostSize;
+			margin: 20px;
+			transform: rotate(45deg);
+
+		}
+
+		.CircularProgressbar-trail {
+			stroke: $backgroundColor;
+		}
+
+	}
+
+	&.team0 {
+		--watchingColor: var(--team0);
+		--watchingColorFade: var(--team0fade);
+		--watchingColorDirection: 160deg;
+
+		.stats {
+			border-color: var(--team0);
+
+			.statLine .stat .label {
+				color: var(--team0);
+			}
+
+
+		}
+
+		.CircularProgressbar-trail {
+			stroke: var(--team0fade);
+		}
+
+		.CircularProgressbar-path {
+			stroke: var(--team0);
+		}
+
+	}
+
+	&.team1 {
+		--watchingColor: var(--team1);
+		--watchingColorFade: var(--team1fade);
+		--watchingColorDirection: 200deg;
+
+		.stats {
+			border-color: var(--team1);
+
+			.statLine .stat .label {
+				color: var(--team1);
+			}
+
+		}
+
+		.CircularProgressbar-trail {
+			stroke: var(--team1fade);
+		}
+
+		.CircularProgressbar-path {
+			stroke: var(--team1);
+		}
+
+	}
+
+}

@@ -1,8 +1,8 @@
 .livePlay {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 10;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 10;
 	width: $windowWidth;
 	height: $windowHeight;
 	font-family: var(--fontCooper);
@@ -20,7 +20,11 @@
 	@import "teamName";
 	@import "teamScore";
 	@import "teamSeriesScore";
-	// @import "watching";
+	@import "watching";
 	@import "watermark";
+
+	.replay {
+		display: none;
+	}
 
 }

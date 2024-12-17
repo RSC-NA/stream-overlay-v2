@@ -1,5 +1,5 @@
 import React from "react";
-import BoostCircle from "./BoostCircle";
+import BoostDisplay from "./BoostDisplay";
 
 const Watching = (props) => {
 
@@ -41,7 +41,10 @@ const Watching = (props) => {
                 </div>
             </div>
 
-            <BoostCircle boost={props.player.boost} />
+            <BoostDisplay
+				boost={props.player.boost}
+				theme={props.config.general.theme}
+			/>
 
         </div>
     )
