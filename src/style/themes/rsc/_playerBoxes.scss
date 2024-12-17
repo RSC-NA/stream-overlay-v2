@@ -53,6 +53,7 @@
 
 			.stat {
 				display: inline-block;
+				color: $textColor;
 				font-size: 18px;
 				font-weight: 500;
 				margin: 0 calc($playerBoxPadding * 2);
@@ -101,6 +102,7 @@
 				position: absolute;
 				top: -5px;
 				width: 1.5em;
+				color: $textColor;
 				font-family: var(--fontUltimatum);
 				font-size: 24px;
 				font-weight: bold;

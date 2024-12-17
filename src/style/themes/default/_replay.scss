@@ -19,6 +19,7 @@
 		top: calc(-10px - $replayLabelHeight);
 		z-index: 5;
 		height: $replayLabelHeight;
+		color: $textColor;
 		font-size: 28px;
 		font-weight: 700;
 		line-height: $replayLabelHeight;

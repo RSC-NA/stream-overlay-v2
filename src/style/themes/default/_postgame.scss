@@ -11,6 +11,7 @@ $mvpIconSize: 36px;
     z-index: 50;
 	width: $windowWidth;
 	height: $windowHeight;
+	color: $textColor;
 	font-family: var(--fontOxanium);
 	font-weight: 400;
 	padding-top: $postgameTopHeight + 50px;
@@ -161,4 +162,3 @@ $mvpIconSize: 36px;
 	}
 
 }
-

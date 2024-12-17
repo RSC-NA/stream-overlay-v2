@@ -67,6 +67,7 @@
 			width: calc($watchingWidth - $watchingBoostSize * .5 - $borderSize * 5 - 1.5em);
 			height: 40px;
 			overflow: hidden;
+			color: $textColor;
 			font-family: var(--fontUltimatum);
 			font-size: 32px;
 			font-weight: bold;

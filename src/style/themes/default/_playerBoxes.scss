@@ -34,6 +34,7 @@
 			.stat {
 				font-size: 20px;
 				font-weight: 500;
+				color: $textColor;
 				margin: 0 $playerBoxPadding * 2;
 				line-height: 1em;
 
@@ -87,6 +88,7 @@
 				width: $playerBoxBoost - $playerBoxBorderSize * 4;
 				font-size: 33px;
 				font-weight: 600;
+				color: $textColor;
 			}
 
 			.boostBar {

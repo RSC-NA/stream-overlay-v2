@@ -1,10 +1,15 @@
+:root:has(#ControlPanel) {
+	background: black;
+}
+
 body:has(#ControlPanel) {
 	overflow: auto;
 }
 
 #ControlPanel {
 	font-size: .75rem;
-	// color: #ffffff;
+	color: white;
+	background: black;
 
 	h1 {
 		font-size: .75rem;

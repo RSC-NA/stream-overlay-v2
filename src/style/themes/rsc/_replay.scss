@@ -51,6 +51,7 @@
 		top: calc(0px - $borderSize * 2 - $replayLabelHeight);
 		z-index: 5;
 		height: $replayLabelHeight;
+		color: $textColor;
 		font-family: var(--fontUltimatum);
 		font-size: 24px;
 		font-weight: bold;
