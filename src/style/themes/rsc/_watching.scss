@@ -25,16 +25,24 @@
 				$backgroundColor 50%
 			),
 			linear-gradient(var(--watchingColorFade),var(--watchingColorFade)),
-			url("/images/themes/rsc/scoreboard-triangles-bg.png");
+			url("/images/themes/rsc/scoreboard-triangles-bg.png"),
+			linear-gradient(to left,
+				var(--watchingColorFade),
+				$backgroundColor 50%
+			);
 		background-size:
 			cover,
-			200%,
+			cover,
+			cover,
 			cover;
 		background-position:
 			left top,
 			left top,
+			left top,
 			left top;
 		background-repeat:
+			no-repeat,
+			no-repeat,
 			no-repeat,
 			no-repeat;
 			border-style: solid;
@@ -44,6 +52,7 @@
 				$backgroundTransparent 100%
 			) 1;
 			border-bottom: none;
+			border-left: none;
 
 		.name {
 			position: absolute;
@@ -102,10 +111,10 @@
 	}
 
 	.boostText {
-		position: fixed;
+		position: absolute;
+		bottom: calc(50% - $borderSize * 2);
+		right: calc(50% + $borderSize * 2);
 		z-index: 55;
-		bottom: calc($watchingHeight + 30px);
-		right: $borderSize * 2;
 		font-family: var(--fontUltimatum);
 		font-size: 48px;
 		font-weight: bold;
@@ -143,7 +152,6 @@
 	&.team0 {
 		--watchingColor: var(--team0);
 		--watchingColorFade: var(--team0fade);
-		--watchingColorDirection: 160deg;
 
 		.stats {
 			border-color: var(--team0);
@@ -168,7 +176,6 @@
 	&.team1 {
 		--watchingColor: var(--team1);
 		--watchingColorFade: var(--team1fade);
-		--watchingColorDirection: 200deg;
 
 		.stats {
 			border-color: var(--team1);
