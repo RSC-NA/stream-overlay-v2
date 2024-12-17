@@ -13,7 +13,7 @@
 	@import "clock";
 	@import "header";
 	@import "playerBoxes";
-	// @import "replay";
+	@import "replay";
 	@import "seriesInfo";
 	@import "scoreboard";
 	@import "teamLogo";
@@ -22,9 +22,5 @@
 	@import "teamSeriesScore";
 	@import "watching";
 	@import "watermark";
-
-	.replay {
-		display: none;
-	}
 
 }

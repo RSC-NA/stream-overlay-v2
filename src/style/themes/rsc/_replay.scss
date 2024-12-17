@@ -1,0 +1,150 @@
+.replay {
+    position: absolute;
+    right: calc(-100px - $replayWidth);
+    bottom: 0;
+    width: $replayWidth;
+    height: $replayHeight;
+    vertical-align: baseline;
+	padding-top: $borderSize;
+    transition: right .25s ease-in;
+
+	background-image:
+		linear-gradient(340deg,
+			$backgroundTransparent,
+			$backgroundColor 50%
+		),
+		linear-gradient(var(--replayColorFade),var(--replayColorFade)),
+		url("/images/themes/rsc/scoreboard-triangles-bg.png"),
+		linear-gradient(to left,
+			var(--replayColorFade),
+			$backgroundColor 50%
+		);
+	background-size:
+		cover,
+		cover,
+		cover,
+		cover;
+	background-position:
+		left top,
+		left top,
+		left top,
+		left top;
+	background-repeat:
+		no-repeat,
+		no-repeat,
+		no-repeat;
+	border-style: solid;
+	border-width: $borderSize;
+	border-image: linear-gradient(240deg,
+		var(--replayColor) 25%,
+		$backgroundTransparent 100%
+	) 1;
+	border-bottom: none;
+	border-left: none;
+
+	&.showReplay {
+		right: 0;
+	}
+
+	.replayLabel {
+		position: absolute;
+		top: calc(0px - $borderSize * 2 - $replayLabelHeight);
+		z-index: 5;
+		height: $replayLabelHeight;
+		font-family: var(--fontUltimatum);
+		font-size: 24px;
+		font-weight: bold;
+		font-style: italic;
+		color: $secondaryTextColor;
+		line-height: $replayLabelHeight - 6px;
+		text-align: center;
+		letter-spacing: .5em;
+		padding: $borderSize calc($borderSize * 2 - .5em) $borderSize $borderSize * 2;
+		background: linear-gradient(to left,
+			var(--replayColor) 20%,
+			$backgroundTransparent 100%
+		);
+	}
+
+	.replayLabelLeft {
+		display: none;
+	}
+
+	.replayLabelRight {
+		right: calc(0px - $borderSize);
+	}
+
+	.statLine {
+		line-height: 38px;
+		padding: $borderSize;
+
+		.stat {
+			height: 40px;
+			margin-bottom: $borderSize;
+
+			.label {
+				display: inline-block;
+				font-size: 20px;
+				width: 20%;
+				color: $secondaryTextColor;
+				text-transform: uppercase;
+				text-align: right;
+				vertical-align: baseline;
+				margin-right: 15px;
+			}
+
+			.value {
+				// display: inline-block;
+				font-family: var(--fontUltimatum);
+				font-size: 28px;
+				font-weight: bold;
+				font-style: italic;
+				color: $textColor;
+				text-transform: uppercase;
+				vertical-align: baseline;
+
+				&.long {
+					font-size: 52px;
+				}
+
+			}
+
+			&.speed {
+				position: absolute;
+				bottom: calc($borderSize * 2);
+				right: calc($borderSize * 2);
+				text-align: right;
+
+				.value {
+					text-transform: uppercase;
+					color: $textColor;
+				}
+
+				.label {
+					width: auto;
+					color: $secondaryTextColor;
+					text-transform: uppercase;
+					margin-left: 7px;
+					margin-right: 60px;
+
+				}
+
+			}
+
+		}
+
+	}
+
+	&.team0 {
+		--replayColor: var(--team0);
+		--replayColorFade: var(--team0fade);
+
+	}
+
+	&.team1 {
+		--replayColor: var(--team1);
+		--replayColorFade: var(--team1fade);
+
+	}
+
+}

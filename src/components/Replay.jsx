@@ -4,7 +4,7 @@ const Replay = (props) => {
 
     const kmToMph = 1.6;
     const longPlayerName = 24;
-    const speedDecimalPlaces = 1;
+    const speedDecimalPlaces = 0;
 
     const displayDecimal = (number, places = 0) => {
         return (Math.round(number * 10**places) / 10**places).toFixed(places);
