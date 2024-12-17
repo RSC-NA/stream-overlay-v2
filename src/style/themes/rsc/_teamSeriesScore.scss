@@ -2,7 +2,7 @@
 
 .teamSeriesScore {
     position: absolute;
-    top: calc($topHeaderHeight + $mainHeaderHeight + $mainBarHeight);
+    top: calc($mainHeaderHeight + $mainBarHeight);
 	z-index: 35;
 	height: $seriesInfoHeight;
 	width: $seriesScoreWidth;

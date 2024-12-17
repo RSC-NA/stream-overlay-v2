@@ -33,7 +33,7 @@ const Live = (props) => {
 				{/* TODO: Add to RSC3-event when S22 approaches */}
 				<Header
 					headers={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ?
-						[...props.config.general.headers, "%%RSCHEADER%%"]
+						["%%RSCHEADER%%"]
 						: props.config.general.headers
 					}
 					streamType={props.config.general.streamType}

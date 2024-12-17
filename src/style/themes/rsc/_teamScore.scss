@@ -1,6 +1,6 @@
 .teamScore {
 	position: absolute;
-	top: calc($mainHeaderHeight + $topHeaderHeight);
+	top: $mainHeaderHeight;
 	width: $teamScoreWidth;
 	height: $mainBarHeight;
 	color: $textColor;

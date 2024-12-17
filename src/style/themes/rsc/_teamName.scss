@@ -1,6 +1,6 @@
 .teamNameBox {
     position: absolute;
-	top: calc($mainHeaderHeight + $topHeaderHeight);
+	top: $mainHeaderHeight;
     z-index: 25;
     width: $teamNameWidth;
     height: $mainBarHeight;

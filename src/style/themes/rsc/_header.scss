@@ -3,46 +3,17 @@ $pipeSpacing: .2em;
 
 
 .header0 {
-	height: $topHeaderHeight;
+	// height: $topHeaderHeight;
+	width: $headerWidth;
+	height: $mainHeaderHeight;
 	font-family: var(--fontUltimatum);
 	font-style: italic;
-	font-size: 15px;
+	font-size: 22px;
 	color: $highlightColor;
 	text-transform: uppercase;
 	text-align: center;
-	line-height: $topHeaderHeight;
-	letter-spacing: .5em;
-	background-image:
-		linear-gradient(to right,
-			$backgroundTranslucent 0,
-			$backgroundColor calc($headerGradientWidth * 2),
-			$backgroundColor calc($scoreboardWidth - $headerGradientWidth * 2),
-			$backgroundTranslucent $scoreboardWidth
-		);
-	background-size:
-		cover,
-		50% 100%,
-		50% 100%;
-	background-position:
-		center center,
-		left top,
-		right top;
-	background-repeat:
-		no-repeat,
-		no-repeat,
-		no-repeat;
-}
-
-// rsc-specific header
-.header1 {
-	width: $headerWidth;
-	height: $mainHeaderHeight;
-	font-family: var(--fontCooper);
-	font-size: 20px;
-	color: $textColor;
-	text-transform: uppercase;
-	text-align: center;
 	line-height: $mainHeaderHeight;
+	letter-spacing: .3em;
 	margin: 0 auto;
 	background: linear-gradient(to right,
 		$backgroundTransparent 0,
@@ -71,6 +42,9 @@ $pipeSpacing: .2em;
 
 				&:after {
 					content: "|";
+					font-family: var(--fontSans);
+					font-weight: bold;
+					font-style: italic;
 					color: $secondaryTextColor;
 					margin: 0 $pipeSpacing 0 calc($pipeSpacing + $spanSpacing);
 				}
