@@ -1,3 +1,7 @@
+body:has(#ControlPanel) {
+	overflow: auto;
+}
+
 #ControlPanel {
 	font-size: .75rem;
 	// color: #ffffff;
