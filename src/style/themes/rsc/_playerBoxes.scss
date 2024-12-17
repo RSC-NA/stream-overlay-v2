@@ -121,6 +121,7 @@
 					bottom: 0;
 					height: $playerBoxBorderSize;
 					background: var(--playerBoxColor);
+					transition: width 100ms linear;
 				}
 			}
 		}
