@@ -61,7 +61,7 @@
 			text-transform: uppercase;
 			white-space: nowrap;
 			margin-right: 1.5em;
-			padding: $borderSize 1em;
+			padding: 0 1em $borderSize;
 			background: linear-gradient(to left,
 				var(--watchingColorFade) 25%,
 				$backgroundTransparent 100%
