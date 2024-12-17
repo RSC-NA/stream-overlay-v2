@@ -73,6 +73,17 @@ $transitionDelay: 3s;
 
 :root {
 	background: transparent;
+
+	// tier colors
+	--tierPremier: #d600d6;
+	--tierMaster: #9b59b6;
+	--tierElite: #3498db;
+	--tierVeteran: #33ffda;
+	--tierRival: #2ecc71;
+	--tierChallenger: #ceb337;
+	--tierProspect: #e67e22;
+	--tierContender: #d64694;
+	--tierAmateur: #f3a9a9;
 }
 
 #Overlay.rsc {
