@@ -1,8 +1,13 @@
 .watchingView {
     position: absolute;
-    left: 0;
+    right: calc(0px - $watchingWidth - 100px);
     bottom: 0;
     width: 100%;
+	animation: slideInFromRight;
+	animation-duration: .5s;
+	animation-fill-mode: forwards;
+	animation-delay: 0s;
+	animation-timing-function: ease-out;
 
 	.logo {
 		display: none;
@@ -194,6 +199,17 @@
 			stroke: var(--team1);
 		}
 
+	}
+
+}
+
+
+@keyframes slideInFromRight {
+	0% {
+		right: calc(0px - $watchingWidth - 100px);
+	}
+	100% {
+		right: 0;
 	}
 
 }
