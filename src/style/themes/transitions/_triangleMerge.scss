@@ -3,14 +3,6 @@
 $logoSmall: 400px;
 $logoLarge: 700px;
 
-// TODO: move to RSC theme when it's made
-$rscOrange: #f48020;
-$rscOrangeTone: rgba($rscOrange, .7);
-$rscOrangeFade: rgba($rscOrange, .25);
-$rscBlue: rgba(67, 120, 187, 1);
-$rscBlueTone: rgba(67, 120, 187, .7);
-$rscBlueFade: rgba(67, 120, 187, .25);
-
 $highlightSidePadding: 400px;
 $highlightWidth: calc($windowWidth + $highlightSidePadding * 2);
 
@@ -96,7 +88,6 @@ $transitionDuration: 1.5s;
 		background: $backgroundColor;
 	}
 
-	// TODO: replace colors intelligently
 	.highlight {
 		z-index: 3;
 		left: calc(0px - $highlightWidth);
@@ -105,12 +96,12 @@ $transitionDuration: 1.5s;
 			120deg,
 			$backgroundTransparent 0px,
 			$backgroundTransparent $highlightSidePadding,
-			var(--team0tone) calc($highlightSidePadding * 1.5),
-			var(--team0tone) calc($highlightSidePadding * 2),
-			var(--team1tone) calc($highlightWidth - $highlightSidePadding * 2),
-			var(--team1tone) calc($highlightWidth - $highlightSidePadding * 1.5),
+			$rscBlueTone calc($highlightSidePadding * 1.5),
+			$rscBlueTone calc($highlightSidePadding * 2),
+			$rscOrangeTone calc($highlightWidth - $highlightSidePadding * 2),
+			$rscOrangeTone calc($highlightWidth - $highlightSidePadding * 1.5),
 			$backgroundTransparent calc($highlightWidth - $highlightSidePadding)
-		);
+		) no-repeat;
 	}
 
 	&.team0 .highlight {
@@ -141,7 +132,7 @@ $transitionDuration: 1.5s;
 	.trianglesLeft,
 	.trianglesRight {
 		opacity: 0;
-		background: url("/images/themes/rsc/triangle-bg-transparent.png");
+		background: url("/images/themes/rsc/triangle-bg-transparent.png") no-repeat;
 	}
 
 	.logo {

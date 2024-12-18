@@ -27,7 +27,7 @@ $seriesInfoHeight: 25px;
 $seriesScoreWidth: 126px;
 $seriesScoreIconWidth: 18px;
 
-$teamLogoSize: 100px;
+$teamLogoSize: 90px;
 $teamLogoSpacing: 5px;
 $teamLogoOpacity: .6;
 
@@ -91,10 +91,12 @@ $transitionDelay: 3s;
 	--fontCooper: "CooperHewitt", Helvetica, Arial, sans-serif;
 	--fontUltimatum: "Ultimatum", Helvetica, Arial, sans-serif;
 
+	@import "mixins";
+
 	@import "fonts";
 	@import "live";
 	// @import "pregame";
-	// @import "postgame";
+	@import "postgame";
 	@import "../transitions/triangleMerge";
 
 }

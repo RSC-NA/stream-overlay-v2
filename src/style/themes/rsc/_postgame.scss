@@ -1,0 +1,294 @@
+$postgameTopHeight: calc($headerHeight + $mainBarHeight + $seriesInfoHeight);
+$postgameTitleWidth: $scoreboardWidth;
+$mvpIconSize: 36px;
+
+$postGameTableWidth: calc($windowWidth - 300px);
+
+
+.postgame {
+	--centerColor: #ffffff;
+
+	position: absolute;
+    left: 0;
+    top: 0;
+	width: $windowWidth;
+	height: $windowHeight;
+	color: $textColor;
+	padding-top: $postgameTopHeight;
+	background: url("/images/themes/rsc/triangle-bg-transparent.png") no-repeat;
+	@include triangleFadingBackground;
+
+	@import "scoreboard";
+	@import "clock";
+	@import "header";
+	@import "seriesInfo";
+	@import "teamlogo";
+	@import "teamName";
+	@import "teamScore";
+	@import "teamSeriesScore";
+
+	.scoreboard {
+		background: transparent;
+	}
+
+	.header0 {
+		width: $headerWidth + 100px;
+		background: linear-gradient(to right,
+			$backgroundTransparent 0,
+			$backgroundColor calc($headerGradientWidth - 50px),
+			$backgroundColor calc($headerWidth - $headerGradientWidth + 50px),
+			$backgroundTransparent calc($headerWidth + 100px)
+		);
+	}
+
+	.seriesInfo {
+		width: $seriesInfoWidth + 100px;
+		background: linear-gradient(to right,
+			$backgroundTransparent 0,
+			$backgroundColor calc($headerGradientWidth - 50px),
+			$backgroundColor calc($headerWidth - $headerGradientWidth + 50px),
+			$backgroundTransparent calc($headerWidth + 100px)
+		);
+	}
+
+	.branding {
+
+		.brandLogo {
+			position: absolute;
+			top: $borderSize;
+			width: $postgameTopHeight;
+			height: $postgameTopHeight;
+
+			&:nth-child(1) {
+				left: $borderSize;
+			}
+
+			&:nth-child(2) {
+				right: $borderSize;
+			}
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				object-position: 50% 50%;
+				opacity: .6;
+				filter: grayscale(.25)
+			}
+
+		}
+
+	}
+
+	.seriesScoreText {
+		color: $textColor;
+		font-family: var(--fontUltimatum);
+		font-size: 30px;
+		font-weight: bold;
+		font-style: italic;
+		text-align: center;
+		margin: $borderSize 0 50px;
+		text-shadow: 2px 2px 1px $backgroundColor;
+	}
+
+
+	.title {
+		width: $postgameTitleWidth;
+		color: $highlightColor;
+		font-family: var(--fontUltimatum);
+		font-size: 56px;
+		font-weight: bold;
+		font-style: italic;
+		line-height: 1em;
+		text-align: center;
+		text-transform: uppercase;
+		letter-spacing: .2em;
+		text-shadow: 4px 4px 1px $backgroundColor;
+		padding: calc($borderSize * 2) 0 calc($borderSize * 2 + .2em);
+		margin: 0 auto;
+		background-image:
+			linear-gradient(160deg,
+				$backgroundTransparent,
+				$backgroundColor 50%
+			),
+			linear-gradient(200deg,
+				$backgroundTransparent,
+				$backgroundColor 50%
+			),
+			linear-gradient(var(--team0fade),var(--team0fade)),
+			linear-gradient(var(--team1fade),var(--team1fade)),
+			url("/images/themes/rsc/scoreboard-triangles-bg.png");
+		background-size:
+			50% 100%,
+			50% 100%,
+			50% 100%,
+			50% 100%,
+			cover;
+		background-position:
+			left top,
+			right top,
+			left top,
+			right top,
+			center top;
+		background-repeat:
+			no-repeat,
+			no-repeat,
+			no-repeat,
+			no-repeat,
+			no-repeat;
+		border: $borderSize solid $backgroundColor;
+		border-bottom: none;
+	}
+
+	.statTable {
+		text-transform: uppercase;
+		margin: 0 auto;
+		background: $backgroundColor;
+		border-collapse: collapse;
+		border: $borderSize solid $backgroundColor;
+
+		th, td {
+
+			width: 240px;
+			text-align: center;
+			padding: calc($borderSize * 2.5) $borderSize;
+			border: $borderSize solid $backgroundColor;
+
+			&.centerColumn {
+				width: 140px;
+			}
+
+		}
+
+		thead {
+
+			th {
+				padding: 0;
+				background-image:
+					linear-gradient(var(--playerBoxColorDirection),
+						$backgroundTransparent,
+						$backgroundColor 40%
+					),
+					linear-gradient(var(--playerBoxColorFade),var(--playerBoxColorFade)),
+					url("/images/themes/rsc/scoreboard-triangles-bg.png");
+				background-size:
+					cover,
+					cover,
+					auto;
+				background-position:
+					left top,
+					left top,
+					left top;
+				background-repeat:
+					no-repeat,
+					no-repeat;
+				border-style: solid;
+				border-width: $playerBoxBorderSize;
+				border-image: linear-gradient(to bottom,
+					var(--playerBoxColor),
+					$backgroundColor
+				) 1;
+				border-bottom: none;
+
+
+				span {
+					display: block;
+					font-family: var(--fontUltimatum);
+					font-size: 26px;
+					font-weight: bold;
+					font-style: italic;
+					text-align: center;
+					line-height: 1.2em;
+					padding: calc($borderSize * 2.5) $borderSize calc($borderSize * 2 + .2em);
+				}
+
+				&:has(.mvpIcon) {
+					color: $highlightColor;
+
+					span {
+						background-image: url("/images/eventIcons/mvp.svg");
+						background-position-y: 3px;
+						background-size: $mvpIconSize $mvpIconSize;
+						background-repeat: no-repeat;
+					}
+
+				}
+
+				&.team0 {
+					--playerBoxColor: var(--team0);
+					--playerBoxColorFade: var(--team0fade);
+					--playerBoxColorDirection: 160deg;
+
+					&:has(.mvpIcon) span {
+						background-position-x: 3px;
+					}
+				}
+
+				&.team1 {
+					--playerBoxColor: var(--team1);
+					--playerBoxColorFade: var(--team1fade);
+					--playerBoxColorDirection: 200deg;
+
+					&:has(.mvpIcon) span {
+						background-position-x: calc(100% - 3px);
+					}
+
+				}
+
+				&.centerColumn {
+					background: $backgroundColor;
+				}
+
+				&.long span {
+					font-size: 20px;
+				}
+
+				.mvpIcon {
+					display: none;
+				}
+
+			}
+
+		}
+
+		tbody {
+			--postgameTeamFade: $backgroundTranslucent;
+			--postgameTeamTone: $backgroundHighlight;
+
+
+			tr:nth-child(odd) td {
+				background: var(--postgameTeamFade);
+			}
+
+			tr:nth-child(even) td {
+				background: var(--postgameTeamTone);
+			}
+
+			th {
+				color: $secondaryTextColor;
+				font-size: 26px;
+				font-weight: 500;
+			}
+
+			td {
+				font-family: var(--fontCooper);
+				font-size: 42px;
+				font-weight: bold;
+				vertical-align: middle;
+			}
+
+			.team0 {
+				--postgameTeamFade: var(--team0fade);
+				--postgameTeamTone: var(--team0tone);
+			}
+
+			.team1 {
+				--postgameTeamFade: var(--team1fade);
+				--postgameTeamTone: var(--team1tone);
+			}
+
+		}
+
+	}
+
+}

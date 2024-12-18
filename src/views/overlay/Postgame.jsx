@@ -10,8 +10,8 @@ import TeamSeriesScore from "@/components/TeamSeriesScore";
 
 import imageLocation from "@/utils/imageLocation";
 
-const longPlayerName = 16;
-const longTeamScore = 20;
+const longPlayerName = 14;
+const longTeamScore = 100;
 const statList = [
     {
         name: "score",
@@ -64,31 +64,44 @@ const Postgame = (props) => {
 	return (
 		<div className="postgame">
 
-			<div className="clock"><div className="time long">FINAL</div></div>
+			<div className="scoreboard">
 
-            <Header headers={props.config.general.headers} />
+				<Header
+					headers={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ?
+						["%%RSCHEADER%%"]
+						: props.config.general.headers
+					}
+					streamType={props.config.general.streamType}
+					season={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ? props.config.general.season : null}
+					matchday={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ? props.config.general.matchday : null}
+					tier={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ? props.config.general.tier : null}
+				/>
 
-            {props.config.series.show || props.config.series.override ? (
-                <SeriesInfo seriesScore={props.seriesScore} seriesGame={props.seriesGame} seriesConfig={props.config.series} />
-            ) : null}
+				<div className="clock"><div className="time long">FINAL</div></div>
 
-            {props.gameData.teams.map((team, teamnum) => (
-                <Fragment key={teamnum}>
+				{props.config.series.show || props.config.series.override ? (
+					<SeriesInfo seriesScore={props.seriesScore} seriesGame={props.seriesGame} seriesConfig={props.config.series} />
+				) : null}
 
-                    <TeamName name={props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name} team={teamnum} franchiseName={props.config.teams[teamnum].franchise} />
+				{props.gameData.teams.map((team, teamnum) => (
+					<Fragment key={teamnum}>
 
-                    {props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? (
-                        <TeamLogo team={teamnum} logo={props.config.teams[teamnum].logo} />
-                    ) : null}
+						<TeamName name={props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name} team={teamnum} franchiseName={props.config.teams[teamnum].franchise} />
 
-                    <TeamScore score={team.score} team={teamnum} long={longScores} />
+						{props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? (
+							<TeamLogo team={teamnum} logo={props.config.teams[teamnum].logo} />
+						) : null}
 
-                    {props.config.series.show ? (
-                        <TeamSeriesScore score={props.seriesScore[teamnum]} seriesConfig={props.config.series} team={teamnum} />
-                    ) : null}
+						<TeamScore score={team.score} team={teamnum} long={longScores} />
 
-                </Fragment>
-            ))}
+						{props.config.series.show ? (
+							<TeamSeriesScore score={props.seriesScore[teamnum]} seriesConfig={props.config.series} team={teamnum} />
+						) : null}
+
+					</Fragment>
+				))}
+
+			</div>
 
 			{props.config.general.hasOwnProperty("brandLogo") && props.config.general.brandLogo ?
 
@@ -103,6 +116,27 @@ const Postgame = (props) => {
 
 			: null }
 
+			<div className="seriesScoreText">
+				{
+					props.seriesScore[0] > props.seriesScore[1] ?
+						`${props.config.teams[0].name} ${
+							(props.config.series.type === "bestof" && props.seriesScore[0] === Math.ceil(props.config.series.maxGames / 2)
+								|| (props.config.series.type === "set" && props.seriesScore[0] + props.seriesScore[1] === props.config.series.maxGames)
+							) ?
+								"win"
+							: "lead"
+						} series ${props.seriesScore[0]}-${props.seriesScore[1]}`
+					: props.seriesScore[1] > props.seriesScore[0] ?
+						`${props.config.teams[1].name} ${
+							(props.config.series.type === "bestof" && props.seriesScore[1] === Math.ceil(props.config.series.maxGames / 2)
+								|| (props.config.series.type === "set" && props.seriesScore[0] + props.seriesScore[1] === props.config.series.maxGames)
+							) ?
+								"win"
+							: "lead"
+						} series ${props.seriesScore[1]}-${props.seriesScore[0]}`
+					: `Series tied ${props.seriesScore[0]}-${props.seriesScore[1]}`
+				}
+			</div>
 
 
             <div className="title">Game Stats</div>
@@ -134,13 +168,13 @@ const Postgame = (props) => {
                     {statList.map((stat, statIndex) => (
                         <tr key={`stat${statIndex}`}>
                             {teams[0].map((player, playerIndex) => (
-                                <td className={`playerName ${winningTeam === 0 && playerIndex === 0 ? "mvp" : ""}`} key={`team0player${playerIndex}stat${statIndex}`}>
+                                <td className={`team0 ${winningTeam === 0 && playerIndex === 0 ? "mvp" : ""}`} key={`team0player${playerIndex}stat${statIndex}`}>
                                     {player[stat.name]}
                                 </td>
                             ))}
-                            <th scope="row" className="centerColumn">{stat.label}</th>
+                            <th scope="row" className="centerColumn"><span>{stat.label}</span></th>
                             {teams[1].map((player, playerIndex) => (
-                                <td className={`playerName ${winningTeam === 1 && playerIndex === 1 ? "mvp" : ""}`} key={`team1player${playerIndex}stat${statIndex}`}>
+                                <td className={`team1 ${winningTeam === 1 && playerIndex === 1 ? "mvp" : ""}`} key={`team1player${playerIndex}stat${statIndex}`}>
                                     {player[stat.name]}
                                 </td>
                             ))}

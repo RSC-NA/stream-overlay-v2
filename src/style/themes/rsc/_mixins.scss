@@ -1,0 +1,52 @@
+$highlightSidePadding: 400px;
+$highlightWidth: calc($windowWidth + $highlightSidePadding * 2);
+
+@mixin triangleFadingBackground {
+
+	&:before {
+		content: "";
+		opacity: .5;
+		position: absolute;
+		top: 0;
+		left: calc(0px - $highlightWidth);
+		z-index: -1;
+		width: $highlightWidth;
+		height: $windowHeight;
+		background: linear-gradient(
+			120deg,
+			$backgroundTransparent 0px,
+			$backgroundTransparent $highlightSidePadding,
+			$rscBlueTone calc($highlightSidePadding * 1.5),
+			$rscBlueTone calc($highlightSidePadding * 2),
+			$rscOrangeTone calc($highlightWidth - $highlightSidePadding * 2),
+			$rscOrangeTone calc($highlightWidth - $highlightSidePadding * 1.5),
+			$backgroundTransparent calc($highlightWidth - $highlightSidePadding)
+		);
+		animation: TriangleBackgroundHighlight;
+		animation-duration: 10s;
+		animation-fill-mode: forwards;
+		animation-delay: var(--transitionDelay);
+		animation-iteration-count: infinite;
+	}
+
+	&:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: -5;
+		width: $windowWidth;
+		height: $windowHeight;
+		background: $backgroundColor;
+	}
+
+}
+
+@keyframes TriangleBackgroundHighlight {
+    0% {
+        left: calc(0px - $highlightWidth);
+    }
+    100% {
+        left: $highlightWidth;
+    }
+}
