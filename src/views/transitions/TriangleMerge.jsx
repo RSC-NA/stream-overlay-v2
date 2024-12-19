@@ -2,8 +2,6 @@ import React from "react";
 
 const TriangleMerge = (props) => {
 
-	console.log(props);
-
 	return (
 		<>
 
