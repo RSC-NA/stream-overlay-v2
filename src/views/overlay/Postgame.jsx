@@ -69,9 +69,9 @@ const Postgame = (props) => {
 				<Header
 					headers={props.config.general.headers}
 					streamType={props.config.general.streamType}
-					season={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ? props.config.general.season : null}
-					matchday={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ? props.config.general.matchday : null}
-					tier={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ? props.config.general.tier : null}
+					season={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.season : null}
+					matchday={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.matchday : null}
+					tier={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.tier : null}
 				/>
 
 				<div className="clock"><div className="time long">FINAL</div></div>
