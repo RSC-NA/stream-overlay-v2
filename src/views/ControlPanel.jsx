@@ -565,6 +565,9 @@ const ControlPanel = () => {
 			default:
 				setLeagueId(-1);
 				changeBrandLogoField("");
+				if (headerField === "%%RSCHEADER%%") {
+					setHeaderField("");
+				}
 
 				break;
 		}
@@ -695,6 +698,11 @@ const ControlPanel = () => {
 				return;
 			}
 
+			if (headerField === "") {
+				openSnackbar("Header can't be blank.");
+				return;
+			}
+
 		}
 
 		setSeriesScore(seriesScoreFields);
@@ -740,6 +748,7 @@ const ControlPanel = () => {
 
 		localStorage.setItem("config", JSON.stringify(newConfig));
 		setConfig(newConfig);
+		setHeaderField(streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "%%RSCHEADER%%" : headerField);
 		setFieldsWithChanges([]);
 	}
 
@@ -995,7 +1004,7 @@ const ControlPanel = () => {
 												label="Header"
 												onChange={(e) => changeHeaderField(e.target.value)}
 												value={headerField}
-												className={fieldHasChanges(`headerField`) ? "changedField" : ""}
+												className={`${fieldHasChanges(`headerField`) ? "changedField" : ""} ${headerField === "" ? "errorField" : ""}`}
 											/>
 										</FormControl>
 									</Item>
