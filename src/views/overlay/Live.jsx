@@ -32,10 +32,7 @@ const Live = (props) => {
 
 				{/* TODO: Add to RSC3-event when S22 approaches */}
 				<Header
-					headers={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ?
-						["%%RSCHEADER%%"]
-						: props.config.general.headers
-					}
+					headers={props.config.general.headers}
 					streamType={props.config.general.streamType}
 					season={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ? props.config.general.season : null}
 					matchday={props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ? props.config.general.matchday : null}

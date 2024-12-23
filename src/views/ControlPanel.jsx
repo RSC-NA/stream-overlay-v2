@@ -638,7 +638,7 @@ const ControlPanel = () => {
 		const newConfig = {
 			general: {
 				...config.general,
-				headers: [streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "Rocket Soccar Confederation" : headerField],
+				headers: [streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "%%RSCHEADER%%" : headerField],
 				streamType: streamTypeField,
 				season: seasonNumberField,
 				matchday: matchdayNumberField,
