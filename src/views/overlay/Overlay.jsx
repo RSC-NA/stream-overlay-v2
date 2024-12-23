@@ -104,6 +104,14 @@ const Overlay = () => {
 						localStorage.setItem("seriesScore", JSON.stringify([0,0]));
 					}
 					break;
+
+					case "viewstate":
+						if(event.newValue !== null) {
+							setViewState(event.newValue);
+							console.log("changed");
+						}
+					break;
+
 				}
 		};
 
