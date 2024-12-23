@@ -72,6 +72,7 @@ const ControlPanel = () => {
 	const [teamData, setTeamData] = useState(defaultTeamData);
 	const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
+	const [viewState, setViewState] = useState("");
 
 	const [franchiseLists, setFranchiseLists] = useState({});
 	const [leagueId, setLeagueId] = useState(-1);
@@ -125,6 +126,12 @@ const ControlPanel = () => {
 			localStorage.setItem("teamData", JSON.stringify(defaultTeamData));
 		}
 
+		if (localStorage.hasOwnProperty("viewstate")) {
+			setViewState(localStorage.getItem("viewstate"));
+		} else {
+			setViewState("");
+		}
+
 		// listen for localstorage updates for game data and series score
 		window.onstorage = (event) => {
 			switch(event.key) {
@@ -139,6 +146,14 @@ const ControlPanel = () => {
 					setSeriesScore(seriesScoreIn);
 					setSeriesScoreFields(seriesScoreIn);
 					break;
+
+				case "viewstate":
+					if(event.newValue !== null) {
+						setViewState(event.newValue);
+						console.log("changed");
+					}
+				break;
+
 			}
 		};
 	}, []);
