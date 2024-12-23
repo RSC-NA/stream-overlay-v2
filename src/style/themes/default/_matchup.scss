@@ -4,9 +4,9 @@ $teamColorFadeHeight: 50px;
 $centerHeight: 25px;
 $brandLogoPadding: 30px;
 $brandLogoSize: ($teamColorHeight + $teamColorFadeHeight + $centerHeight * .5) * 2.5 - $brandLogoPadding;
-$pregameTeamLogoSize: 280px;
+$matchupTeamLogoSize: 280px;
 
-#Pregame {
+.matchup {
 	--canvasHeight: #{$canvasHeight};
 
 	font-family: var(--fontOxanium);
@@ -26,7 +26,7 @@ $pregameTeamLogoSize: 280px;
 		--canvasHeight: #{$canvasHeight - $headerHeight - $borderSize};
 	}
 
-	.pregameHeader {
+	.matchupHeader {
 		border-bottom: $borderSize solid $secondaryTextColor;
 
 		.header0 {
@@ -59,13 +59,13 @@ $pregameTeamLogoSize: 280px;
 	}
 
 
-	.pregameMatchup {
+	.matchupTeams {
 		position: relative;
 		width: $windowWidth;
 		height: var(--canvasHeight);
 		background: pink;
 
-		.pregameCenter {
+		.matchupCenter {
 			position: absolute;
 			z-index: 11;
 			top: 50%;
@@ -137,8 +137,8 @@ $pregameTeamLogoSize: 280px;
 				position: absolute;
 				z-index: 3;
 				left: 50%;
-				height: $pregameTeamLogoSize;
-				width: $pregameTeamLogoSize;
+				height: $matchupTeamLogoSize;
+				width: $matchupTeamLogoSize;
 				transform: translate(-50%, -50%);
 
 				img {

@@ -2,6 +2,7 @@ $highlightSidePadding: 400px;
 $highlightWidth: calc($windowWidth + $highlightSidePadding * 2);
 
 @mixin triangleFadingBackground {
+	background: url("/images/themes/rsc/triangle-bg-transparent.png") no-repeat;
 
 	&:before {
 		content: "";

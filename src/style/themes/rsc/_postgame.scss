@@ -15,7 +15,6 @@ $postGameTableWidth: calc($windowWidth - 300px);
 	height: $windowHeight;
 	color: $textColor;
 	padding-top: $postgameTopHeight;
-	background: url("/images/themes/rsc/triangle-bg-transparent.png") no-repeat;
 	@include triangleFadingBackground;
 
 	@import "scoreboard";

@@ -6,7 +6,7 @@ import defaultConfig from "@/data/config.json";
 
 import Live from "@/views/overlay/Live";
 import Postgame from "@/views/overlay/Postgame";
-import Pregame from "@/views/overlay/Pregame";
+import Matchup from "@/views/overlay/Matchup";
 import Transition from "@/views/overlay/Transition";
 
 import hexToRgba from "@/utils/hexToRgba";
@@ -276,7 +276,7 @@ const Overlay = () => {
 					if (viewState !== "postgame" && data.game.time_milliseconds % 1 !== 0) {
 						setViewState("live");
 					} else if (viewState === "") {
-						setViewState("pregame");
+						setViewState("matchup");
 					}
 
 					// on first load of game data, send team data to local storage for control panel to see
@@ -437,8 +437,8 @@ const Overlay = () => {
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1]}
 				/>
-			) : viewState ==="pregame" ? (
-				<Pregame
+			) : viewState ==="matchup" ? (
+				<Matchup
 					config={activeConfig}
 					gameData={gameData}
 					seriesScore={seriesScore}

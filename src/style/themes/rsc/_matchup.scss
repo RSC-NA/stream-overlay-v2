@@ -1,0 +1,180 @@
+$leagueLogoSize: 250px;
+$matchupTeamLogoSize: 320px;
+
+.matchup {
+	@include triangleFadingBackground;
+	position: absolute;
+    left: 0;
+    top: 0;
+	width: $windowWidth;
+	height: $windowHeight;
+    overflow: hidden;
+
+	.matchupHeader {
+		display: grid;
+		grid-template-areas:
+			"logo league"
+			"logo header"
+		;
+		grid-template-columns: $leagueLogoSize 1fr;
+		grid-template-rows: 1fr 1fr;
+		width: calc($windowWidth - 600px);
+		margin: 25px auto 40px;
+		background-image: linear-gradient(to right,
+			$backgroundTransparent 0,
+			$backgroundTransparent calc($leagueLogoSize * .5),
+			$backgroundHighlight calc($leagueLogoSize * .5),
+			$backgroundHighlight 55%,
+			$backgroundTransparent 90%
+		);
+		background-size: 100% 145px;
+		background-repeat: no-repeat;
+		background-position: left 60px;
+
+		.leagueLogo {
+			grid-area: logo;
+			width: $leagueLogoSize;
+			height: $leagueLogoSize;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				object-position: 50% 50%;
+			}
+		}
+
+		.leagueName {
+			grid-area: league;
+			align-self: end;
+			font-family: var(--fontUltimatum);
+			font-size: 44px;
+			font-weight: bold;
+			font-style: italic;
+			color: white;
+			text-transform: uppercase;
+			letter-spacing: .3em;
+			padding: 70px 0 0 20px;
+		}
+
+		@import "header";
+
+		.header0 {
+			grid-area: header;
+			align-self: start;
+			width: auto;
+			font-size: 40px;
+			text-align: left;
+			margin: 0;
+			padding: 15px 0 20px 20px;
+			background: none;
+		}
+
+	}
+
+	.matchupTeams {
+
+		.team {
+			display: grid;
+			width: calc($windowWidth - 400px);
+			margin: 0 auto 0px;
+
+			.logo {
+				grid-area: logo;
+				width: $matchupTeamLogoSize;
+				height: $matchupTeamLogoSize;
+
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: contain;
+					object-position: 50% 50%;
+				}
+
+			}
+
+			.teamText {
+				padding-top: 70px;
+				text-transform: uppercase;
+
+				.name {
+					font-family: var(--fontUltimatum);
+					font-size: 85px;
+					font-weight: bold;
+					color: $textColor;
+				}
+
+				.franchise {
+					font-family: var(--fontCooper);
+					font-size: 45px;
+					color: $secondaryTextColor;
+				}
+
+
+			}
+
+			&.team0 {
+				grid-template-areas:
+					"logo text"
+				;
+				grid-template-columns: $matchupTeamLogoSize 1fr;
+
+				background-image: linear-gradient(to right,
+					$backgroundTransparent 0,
+					$backgroundTransparent calc($matchupTeamLogoSize * .5),
+					var(--team0fade) calc($matchupTeamLogoSize * .5),
+					var(--team0) calc($matchupTeamLogoSize + 100px),
+					var(--team0tone) 55%,
+					$backgroundTransparent 80%
+				);
+				background-size: 100% 180px;
+				background-repeat: no-repeat;
+				background-position: left 80px;
+
+				.teamText {
+					padding-left: 30px;
+				}
+
+			}
+
+			&.team1 {
+				grid-template-areas:
+					"text logo"
+				;
+				grid-template-columns: 1fr $matchupTeamLogoSize;
+
+				background-image: linear-gradient(to left,
+					$backgroundTransparent 0,
+					$backgroundTransparent calc($matchupTeamLogoSize * .5),
+					var(--team1fade) calc($matchupTeamLogoSize * .5),
+					var(--team1) calc($matchupTeamLogoSize + 100px),
+					var(--team1tone) 55%,
+					$backgroundTransparent 80%
+				);
+				background-size: 100% 180px;
+				background-repeat: no-repeat;
+				background-position: left 80px;
+
+				.teamText {
+					text-align: right;
+					padding-right: 30px;
+				}
+
+			}
+
+		}
+
+		.vs {
+			color: $secondaryTextColor;
+			font-family: var(--fontUltimatum);
+			font-weight: bold;
+			font-style: italic;
+			font-size: 60px;
+			text-align: center;
+			line-height: 20px;
+		}
+
+	}
+
+
+}
