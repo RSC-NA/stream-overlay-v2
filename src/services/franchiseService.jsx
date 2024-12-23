@@ -4,7 +4,7 @@ export const getFranchiseList = async (league) =>
 
 	new Promise((resolve, reject) => {
 
-		const apiCall = callApi(
+		callApi(
 			"get",
 			`franchises/`,
 			{

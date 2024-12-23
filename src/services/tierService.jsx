@@ -4,7 +4,7 @@ export const getTierList = async (league) =>
 
 	new Promise((resolve, reject) => {
 
-		const apiCall = callApi(
+		callApi(
 			"get",
 			"tiers/",
 			{

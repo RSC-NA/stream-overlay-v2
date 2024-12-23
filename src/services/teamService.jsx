@@ -1,10 +1,10 @@
-import { callApi } from "@/services/apiService";
+import { callApi, callStats } from "@/services/apiService";
 
 export const getTeamListByTier = async (league, tier, season) =>
 
 	new Promise((resolve, reject) => {
 
-		const apiCall = callApi(
+		callApi(
 			"get",
 			`teams/`,
 			{
@@ -12,6 +12,38 @@ export const getTeamListByTier = async (league, tier, season) =>
 				tier,
 				season,
 			}
+		)
+			.then((response) =>
+				resolve(response.data))
+
+			.catch((error) =>
+				reject(error));
+
+	});
+
+export const getTeamPlayerStats = async (team) =>
+	new Promise((resolve, reject) => {
+
+		callStats(
+			"get",
+			`players/${team}`,
+			{}
+		)
+			.then((response) =>
+				resolve(response.data))
+
+			.catch((error) =>
+				reject(error));
+
+	});
+
+export const getTeamStatsByTier = async (tier) =>
+	new Promise((resolve, reject) => {
+
+		callStats(
+			"get",
+			`teams/${tier}`,
+			{}
 		)
 			.then((response) =>
 				resolve(response.data))

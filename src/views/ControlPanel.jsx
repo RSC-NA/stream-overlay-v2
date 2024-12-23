@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import { getFranchiseList } from "@/services/franchiseService";
-import { getTeamListByTier } from "@/services/teamService";
+import { getTeamListByTier, getTeamPlayerStats, getTeamStatsByTier } from "@/services/teamService";
 import { getTierList } from "@/services/tierService";
 
 import Button from "@mui/material/Button";
@@ -288,6 +288,7 @@ const ControlPanel = () => {
 		}
 	}
 
+	// TODO: doesn't work in OBS currently; figure out how to fix?
 	const copyStatsUrlToClipboard = async () => {
 		try {
 			await navigator.clipboard.writeText(`${statsUrlPrefix}${clientId}`);
@@ -581,6 +582,10 @@ const ControlPanel = () => {
 	const saveToLocalStorage = () => {
 		const teamFranchiseLogos = ["", ""];
 
+		const playerStats = [];
+		const teamStats = [];
+		const tierTeamStats = [];
+
 		// check for required fields
 		if (streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final") {
 
@@ -610,20 +615,83 @@ const ControlPanel = () => {
 			}
 
 			if (Array.isArray(franchiseLists[leagueId]) && franchiseLists[leagueId].length > 0) {
-				for (let team in teamFields) {
-					const teamFranchise = franchiseLists[leagueId].filter((franchise) => franchise.id === teamFields[team].franchise.id);
+				// only load stats when series score set to 0-0
+				const loadPregameStats = (seriesScoreFields[0] === 0 && seriesScoreFields[1] === 0);
+				const apiPromises = [];
+
+				// load team stats
+				if (loadPregameStats) {
+					apiPromises.push(
+						getTeamStatsByTier(tierField)
+							.then((loadedTeamStats) => {
+								tierTeamStats.push(...loadedTeamStats);
+							})
+							.catch((error) => {
+								console.error(error);
+								openSnackbar("Error getting team stats from old API");
+							})
+					);
+				}
+
+				for (let teamnum in teamFields) {
+
+					const teamFranchise = franchiseLists[leagueId].filter((franchise) => franchise.id === teamFields[teamnum].franchise.id);
 					if (teamFranchise.length === 1) {
-						teamFranchiseLogos[team] = teamFranchise[0].logo;
+
+						// set franchise logos
+						teamFranchiseLogos[teamnum] = teamFranchise[0].logo;
+
+						// load player stats if both teams at 0 games
+						if (loadPregameStats) {
+								apiPromises.push(
+								getTeamPlayerStats(teamFields[teamnum].name)
+								.then((loadedPlayerStats) => {
+									playerStats[teamnum] = loadedPlayerStats;
+								})
+								.catch((error) => {
+									console.error(error);
+									openSnackbar("Error getting team stats from stats service");
+								})
+							)
+						}
+
 					}
 				}
+
+				if (loadPregameStats) {
+					// load team and player stats
+					openDialog("loading");
+
+					Promise.all(apiPromises)
+					.then(() => {
+						// set team stats from tier list
+						for (let teamnum in teamFields) {
+							const filteredTeamStats = tierTeamStats.filter((t) => t.teamName === teamFields[teamnum].name);
+							if (filteredTeamStats.length === 1) {
+								teamStats[teamnum] = filteredTeamStats[0];
+							}
+						}
+
+						// save pregame stats to local storagge
+						localStorage.setItem("pregameStats", JSON.stringify({
+							playerStats,
+							teamStats,
+						}));
+
+						closeDialog();
+					})
+					.catch((error) => {
+						closeDialog();
+						console.error(error);
+						openSnackbar("Error loading from stats service");
+					});
+
+				}
+
 			}
+
 
 		} else {
-
-			if (teamNameFields.includes[""]) {
-				openSnackbar("Team names must be set.")
-				return;
-			}
 
 			if (showSeriesField && seriesScoreFields.includes("")) {
 				openSnackbar("Team series score can't be blank.");
