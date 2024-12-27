@@ -7,6 +7,7 @@ import defaultConfig from "@/data/config.json";
 import Live from "@/views/overlay/Live";
 import Postgame from "@/views/overlay/Postgame";
 import Matchup from "@/views/pregame/Matchup";
+import PlayerStats from "@/views/pregame/PlayerStats";
 import TeamStats from "@/views/pregame/TeamStats";
 import Transition from "@/views/overlay/Transition";
 
@@ -173,20 +174,57 @@ const Overlay = () => {
 							break;
 						}
 
-						// case "triggerPlayerStats0": {
-						// 	triggerTransition(
-						// 		activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
-						// 		"",
-						// 		activeConfig.teams[data.scorer.teamnum].hasOwnProperty("logo") && activeConfig.teams[data.scorer.teamnum].logo ?
-						// 			imageLocation(activeConfig.teams[data.scorer.teamnum].logo, "images/logos/teams/")
-						// 			: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
-						// 				imageLocation(activeConfig.general.brandLogo, "images/logos")
-						// 			: null,
-						// 		data.scorer.teamnum,
-						// 		true,
-						// 	);
+						case "triggerPlayerStats0": {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								activeConfigRef.current.teams[0].hasOwnProperty("logo") && activeConfigRef.current.teams[0].logo ?
+									imageLocation(activeConfigRef.current.teams[0].logo, "images/logos/teams/")
+									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								0,
+								false,
+							);
+							setTimeout(() => {
+								applyViewState("playerStats0");
+							}, 750);
+							break;
+						}
 
-						// }
+						case "triggerPlayerStats1": {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								activeConfigRef.current.teams[1].hasOwnProperty("logo") && activeConfigRef.current.teams[1].logo ?
+									imageLocation(activeConfigRef.current.teams[1].logo, "images/logos/teams/")
+									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								1,
+								false,
+							);
+							setTimeout(() => {
+								applyViewState("playerStats1");
+							}, 750);
+							break;
+						}
+
+						case "triggerLive": {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								null,
+								false,
+							);
+							setTimeout(() => {
+								applyViewState("live");
+							}, 750);
+							break;
+						}
 
 					}
 
@@ -547,6 +585,24 @@ const Overlay = () => {
 					pregameStats={pregameStats}
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
+				/>
+			) : viewState ==="playerStats0" ? (
+				<PlayerStats
+					config={activeConfig}
+					gameData={gameData}
+					pregameStats={pregameStats}
+					seriesScore={seriesScore}
+					seriesGame={seriesScore[0] + seriesScore[1] + 1}
+					team={0}
+				/>
+			) : viewState ==="playerStats1" ? (
+				<PlayerStats
+					config={activeConfig}
+					gameData={gameData}
+					pregameStats={pregameStats}
+					seriesScore={seriesScore}
+					seriesGame={seriesScore[0] + seriesScore[1] + 1}
+					team={1}
 				/>
 			) : (
 				<Live

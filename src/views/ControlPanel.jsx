@@ -1025,60 +1025,69 @@ const ControlPanel = () => {
 
 											<Item justifyContent={"center"}>
 
-											<Button
-												variant={viewState === "matchup" ? "contained" : "outlined"}
-												disabled={viewState === "matchup" || viewState === "triggerMatchup"}
-												style={{
-													borderWidth: "2px",
-													borderStyle: "solid",
-													borderColor: viewState === "matchup" ? "yellowgreen" : "",
-												}}
-												color="primary"
-												onClick={() => {triggerViewState("triggerMatchup", "matchup")}}
-											>Matchup</Button>
+												<Button
+													variant={viewState === "matchup" ? "contained" : "outlined"}
+													disabled={viewState === "matchup" || viewState === "triggerMatchup"}
+													style={{
+														borderWidth: "2px",
+														borderStyle: "solid",
+														borderColor: viewState === "matchup" ? "yellowgreen" : "",
+													}}
+													color="primary"
+													onClick={() => {triggerViewState("triggerMatchup", "matchup")}}
+												>Matchup</Button>
 
-											<Button
-												color="secondary"
-												variant={viewState === "teamStats" ? "contained" : "outlined"}
-												style={{
-													borderWidth: "2px",
-													borderStyle: "solid",
-													borderColor: viewState === "teamStats" ? "yellowgreen" : "",
-												}}
-												onClick={() => {triggerViewState("triggerTeamStats", "teamStats")}}
-											>Team stats</Button>
+												<Button
+													color="secondary"
+													variant={viewState === "teamStats" ? "contained" : "outlined"}
+													disabled={viewState === "teamStats" || viewState === "triggerTeamStats"}
+													style={{
+														borderWidth: "2px",
+														borderStyle: "solid",
+														borderColor: viewState === "teamStats" ? "yellowgreen" : "",
+													}}
+													onClick={() => {triggerViewState("triggerTeamStats", "teamStats")}}
+												>Team stats</Button>
 
-											<Button
-												variant={viewState === "playerStats0" ? "contained" : "outlined"}
-												style={{
-													borderWidth: "2px",
-													borderStyle: "solid",
-													borderColor: viewState === "playerStats0" ? "yellowgreen" : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
-													backgroundColor: viewState === "playerStats0" ? `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}` : null,
-													color: viewState === "playerStats0" ? null : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
-												}}
-												onClick={() => {triggerViewState("triggerPlayerStats0", "playerStats0")}}
-											>Player stats 1</Button>
+												<Button
+													variant={viewState === "playerStats0" ? "contained" : "outlined"}
+													disabled={viewState === "playerStats0" || viewState === "triggerPlayerStats0"}
+													style={{
+														borderWidth: "2px",
+														borderStyle: "solid",
+														borderColor: viewState === "playerStats0" ? "yellowgreen" : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
+														backgroundColor: viewState === "playerStats0" ? `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}` : null,
+														color: viewState === "playerStats0" ? null : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
+													}}
+													onClick={() => {triggerViewState("triggerPlayerStats0", "playerStats0")}}
+												>Player stats 1</Button>
 
-											<Button
-												variant={viewState === "playerStats1" ? "contained" : "outlined"}
-												style={{
-													borderWidth: "2px",
-													borderStyle: "solid",
-													borderColor: viewState === "playerStats1" ? "yellowgreen" : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
-													backgroundColor: viewState === "playerStats1" ? `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}` : null,
-													color: viewState === "playerStats1" ? null : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
-												}}
-												onClick={() => {triggerViewState("triggerPlayerStats1", "playerStats1")}}
-											>Player stats 2</Button>
+												<Button
+													variant={viewState === "playerStats1" ? "contained" : "outlined"}
+													disabled={viewState === "playerStats1" || viewState === "triggerPlayerStats1"}
+													style={{
+														borderWidth: "2px",
+														borderStyle: "solid",
+														borderColor: viewState === "playerStats1" ? "yellowgreen" : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
+														backgroundColor: viewState === "playerStats1" ? `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}` : null,
+														color: viewState === "playerStats1" ? null : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
+													}}
+													onClick={() => {triggerViewState("triggerPlayerStats1", "playerStats1")}}
+												>Player stats 2</Button>
 
-											<Button
-												variant="outlined"
-												color="error"
-												onClick={() => {triggerViewState("triggerLive", "live")}}
-											>Skip to Game</Button>
+												<Button
+													variant={viewState === "live" ? "contained" : "outlined"}
+													disabled={viewState === "live" || viewState === "triggerLive"}
+													color="error"
+													style={{
+														borderWidth: "2px",
+														borderStyle: "solid",
+														borderColor: viewState === "live" ? "yellowgreen" : "",
+													}}
+													onClick={() => {triggerViewState("triggerLive", "live")}}
+												>Live game</Button>
 
-										</Item>
+											</Item>
 
 										</Grid>
 

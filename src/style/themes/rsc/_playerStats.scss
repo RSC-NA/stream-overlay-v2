@@ -1,4 +1,8 @@
-.teamStats {
+$statPlayerWidth: 350px;
+$statWidth: 100px;
+$statPadding: 10px 30px;
+
+.playerStats {
 	position: absolute;
     left: 0;
     top: 0;
@@ -8,7 +12,7 @@
 	padding-top: 20px;
 	@include triangleFadingBackground;
 
-	.teamStatsHeader {
+	.playerStatsHeader {
 		display: grid;
 		grid-template-areas:
 			"logo header"
@@ -55,7 +59,7 @@
 			background: none;
 		}
 
-		.teamStatsTitle {
+		.playerStatsTitle {
 			grid-area: title;
 			align-self: start;
 			font-family: var(--fontUltimatum);
@@ -71,16 +75,14 @@
 
 	}
 
-	.teamStatsTable {
-		width: 1140px;
+	.playerStatsTable {
 		text-transform: uppercase;
-		margin: 0 auto;
+		margin: 100px auto 0;
 		background: $backgroundColor;
 		border-collapse: collapse;
 		border: $borderSize solid $backgroundColor;
 
 		th, td {
-			width: 500px;
 			text-align: center;
 			padding: calc($borderSize * 2.5) $borderSize;
 			border: $borderSize solid $backgroundColor;
@@ -93,13 +95,15 @@
 
 		thead {
 
-			th {
+			th.teamName {
 				position: relative;
 				padding: 0;
 
 				.teamText {
 					padding: 3px 10px 10px;
+					text-align: left;
 					text-transform: uppercase;
+					margin-left: calc($statsTeamLogoSize * .5 + 20px);
 
 					.name {
 						font-family: var(--fontUltimatum);
@@ -122,6 +126,8 @@
 				.logo {
 					position: absolute;
 					top: 50%;
+					left: 0;
+					transform: translate(-50%, -50%);
 					width: $statsTeamLogoSize;
 					height: $statsTeamLogoSize;
 
@@ -137,24 +143,14 @@
 				&.team0 {
 					background-image: linear-gradient(to right,
 						var(--team0fade) 0,
-						var(--team0) calc($matchupTeamLogoSize * .5 + 40px),
-						var(--team0) calc($matchupTeamLogoSize * .5 + 100px),
-						var(--team0tone) calc($matchupTeamLogoSize * .5 + 180px),
+						var(--team0) calc($matchupTeamLogoSize * .5 + 140px),
+						var(--team0) calc($matchupTeamLogoSize * .5 + 250px),
+						var(--team0tone) calc($matchupTeamLogoSize * .5 + 480px),
 						var(--team0fade) 100%,
 					);
 					background-size: 100% 180px;
 					background-repeat: no-repeat;
 					border-right: none;
-
-					.logo {
-						left: 0;
-						transform: translate(-50%, -50%);
-					}
-
-					.teamText {
-						text-align: left;
-						margin-left: calc($statsTeamLogoSize * .5 + 20px);
-					}
 
 				}
 
@@ -164,77 +160,93 @@
 					;
 					grid-template-columns: 1fr $matchupTeamLogoSize;
 
-					background-image: linear-gradient(to left,
+					background-image: linear-gradient(to right,
 						var(--team1fade) 0,
-						var(--team1) calc($matchupTeamLogoSize * .5 + 40px),
-						var(--team1) calc($matchupTeamLogoSize * .5 + 100px),
-						var(--team1tone) calc($matchupTeamLogoSize * .5 + 180px),
+						var(--team1) calc($matchupTeamLogoSize * .5 + 140px),
+						var(--team1) calc($matchupTeamLogoSize * .5 + 250px),
+						var(--team1tone) calc($matchupTeamLogoSize * .5 + 480px),
 						var(--team1fade) 100%,
 					);
 					background-size: 100% 180px;
 					background-repeat: no-repeat;
 					border-left: none;
 
-					.logo {
-						right: 0;
-						transform: translate(50%, -50%);
-					}
-
-					.teamText {
-						text-align: right;
-						margin-right: calc($statsTeamLogoSize * .5 + 20px);
-					}
-
 				}
 
 			}
 
-			td.centerColumn {
-				background-color: $backgroundColor;
-				background-image: linear-gradient(to right,
-					var(--team0fade) 5%,
-					$backgroundTransparent 35%,
-					$backgroundTransparent 65%,
-					var(--team1fade) 95%,
-					var(--team1fade) 100%,
-				);
-				border-left: none;
-				border-right: none;
+			th.playerName,
+			th.statHeader {
+				width: $statWidth;
+				color: $secondaryTextColor;
+				font-family: var(--fontCooper);
+				font-weight: bold;
+				font-size: 25px;
+				text-align: right;
+				padding: $statPadding;
+
+				&.pct {
+					width: 200px;
+				}
+			}
+
+			th.playerName {
+				width: $statPlayerWidth;
+				text-align: left;
 			}
 
 		}
 
+
 		tbody {
-			--postgameTeamFade: $backgroundTranslucent;
-			--postgameTeamTone: $backgroundHighlight;
+			--playerStatsTeamFade: #{$backgroundTranslucent};
+			--playerStatsTeamTone: #{$backgroundHighlight};
+
+			tr:nth-child(odd) {
+				td, th {
+					background: var(--playerStatsTeamFade);
+				}
+			}
+
+			tr:nth-child(even) {
+				td, th {
+					background: var(--playerStatsTeamTone);
+				}
+			}
 
 			th {
-				color: $secondaryTextColor;
-				font-size: 26px;
+				color: $textColor;
+				font-family: var(--fontUltimatum);
+				font-size: 32px;
+				font-weight: bold;
+				font-style: italic;
+				vertical-align: top;
+				text-align: left;
+				padding: $statPadding;
 			}
 
 			td {
+				width: $statWidth;
 				font-family: var(--fontCooper);
 				font-size: 42px;
 				font-weight: bold;
 				vertical-align: middle;
-				padding: .4em 0;
-				background: var(--postgameTeamFade);
+				text-align: right;
+				padding: $statPadding;
 
-				&.better {
-					background: var(--postgameTeamTone);
+				.pctSymbol {
+					font-size: .75em;
 				}
-
 			}
 
 			.team0 {
-				--postgameTeamFade: var(--team0fade);
-				--postgameTeamTone: var(--team0tone);
+				--playerStatsTeamFade: var(--team0fade);
+				--playerStatsTeamTone: var(--team0tone);
 			}
 
 			.team1 {
-				--postgameTeamFade: var(--team1fade);
-				--postgameTeamTone: var(--team1tone);
+				--playerStatsTeamFade: var(--team1fade);
+				--playerStatsTeamTone: var(--team1tone);
 			}
 
 		}

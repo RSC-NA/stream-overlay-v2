@@ -5,6 +5,8 @@ $windowHeight: 1080px;
 
 $pregameLeagueLogoSize: 250px;
 $pregameLeagueLogoSizeSmall: 150px;
+$matchupTeamLogoSize: 320px;
+$statsTeamLogoSize: 150px;
 
 $scoreboardWidth: 852px;
 
@@ -95,10 +97,15 @@ $transitionDelay: 3s;
 	@import "mixins";
 
 	@import "fonts";
+
 	@import "live";
+
 	@import "matchup";
-	@import "postgame";
+	@import "playerStats";
 	@import "teamStats";
+
+	@import "postgame";
+
 	@import "../transitions/triangleMerge";
 
 }

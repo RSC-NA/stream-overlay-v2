@@ -249,8 +249,8 @@ $postGameTableWidth: calc($windowWidth - 300px);
 		}
 
 		tbody {
-			--postgameTeamFade: $backgroundTranslucent;
-			--postgameTeamTone: $backgroundHighlight;
+			--postgameTeamFade: #{$backgroundTranslucent};
+			--postgameTeamTone: #{$backgroundHighlight};
 
 
 			tr:nth-child(odd) td {
@@ -264,7 +264,6 @@ $postGameTableWidth: calc($windowWidth - 300px);
 			th {
 				color: $secondaryTextColor;
 				font-size: 26px;
-				font-weight: 500;
 			}
 
 			td {
