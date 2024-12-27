@@ -1,0 +1,249 @@
+$teamStatsTeamLogoSize: 150px;
+
+
+.teamStats {
+	position: absolute;
+    left: 0;
+    top: 0;
+	width: $windowWidth;
+	height: $windowHeight;
+	color: $textColor;
+	padding-top: 20px;
+	@include triangleFadingBackground;
+
+	.teamStatsHeader {
+		display: grid;
+		grid-template-areas:
+			"logo header"
+			"logo title"
+		;
+		grid-template-columns: $pregameLeagueLogoSizeSmall 1fr;
+		grid-template-rows: .8fr 1fr;
+		width: calc($windowWidth - 900px);
+		margin: 0 auto 70px;
+		background-image: linear-gradient(to right,
+			$backgroundTransparent 0,
+			$backgroundTransparent calc($pregameLeagueLogoSizeSmall * .5),
+			$backgroundHighlight calc($pregameLeagueLogoSizeSmall * .5),
+			$backgroundHighlight 70%,
+			$backgroundTransparent 95%
+		);
+		background-size: 100% 115px;
+		background-repeat: no-repeat;
+		background-position: left 25px;
+
+		.leagueLogo {
+			grid-area: logo;
+			width: $pregameLeagueLogoSizeSmall ;
+			height: $pregameLeagueLogoSizeSmall;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				object-position: 50% 50%;
+			}
+		}
+
+		@import "header";
+
+		.header0 {
+			grid-area: header;
+			align-self: end;
+			width: auto;
+			font-size: 30px;
+			text-align: left;
+			margin: 0;
+			padding: 0 60px 0 20px;
+			background: none;
+		}
+
+		.teamStatsTitle {
+			grid-area: title;
+			align-self: start;
+			font-family: var(--fontUltimatum);
+			font-size: 54px;
+			font-weight: bold;
+			font-style: italic;
+			color: white;
+			text-transform: uppercase;
+			letter-spacing: .3em;
+			margin: -10px 0 0 0;
+			padding: 0 0px 0 20px;
+		}
+
+
+	}
+
+	.teamStatsTable {
+		width: 1140px;
+		text-transform: uppercase;
+		margin: 0 auto;
+		background: $backgroundColor;
+		border-collapse: collapse;
+		border: $borderSize solid $backgroundColor;
+
+		th, td {
+			width: 500px;
+			text-align: center;
+			padding: calc($borderSize * 2.5) $borderSize;
+			border: $borderSize solid $backgroundColor;
+
+			&.centerColumn {
+				width: 200px;
+			}
+
+		}
+
+		thead {
+
+			th {
+				position: relative;
+				padding: 0;
+
+				.teamText {
+					padding: 10px;
+					text-transform: uppercase;
+
+					.name {
+						font-family: var(--fontUltimatum);
+						font-size: 35px;
+						font-weight: bold;
+						white-space: nowrap;
+						color: $textColor;
+					}
+
+					.franchise {
+						font-family: var(--fontCooper);
+						font-size: 20px;
+						font-weight: normal;
+						white-space: nowrap;
+						color: $secondaryTextColor;
+					}
+
+				}
+
+				.logo {
+					position: absolute;
+					top: 50%;
+					width: $teamStatsTeamLogoSize;
+					height: $teamStatsTeamLogoSize;
+
+					img {
+						width: 100%;
+						height: 100%;
+						object-fit: contain;
+						object-position: 50% 50%;
+					}
+
+				}
+
+				&.team0 {
+					background-image: linear-gradient(to right,
+						var(--team0fade) 0,
+						var(--team0) calc($matchupTeamLogoSize * .5 + 40px),
+						var(--team0) calc($matchupTeamLogoSize * .5 + 100px),
+						var(--team0tone) calc($matchupTeamLogoSize * .5 + 180px),
+						var(--team0fade) 100%,
+					);
+					background-size: 100% 180px;
+					background-repeat: no-repeat;
+					border-right: none;
+
+					.logo {
+						left: 0;
+						transform: translate(-50%, -50%);
+					}
+
+					.teamText {
+						text-align: left;
+						margin-left: calc($teamStatsTeamLogoSize * .5 + 20px);
+					}
+
+				}
+
+				&.team1 {
+					grid-template-areas:
+						"text logo"
+					;
+					grid-template-columns: 1fr $matchupTeamLogoSize;
+
+					background-image: linear-gradient(to left,
+						var(--team1fade) 0,
+						var(--team1) calc($matchupTeamLogoSize * .5 + 40px),
+						var(--team1) calc($matchupTeamLogoSize * .5 + 100px),
+						var(--team1tone) calc($matchupTeamLogoSize * .5 + 180px),
+						var(--team1fade) 100%,
+					);
+					background-size: 100% 180px;
+					background-repeat: no-repeat;
+					border-left: none;
+
+					.logo {
+						right: 0;
+						transform: translate(50%, -50%);
+					}
+
+					.teamText {
+						text-align: right;
+						margin-right: calc($teamStatsTeamLogoSize * .5 + 20px);
+					}
+
+				}
+
+			}
+
+			td.centerColumn {
+				background-color: $backgroundColor;
+				background-image: linear-gradient(to right,
+					var(--team0fade) 5%,
+					$backgroundTransparent 35%,
+					$backgroundTransparent 65%,
+					var(--team1fade) 95%,
+					var(--team1fade) 100%,
+				);
+				border-left: none;
+				border-right: none;
+			}
+
+		}
+
+		tbody {
+			--postgameTeamFade: $backgroundTranslucent;
+			--postgameTeamTone: $backgroundHighlight;
+
+			th {
+				color: $secondaryTextColor;
+				font-size: 26px;
+				font-weight: 500;
+			}
+
+			td {
+				font-family: var(--fontCooper);
+				font-size: 42px;
+				font-weight: bold;
+				vertical-align: middle;
+				padding: .4em 0;
+				background: var(--postgameTeamFade);
+
+				&.better {
+					background: var(--postgameTeamTone);
+				}
+
+			}
+
+			.team0 {
+				--postgameTeamFade: var(--team0fade);
+				--postgameTeamTone: var(--team0tone);
+			}
+
+			.team1 {
+				--postgameTeamFade: var(--team1fade);
+				--postgameTeamTone: var(--team1tone);
+			}
+
+		}
+
+	}
+
+}

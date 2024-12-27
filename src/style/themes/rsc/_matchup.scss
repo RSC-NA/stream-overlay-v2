@@ -1,4 +1,3 @@
-$leagueLogoSize: 250px;
 $matchupTeamLogoSize: 320px;
 
 .matchup {
@@ -16,16 +15,16 @@ $matchupTeamLogoSize: 320px;
 			"logo league"
 			"logo header"
 		;
-		grid-template-columns: $leagueLogoSize 1fr;
+		grid-template-columns: $pregameLeagueLogoSize 1fr;
 		grid-template-rows: 1fr 1fr;
 		width: calc($windowWidth - 600px);
 		margin: 25px auto 40px;
 		background-image: linear-gradient(to right,
 			$backgroundTransparent 0,
-			$backgroundTransparent calc($leagueLogoSize * .5),
-			$backgroundHighlight calc($leagueLogoSize * .5),
-			$backgroundHighlight 55%,
-			$backgroundTransparent 90%
+			$backgroundTransparent calc($pregameLeagueLogoSize * .5),
+			$backgroundHighlight calc($pregameLeagueLogoSize * .5),
+			$backgroundHighlight 70%,
+			$backgroundTransparent 95%
 		);
 		background-size: 100% 145px;
 		background-repeat: no-repeat;
@@ -33,8 +32,8 @@ $matchupTeamLogoSize: 320px;
 
 		.leagueLogo {
 			grid-area: logo;
-			width: $leagueLogoSize;
-			height: $leagueLogoSize;
+			width: $pregameLeagueLogoSize;
+			height: $pregameLeagueLogoSize;
 
 			img {
 				width: 100%;

@@ -1,13 +1,11 @@
 import React from "react";
 
+import displayDecimal from "@/utils/displayDecimal";
+
 const Ball = (props) => {
 
     const kmToMph = 1.6;
     const speedDecimalPlaces = 1;
-
-    const displayDecimal = (number, places = 0) => {
-        return (Math.round(number * 10**places) / 10**places).toFixed(places);
-    }
 
     const ballSpeed = {
         kph: props.ball.speed,

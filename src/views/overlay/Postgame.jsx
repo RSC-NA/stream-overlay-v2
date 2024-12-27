@@ -178,10 +178,8 @@ const Postgame = (props) => {
                         </tr>
                     ))}
                 </tbody>
-
-
-
             </table>
+
 		</div>
 
 	)

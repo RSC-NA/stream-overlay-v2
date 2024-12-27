@@ -597,8 +597,11 @@ const ControlPanel = () => {
 		setSeriesScoreFromLocalStorage();
 	}
 
-	const triggerViewState = (state) => {
-		localStorage.setItem("viewstate", state);
+	const triggerViewState = (triggerState, endState) => {
+		if (viewState !== triggerState && viewState !== endState) {
+			setViewState(triggerState);
+			localStorage.setItem("viewstate", triggerState);
+		}
 	}
 
 	const saveToLocalStorage = () => {
@@ -1024,13 +1027,14 @@ const ControlPanel = () => {
 
 											<Button
 												variant={viewState === "matchup" ? "contained" : "outlined"}
+												disabled={viewState === "matchup" || viewState === "triggerMatchup"}
 												style={{
 													borderWidth: "2px",
 													borderStyle: "solid",
 													borderColor: viewState === "matchup" ? "yellowgreen" : "",
 												}}
 												color="primary"
-												onClick={() => {triggerViewState("triggerMatchup")}}
+												onClick={() => {triggerViewState("triggerMatchup", "matchup")}}
 											>Matchup</Button>
 
 											<Button
@@ -1041,7 +1045,7 @@ const ControlPanel = () => {
 													borderStyle: "solid",
 													borderColor: viewState === "teamStats" ? "yellowgreen" : "",
 												}}
-												onClick={() => null}
+												onClick={() => {triggerViewState("triggerTeamStats", "teamStats")}}
 											>Team stats</Button>
 
 											<Button
@@ -1053,8 +1057,8 @@ const ControlPanel = () => {
 													backgroundColor: viewState === "playerStats0" ? `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}` : null,
 													color: viewState === "playerStats0" ? null : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
 												}}
-												onClick={() => null}
-											>Player stats blue |{viewState}|</Button>
+												onClick={() => {triggerViewState("triggerPlayerStats0", "playerStats0")}}
+											>Player stats 1</Button>
 
 											<Button
 												variant={viewState === "playerStats1" ? "contained" : "outlined"}
@@ -1065,13 +1069,13 @@ const ControlPanel = () => {
 													backgroundColor: viewState === "playerStats1" ? `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}` : null,
 													color: viewState === "playerStats1" ? null : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
 												}}
-												onClick={() => null}
-											>Player stats orange</Button>
+												onClick={() => {triggerViewState("triggerPlayerStats1", "playerStats1")}}
+											>Player stats 2</Button>
 
 											<Button
 												variant="outlined"
 												color="error"
-												onClick={() => null}
+												onClick={() => {triggerViewState("triggerLive", "live")}}
 											>Skip to Game</Button>
 
 										</Item>

@@ -1,9 +1,10 @@
-// general
 $borderSize: 5px;
 
-// element grid
 $windowWidth: 1920px;
 $windowHeight: 1080px;
+
+$pregameLeagueLogoSize: 250px;
+$pregameLeagueLogoSizeSmall: 150px;
 
 $scoreboardWidth: 852px;
 
@@ -97,6 +98,7 @@ $transitionDelay: 3s;
 	@import "live";
 	@import "matchup";
 	@import "postgame";
+	@import "teamStats";
 	@import "../transitions/triangleMerge";
 
 }

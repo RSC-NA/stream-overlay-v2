@@ -7,6 +7,7 @@ import defaultConfig from "@/data/config.json";
 import Live from "@/views/overlay/Live";
 import Postgame from "@/views/overlay/Postgame";
 import Matchup from "@/views/pregame/Matchup";
+import TeamStats from "@/views/pregame/TeamStats";
 import Transition from "@/views/overlay/Transition";
 
 import hexToRgba from "@/utils/hexToRgba";
@@ -40,6 +41,7 @@ const Overlay = () => {
  */
 	const teamColorsDefault = ["206cff", "f88521"];
 
+	const [activeConfig, _setActiveConfig] = useState(defaultConfig);
 	const [clientId, setClientId] = useState("");
 	const [clockRunning, setClockRunning] = useState(false);
 	const [endGameData, setEndGameData] = useState({});
@@ -50,11 +52,11 @@ const Overlay = () => {
 	const [lastGoal, setLastGoal] = useState({});
 	const [playerData, setPlayerData] = useState({});
 	const [playerEvents, setPlayerEvents] = useState([]);
+	const [pregameStats, setPregameStats] = useState({});
 	const [seriesScore, setSeriesScore] = useState([0,0]);
 	const [teamDataSent, setTeamDataSent] = useState(false);
 	const [transition, setTransition] = useState(transitionDefault);
 	const [viewState, setViewState] = useState("");
-	const [activeConfig, _setActiveConfig] = useState(defaultConfig);
 
 	const activeConfigRef = useRef(activeConfig);
 	const setActiveConfig = (data) => {
@@ -80,6 +82,10 @@ const Overlay = () => {
 			localStorage.setItem("config", JSON.stringify(activeConfig));
 		}
 
+		if (localStorage.hasOwnProperty("pregameStats")) {
+			setPregameStats(JSON.parse(localStorage.getItem("pregameStats")));
+		}
+
 		if (localStorage.hasOwnProperty("seriesScore")) {
 			setSeriesScore(JSON.parse(localStorage.getItem("seriesScore")));
 		} else {
@@ -87,7 +93,7 @@ const Overlay = () => {
 		}
 
 		if (localStorage.hasOwnProperty("viewstate")) {
-			setViewState(localStorage.getItem("viewstate"));
+			applyViewState(localStorage.getItem("viewstate"));
 		} else {
 			localStorage.setItem("viewstate", "");
 		}
@@ -109,6 +115,15 @@ const Overlay = () => {
 					}
 					break;
 
+				case "pregameStats":
+					console.log("Update stats");
+					if(event.newValue !== null) {
+						setPregameStats(JSON.parse(event.newValue));
+					} else {
+						setPregameStats({});
+					}
+					break;
+
 				case "seriesScore":
 					if(event.newValue !== null) {
 						setSeriesScore(JSON.parse(event.newValue));
@@ -118,32 +133,62 @@ const Overlay = () => {
 					}
 					break;
 
-					case "viewstate":
-						// if(event.newValue !== null) {
-						// 	setViewState(event.newValue);
-						// 	console.log("changed");
+				case "viewstate":
+					// if(event.newValue !== null) {
+					// 	setViewState(event.newValue);
+					// 	console.log("changed");
+					// }
+
+					switch (event.newValue) {
+
+						case "triggerMatchup": {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								null,
+								false,
+							);
+							setTimeout(() => {
+								applyViewState("matchup");
+							}, 750);
+							break;
+						}
+
+						case "triggerTeamStats": {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								null,
+								false,
+							);
+							setTimeout(() => {
+								applyViewState("teamStats");
+							}, 750);
+							break;
+						}
+
+						// case "triggerPlayerStats0": {
+						// 	triggerTransition(
+						// 		activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
+						// 		"",
+						// 		activeConfig.teams[data.scorer.teamnum].hasOwnProperty("logo") && activeConfig.teams[data.scorer.teamnum].logo ?
+						// 			imageLocation(activeConfig.teams[data.scorer.teamnum].logo, "images/logos/teams/")
+						// 			: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
+						// 				imageLocation(activeConfig.general.brandLogo, "images/logos")
+						// 			: null,
+						// 		data.scorer.teamnum,
+						// 		true,
+						// 	);
+
 						// }
 
-						switch (event.newValue) {
-
-							case "triggerMatchup": {
-								triggerTransition(
-									activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
-									"",
-									activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
-										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
-										: null,
-									null,
-									false,
-								);
-								setTimeout(() => {
-									setViewState("matchup");
-								}, 750);
-								break;
-							}
-
-
-						}
+					}
 
 
 
@@ -224,7 +269,7 @@ const Overlay = () => {
 					false,
 				);
 				setTimeout(() => {
-					setViewState("live");
+					applyViewState("live");
 				}, 750);
 				break;
 
@@ -266,7 +311,7 @@ const Overlay = () => {
 						sd[0] + (winningTeam === 0 ? 1 : 0),
 						sd[1] + (winningTeam === 1 ? 1 : 0),
 					]));
-					setViewState("postgame");
+					applyViewState("postgame");
 				}, 4500);
 			break;
 
@@ -319,9 +364,9 @@ const Overlay = () => {
 					expirePlayerEvents();
 					setGameData(data.game);
 					if (viewState !== "postgame" && data.game.time_milliseconds % 1 !== 0) {
-						setViewState("live");
+						applyViewState("live");
 					} else if (viewState === "") {
-						setViewState("matchup");
+						applyViewState("matchup");
 					}
 
 					// on first load of game data, send team data to local storage for control panel to see
@@ -400,6 +445,11 @@ const Overlay = () => {
 		}
 	}
 
+	const applyViewState = (state) => {
+		setViewState(state);
+		localStorage.setItem("viewstate", state);
+	}
+
 	// visual transitions
 	const triggerTransition = (name, text, logo, team, delay) => {
 		setTransition({
@@ -412,7 +462,7 @@ const Overlay = () => {
 		});
 		setTimeout(() => {
 			setTransition(transitionDefault);
-		}, 10000);
+		}, delay ? 4600 : 1600);
 	}
 
 	//TODO: There's got to be some better way to get the alpha channel values into CSS without generating them all individually here
@@ -487,6 +537,14 @@ const Overlay = () => {
 				<Matchup
 					config={activeConfig}
 					gameData={gameData}
+					seriesScore={seriesScore}
+					seriesGame={seriesScore[0] + seriesScore[1] + 1}
+				/>
+			) : viewState ==="teamStats" ? (
+				<TeamStats
+					config={activeConfig}
+					gameData={gameData}
+					pregameStats={pregameStats}
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 				/>
