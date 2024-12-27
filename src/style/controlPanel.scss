@@ -24,10 +24,18 @@ body:has(#ControlPanel) {
 		font-size: .75rem;
 		margin: 3px;
 		padding: .1rem .2rem;
+
+		&.team1 {
+			border-color: purple;
+		}
 	}
 
 	.team {
 		border: 1px solid #999999;
+	}
+
+	.gridRow {
+		margin-bottom: 5px;
 	}
 
 	.idGrid {
@@ -36,6 +44,21 @@ body:has(#ControlPanel) {
 		border: 1px solid #999999;
 	}
 
+	.pregameButtons {
+		margin-bottom: 15px;
+		background: #222222;
+		border: 1px solid #666666;
+
+		h2 {
+			font-size: .75rem;
+			text-align: center;
+			margin: 0 0 .2rem 0;
+			padding: .2rem;
+			background-color: #333333;
+			border-bottom: 1px solid #999999;
+
+		}
+	}
 
 	.mainPanelGrid {
 		padding: 2px;
@@ -50,10 +73,6 @@ body:has(#ControlPanel) {
 	.buttons {
 		text-align: center;
 		margin-bottom: 10px;
-	}
-
-	.gridRow {
-		margin-bottom: 5px;
 	}
 
 	.changedField fieldset {

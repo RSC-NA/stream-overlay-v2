@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 
@@ -54,7 +54,13 @@ const Overlay = () => {
 	const [teamDataSent, setTeamDataSent] = useState(false);
 	const [transition, setTransition] = useState(transitionDefault);
 	const [viewState, setViewState] = useState("");
-	const [activeConfig, setActiveConfig] = useState(defaultConfig);
+	const [activeConfig, _setActiveConfig] = useState(defaultConfig);
+
+	const activeConfigRef = useRef(activeConfig);
+	const setActiveConfig = (data) => {
+		activeConfigRef.current = data;
+		_setActiveConfig(data);
+	}
 
 	useEffect(() => {
 
@@ -80,8 +86,15 @@ const Overlay = () => {
 			localStorage.setItem("seriesScore", JSON.stringify(seriesScore));
 		}
 
+		if (localStorage.hasOwnProperty("viewstate")) {
+			setViewState(localStorage.getItem("viewstate"));
+		} else {
+			localStorage.setItem("viewstate", "");
+		}
+
 		// listen for localstorage updates from control panel
 		window.onstorage = (event) => {
+
 			switch(event.key) {
 				case "clientId":
 					setClientId(event.newValue);
@@ -106,10 +119,34 @@ const Overlay = () => {
 					break;
 
 					case "viewstate":
-						if(event.newValue !== null) {
-							setViewState(event.newValue);
-							console.log("changed");
+						// if(event.newValue !== null) {
+						// 	setViewState(event.newValue);
+						// 	console.log("changed");
+						// }
+
+						switch (event.newValue) {
+
+							case "triggerMatchup": {
+								triggerTransition(
+									activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+									"",
+									activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+										: null,
+									null,
+									false,
+								);
+								setTimeout(() => {
+									setViewState("matchup");
+								}, 750);
+								break;
+							}
+
+
 						}
+
+
+
 					break;
 
 				}
@@ -365,7 +402,6 @@ const Overlay = () => {
 
 	// visual transitions
 	const triggerTransition = (name, text, logo, team, delay) => {
-		console.log("transition", name);
 		setTransition({
 			delay,
 			logo,
@@ -382,8 +418,10 @@ const Overlay = () => {
 	//TODO: There's got to be some better way to get the alpha channel values into CSS without generating them all individually here
 
 	return (
+		activeConfig.hasOwnProperty("teams") ?
+
 		<div
-			className={`App ${activeConfig.general.theme || "default"}`}
+			className={`App ${activeConfig?.general?.theme || "default"}`}
 			id="Overlay"
 			style={{
 				"--team0": hexToRgba(
@@ -469,7 +507,8 @@ const Overlay = () => {
 				transition={transition}
 			/>
 		</div>
-	)
+
+	: null)
 
 }
 
