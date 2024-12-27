@@ -40,6 +40,11 @@ const statList = [
         label: "Saves",
 		round: 0,
 	},
+    {
+        name: "demos",
+        label: "Demos",
+		round: 0,
+	},
 ];
 
 const PlayerStats = (props) => {

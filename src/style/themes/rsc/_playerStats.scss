@@ -1,6 +1,6 @@
-$statPlayerWidth: 350px;
+$statPlayerWidth: 400px;
 $statWidth: 100px;
-$statPadding: 10px 30px;
+$statPadding: 15px 20px;
 
 .playerStats {
 	position: absolute;
@@ -180,13 +180,13 @@ $statPadding: 10px 30px;
 				width: $statWidth;
 				color: $secondaryTextColor;
 				font-family: var(--fontCooper);
-				font-weight: bold;
-				font-size: 25px;
+				font-weight: normal;
+				font-size: 24px;
 				text-align: right;
 				padding: $statPadding;
 
 				&.pct {
-					width: 200px;
+					width: calc($statWidth * 1.75);
 				}
 			}
 
