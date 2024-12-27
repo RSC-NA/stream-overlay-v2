@@ -297,18 +297,21 @@ const Overlay = () => {
 
 			case "game:initialized":
 				setClockRunning(false);
-				triggerTransition(
-					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
-					"GO!",
-					activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
-						imageLocation(activeConfig.general.brandLogo, "images/logos")
-						: null,
-					null,
-					false,
-				);
-				setTimeout(() => {
-					applyViewState("live");
-				}, 750);
+				// only trigger transition if not already on game view
+				if (viewState !== "live") {
+					triggerTransition(
+						activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
+						"GO!",
+						activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
+							imageLocation(activeConfig.general.brandLogo, "images/logos")
+							: null,
+						null,
+						false,
+					);
+					setTimeout(() => {
+						applyViewState("live");
+					}, 750);
+				}
 				break;
 
 			case "game:goal_scored":
