@@ -6,7 +6,7 @@ import defaultConfig from "@/data/config.json";
 
 import Live from "@/views/overlay/Live";
 import Postgame from "@/views/overlay/Postgame";
-import Matchup from "@/views/overlay/Matchup";
+import Matchup from "@/views/pregame/Matchup";
 import Transition from "@/views/overlay/Transition";
 
 import hexToRgba from "@/utils/hexToRgba";
