@@ -132,6 +132,9 @@ const TeamStats = (props) => {
 											: ""}`}
 								>
 									{displayDecimal(props.pregameStats.teamStats[0][stat.name], stat.round)}
+									{stat.name==="shotPct" ?
+										<span className="pctSymbol">%</span>
+									: null}
 								</td>
 							}
 							<th scope="row" className="centerColumn"  colSpan={2}><span>{stat.label}</span></th>
@@ -149,6 +152,9 @@ const TeamStats = (props) => {
 											: ""}`}
 								>
 									{displayDecimal(props.pregameStats.teamStats[1][stat.name], stat.round)}
+									{stat.name==="shotPct" ?
+										<span className="pctSymbol">%</span>
+									: null}
 								</td>
 							}
 						</tr>
