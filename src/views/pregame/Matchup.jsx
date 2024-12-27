@@ -8,9 +8,9 @@ import imageLocation from "@/utils/imageLocation";
 const longTeamName = 16;
 const longFranchiseName = 25;
 
-const Matchup = (props) => {
+const teamName = (teamnum) => props.config.teams[teamnum].name ? props.config.teams[teamnum].name : props.gameData.teams[teamnum].name;
 
-	const teamName = (teamnum) => props.config.teams[teamnum].name ? props.config.teams[teamnum].name : props.gameData.teams[teamnum].name;
+const Matchup = (props) => {
 
 	return (
 		<div className={`matchup ${(props.config.series.show && props.config.series.type !== "unlimited") || props.config.series.override ? "hasSeriesInfo" : ""}`}>

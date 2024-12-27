@@ -52,9 +52,9 @@ const statList = [
 	},
 ];
 
-const Matchup = (props) => {
+const teamName = (teamnum) => props.config.teams[teamnum].name ? props.config.teams[teamnum].name : props.gameData.teams[teamnum].name;
 
-	const teamName = (teamnum) => props.config.teams[teamnum].name ? props.config.teams[teamnum].name : props.gameData.teams[teamnum].name;
+const TeamStats = (props) => {
 
 	return (
 		<div className={`teamStats ${(props.config.series.show && props.config.series.type !== "unlimited") || props.config.series.override ? "hasSeriesInfo" : ""}`}>
@@ -162,4 +162,4 @@ const Matchup = (props) => {
 
 }
 
-export default Matchup;
+export default TeamStats;
