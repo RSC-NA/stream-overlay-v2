@@ -12,8 +12,6 @@ body:has(#Statboard) {
 	background: var(--pageBackground);
 	// min-height: 100vh;
 
-
-
 	.statboardButtons {
 
 		.MuiButton-root {
@@ -25,6 +23,35 @@ body:has(#Statboard) {
 		border-bottom: 1px solid white;
 
 	}
+
+	.header0 {
+		display: inline;
+		text-align: center;
+		font-size: 1.4rem;
+		font-weight: bold;
+		padding-left: .3em;
+
+		&.pipes {
+
+			span {
+				&:not(:last-child) {
+					margin-right: .3em;
+
+					&:after {
+						content: "|";
+						color: #999999;
+						font-family: var(--fontSans);
+						font-weight: bold;
+						margin: 0 .3em 0 .6em;
+					}
+				}
+
+			}
+
+		}
+
+	}
+
 
 	.clock {
 		font-family: var(--fontOxanium);

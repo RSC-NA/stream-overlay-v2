@@ -1,6 +1,5 @@
 import React from "react";
 
-import displayDecimal from "@/utils/displayDecimal";
 import imageLocation from "@/utils/imageLocation";
 
 const longTeamName = 16;

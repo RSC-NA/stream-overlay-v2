@@ -4,10 +4,13 @@ import useWebSocket from "react-use-websocket";
 
 import LiveStats from "@/views/statboard/LiveStats";
 import PlayerStats from "@/views/statboard/PlayerStats";
-
 import TeamStats from "@/views/statboard/TeamStats";
 
+import Header from "@/components/Header";
+
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid2";
+import { styled, ThemeProvider, createTheme } from "@mui/material/styles";
 
 import "@/style/statboard.scss";
 
@@ -116,35 +119,85 @@ const Statboard = () => {
 			? gameData.teams[teamnum].color_primary
 				: teamColorsDefault[teamnum];
 
+	const panelTheme = createTheme({
+		palette: {
+			mode: "dark",
+			primary: {
+				main: "#ffffff",
+				secondary: "#999999",
+			},
+		},
+	});
+
+	const Item = styled("div")(({ theme }) => ({
+		background: "transparent",
+		padding: theme.spacing(0),
+		textAlign: "left",
+		color: "#ffffff",
+	}));
+
+
 	return (
 		<div id="Statboard">
 
 			<div className="statboardButtons">
 
-				<Button
-					size="small"
-					variant={statboardView === "live"? "contained" : "outlined"}
-					color={statboardView === "live"? "primary" : ""}
-					onClick={() => {setStatboardView("live")}}
-				>
-					Live Game Stats
-				</Button>
-				<Button
-					size="small"
-					variant={statboardView === "team"? "contained" : "outlined"}
-					color={statboardView === "team"? "primary" : ""}
-					onClick={() => {setStatboardView("team")}}
-				>
-					Season Team Stats
-				</Button>
-				<Button
-					size="small"
-					variant={statboardView === "player"? "contained" : "outlined"}
-					color={statboardView === "player"? "primary" : ""}
-					onClick={() => {setStatboardView("player")}}
-				>
-					Season Player Stats
-				</Button>
+				<Grid container>
+
+					<Grid size={7} alignContent={"center"}>
+
+						<Item>
+
+							{config && config.hasOwnProperty("general") ?
+
+								<Header
+									headers={config.general.headers}
+									streamType={config.general.streamType}
+									season={config.general.headers[0] === "%%RSCHEADER%%" ? config.general.season : null}
+									matchday={config.general.headers[0] === "%%RSCHEADER%%" ? config.general.matchday : null}
+									tier={config.general.headers[0] === "%%RSCHEADER%%" ? config.general.tier : null}
+								/>
+
+							:null}
+
+						</Item>
+
+					</Grid>
+
+					<Grid size={5} justifyItems={"end"}>
+
+						<Item>
+
+							<Button
+								size="small"
+								variant={statboardView === "live"? "contained" : "outlined"}
+								color={statboardView === "live"? "primary" : ""}
+								onClick={() => {setStatboardView("live")}}
+							>
+								Live Game Stats
+							</Button>
+							<Button
+								size="small"
+								variant={statboardView === "team"? "contained" : "outlined"}
+								color={statboardView === "team"? "primary" : ""}
+								onClick={() => {setStatboardView("team")}}
+							>
+								Season Team Stats
+							</Button>
+							<Button
+								size="small"
+								variant={statboardView === "player"? "contained" : "outlined"}
+								color={statboardView === "player"? "primary" : ""}
+								onClick={() => {setStatboardView("player")}}
+							>
+								Season Player Stats
+							</Button>
+
+						</Item>
+
+					</Grid>
+
+				</Grid>
 
 			</div>
 
@@ -152,35 +205,39 @@ const Statboard = () => {
 
 				{dataReceived ?
 
-					statboardView === "live" ?
+					<>
 
-						<LiveStats
-							config={config}
-							gameData={gameData}
-							playerData={playerData}
-							seriesScore={seriesScore}
-							teamColors={[teamColor(0), teamColor(1)]}
-						/>
+						{statboardView === "live" ?
 
-					: statboardView === "team" && pregameStats.hasOwnProperty("teamStats") ?
+							<LiveStats
+								config={config}
+								gameData={gameData}
+								playerData={playerData}
+								seriesScore={seriesScore}
+								teamColors={[teamColor(0), teamColor(1)]}
+							/>
 
-						<TeamStats
-							config={config}
-							gameData={gameData}
-							pregameStats={pregameStats}
-							teamColors={[teamColor(0), teamColor(1)]}
-						/>
+						: statboardView === "team" && pregameStats.hasOwnProperty("teamStats") ?
 
-					: statboardView === "player" && pregameStats.hasOwnProperty("playerStats") ?
+							<TeamStats
+								config={config}
+								gameData={gameData}
+								pregameStats={pregameStats}
+								teamColors={[teamColor(0), teamColor(1)]}
+							/>
 
-						<PlayerStats
-							config={config}
-							gameData={gameData}
-							pregameStats={pregameStats}
-							teamColors={[teamColor(0), teamColor(1)]}
-						/>
+						: statboardView === "player" && pregameStats.hasOwnProperty("playerStats") ?
 
-					: null
+							<PlayerStats
+								config={config}
+								gameData={gameData}
+								pregameStats={pregameStats}
+								teamColors={[teamColor(0), teamColor(1)]}
+							/>
+
+						: null}
+
+					</>
 
 				:
 
