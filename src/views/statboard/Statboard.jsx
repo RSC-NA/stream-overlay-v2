@@ -135,7 +135,7 @@ const Statboard = () => {
 					color={statboardView === "team"? "primary" : ""}
 					onClick={() => {setStatboardView("team")}}
 				>
-					Team Stats
+					Season Team Stats
 				</Button>
 				<Button
 					size="small"
@@ -143,7 +143,7 @@ const Statboard = () => {
 					color={statboardView === "player"? "primary" : ""}
 					onClick={() => {setStatboardView("player")}}
 				>
-					Player Stats
+					Season Player Stats
 				</Button>
 
 			</div>
