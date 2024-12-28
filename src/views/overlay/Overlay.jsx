@@ -143,7 +143,21 @@ const Overlay = () => {
 
 		// set interval to send data to websocket server (even before game initialized)
 		const sendExternalInterval = setInterval(() => {
-			sendDataToExternalSources();
+
+			sendJsonMessageServer({
+				clientId: clientIdRef.current,
+				event: "overlay:game_data",
+				data: {
+					clockRunning: clockRunningRef.current,
+					config: activeConfigRef.current,
+					gameData: gameDataRef.current,
+					playerData: playerDataRef.current,
+					playerEvents: playerEventsRef.current,
+					seriesScore: seriesScoreRef.current,
+				}
+			});
+
+			localStorage.setItem("seriesScore", JSON.stringify(seriesScoreRef.current));
 
 		}, 50);
 
@@ -275,6 +289,8 @@ const Overlay = () => {
 
 				}
 		};
+
+		return () => clearInterval(sendExternalInterval);
 
 	}, []);
 
@@ -470,26 +486,6 @@ const Overlay = () => {
 
 
 		}
-
-	}
-
-	// send game data to websocket server and local storage
-	const sendDataToExternalSources = () => {
-
-		sendJsonMessageServer({
-			clientId,
-			event: "overlay:game_data",
-			data: {
-				clockRunning: clockRunningRef.current,
-				config: activeConfigRef.current,
-				gameData: gameDataRef.current,
-				playerData: playerDataRef.current,
-				playerEvents: playerEventsRef.current,
-				seriesScore: seriesScoreRef.current,
-			}
-		});
-
-		localStorage.setItem("seriesScore", JSON.stringify(seriesScore));
 
 	}
 
