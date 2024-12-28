@@ -153,6 +153,7 @@ const Overlay = () => {
 					gameData: gameDataRef.current,
 					playerData: playerDataRef.current,
 					playerEvents: playerEventsRef.current,
+					pregameStats: pregameStatsRef.current,
 					seriesScore: seriesScoreRef.current,
 				}
 			});

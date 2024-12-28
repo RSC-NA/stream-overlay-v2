@@ -3,10 +3,13 @@ import { useParams } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 
 import LiveStats from "@/views/statboard/LiveStats";
+import TeamStats from "@/views/statboard/TeamStats";
 
 import Button from "@mui/material/Button";
 
 import "@/style/statboard.scss";
+
+const teamColorsDefault = ["206cff", "f88521"];
 
 // const expireEventsInMs = 7000;
 const socketServerUrl = "wss://rlws.kdoughboy.com:8321";
@@ -28,7 +31,7 @@ const Statboard = () => {
 	const [pregameStats, setPregameStats] = useState([]);
 	const [seriesScore, setSeriesScore] = useState([0,0]);
 
-	const [statboardView, setStatboardView] = useState("live");
+	const [statboardView, setStatboardView] = useState("team");
 
 	const {
 		sendMessage: sendMessageServer,
@@ -53,7 +56,6 @@ const Statboard = () => {
 	}
 
 	const handleServerData = d => {
-		// console.log("got something from server");
 		// console.log(d);
 		let data, dataParse = {};
 		let event = "";
@@ -89,8 +91,8 @@ const Statboard = () => {
 				if (data.hasOwnProperty("playerData")) {
 					setPlayerData(data.playerData);
 				}
+				// TODO: Not currently used
 				if (data.hasOwnProperty("playerEvents")) {
-					// TODO: Not currently used
 					setPlayerEvents(data.playerEvents);
 				}
 				if (data.hasOwnProperty("pregameStats")) {
@@ -104,10 +106,18 @@ const Statboard = () => {
 		}
 	}
 
+	const teamColor = (teamnum) =>
+		config.teams[teamnum].color ? config.teams[teamnum].color
+		: gameData.hasOwnProperty("teams")
+			&& Array.isArray(gameData.teams)
+			&& gameData.teams[teamnum].hasOwnProperty("color_primary")
+			? gameData.teams[teamnum].color_primary
+				: teamColorsDefault[teamnum];
+
 	return (
 		<div id="Statboard">
 
-			<div class="statboardButtons">
+			<div className="statboardButtons">
 
 				<Button
 					size="small"
@@ -136,19 +146,36 @@ const Statboard = () => {
 
 			</div>
 
-			<div class="statboardContent">
+			<div className="statboardContent">
 
-				{statboardView === "live" ?
+				{dataReceived ?
 
-					<LiveStats
-						config={config}
-						dataReceived={dataReceived}
-						gameData={gameData}
-						playerData={playerData}
-						seriesScore={seriesScore}
-					/>
+					statboardView === "live" ?
 
-				: null}
+						<LiveStats
+							config={config}
+							gameData={gameData}
+							playerData={playerData}
+							seriesScore={seriesScore}
+							teamColors={[teamColor(0), teamColor(1)]}
+						/>
+
+					: statboardView === "team" && pregameStats.hasOwnProperty("teamStats") ?
+
+						<TeamStats
+							config={config}
+							gameData={gameData}
+							pregameStats={pregameStats}
+							teamColors={[teamColor(0), teamColor(1)]}
+						/>
+
+					: null
+
+				:
+
+					<div>No data received from producer overlay</div>
+
+				}
 
 			</div>
 

@@ -1,10 +1,18 @@
+body:has(#Statboard) {
+	height: auto;
+	overflow: auto;
+	background: black;
+}
+
 #Statboard {
 	--pageBackground: #000000;
 
 	font-family: var(--fontRoboto);
 	color: #ffffff;
 	background: var(--pageBackground);
-	min-height: 100vh;
+	// min-height: 100vh;
+
+
 
 	.statboardButtons {
 
@@ -22,6 +30,7 @@
 		font-family: var(--fontOxanium);
 		font-weight: 700;
 		text-align: center;
+		margin-top: 30px;
 
 		// fix colon being at bottom in Oxanium
 		.colon {
@@ -46,7 +55,6 @@
 		}
 	}
 
-
 	.seriesInfo {
 		position: static;
 		transform: none;
@@ -57,7 +65,7 @@
 		font-weight: bold;
 	}
 
-	.teamStats {
+	.statboardLiveStatsTable {
 		font-size: 1.4em;
 		width: 75%;
 		margin: 50px auto;
@@ -149,6 +157,53 @@
 			font-size: 1rem;
 			text-transform: uppercase;
 		}
+
+	}
+
+	.statboardTeamStats {
+		padding: 100px;
+
+		.teamStatsTable {
+			margin: 0 auto;
+			border-collapse: collapse;
+
+			th, td {
+				font-size: 30px;
+				padding: 10px;
+				border: 1px solid white;
+			}
+
+			th.teamName {
+				width: 450px;
+
+				.name {
+					font-family: var(--fontOxanium);
+					text-transform: uppercase;
+				}
+
+				.franchise {
+					font-size: .7em;
+				}
+
+			}
+
+			tbody {
+
+				td {
+					font-family: var(--fontOxanium);
+					font-weight: bold;
+					text-align: center;
+				}
+
+				th {
+					font-weight: normal;
+				}
+
+			}
+
+
+		}
+
 
 	}
 
