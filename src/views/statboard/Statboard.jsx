@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 
 import LiveStats from "@/views/statboard/LiveStats";
+import PlayerStats from "@/views/statboard/PlayerStats";
+
 import TeamStats from "@/views/statboard/TeamStats";
 
 import Button from "@mui/material/Button";
@@ -163,6 +165,15 @@ const Statboard = () => {
 					: statboardView === "team" && pregameStats.hasOwnProperty("teamStats") ?
 
 						<TeamStats
+							config={config}
+							gameData={gameData}
+							pregameStats={pregameStats}
+							teamColors={[teamColor(0), teamColor(1)]}
+						/>
+
+					: statboardView === "player" && pregameStats.hasOwnProperty("playerStats") ?
+
+						<PlayerStats
 							config={config}
 							gameData={gameData}
 							pregameStats={pregameStats}

@@ -193,6 +193,10 @@ body:has(#Statboard) {
 					font-family: var(--fontOxanium);
 					font-weight: bold;
 					text-align: center;
+
+					&.better {
+						background: #003300;
+					}
 				}
 
 				th {
@@ -201,9 +205,64 @@ body:has(#Statboard) {
 
 			}
 
-
 		}
 
+	}
+
+	.statboardPlayerStats {
+		padding-top: 25px;
+
+		.playerStatsTable {
+			margin: 0 auto 25px;
+			border-collapse: collapse;
+
+			th, td {
+				font-size: 30px;
+				padding: 10px;
+				border: 1px solid white;
+			}
+
+			th.teamName {
+				width: 450px;
+
+				.name {
+					font-family: var(--fontOxanium);
+					text-transform: uppercase;
+				}
+
+				.franchise {
+					font-size: .7em;
+				}
+
+			}
+
+			th.playerName {
+				width: 350px;
+				text-align: left;
+				font-family: var(--fontOxanium);
+				font-weight: bold;
+				text-transform: uppercase;
+			}
+
+			tbody {
+
+				td {
+					font-family: var(--fontOxanium);
+					font-weight: bold;
+					text-align: right;
+
+					&.better {
+						background: #003300;
+					}
+				}
+
+				th {
+					font-weight: normal;
+				}
+
+			}
+
+		}
 
 	}
 
