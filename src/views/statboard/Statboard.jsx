@@ -10,7 +10,7 @@ import Header from "@/components/Header";
 
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid2";
-import { styled, ThemeProvider, createTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 import "@/style/statboard.scss";
 
@@ -19,6 +19,13 @@ const teamColorsDefault = ["206cff", "f88521"];
 // const expireEventsInMs = 7000;
 const socketServerUrl = "wss://rlws.kdoughboy.com:8321";
 // const socketServerUrl = "ws://localhost:8321";
+
+const Item = styled("div")(({ theme }) => ({
+	background: "transparent",
+	padding: theme.spacing(0),
+	textAlign: "left",
+	color: "#ffffff",
+}));
 
 const Statboard = () => {
 
@@ -36,7 +43,7 @@ const Statboard = () => {
 	const [pregameStats, setPregameStats] = useState([]);
 	const [seriesScore, setSeriesScore] = useState([0,0]);
 
-	const [statboardView, setStatboardView] = useState("team");
+	const [statboardView, setStatboardView] = useState("live");
 
 	const {
 		sendMessage: sendMessageServer,
@@ -119,28 +126,10 @@ const Statboard = () => {
 			? gameData.teams[teamnum].color_primary
 				: teamColorsDefault[teamnum];
 
-	const panelTheme = createTheme({
-		palette: {
-			mode: "dark",
-			primary: {
-				main: "#ffffff",
-				secondary: "#999999",
-			},
-		},
-	});
-
-	const Item = styled("div")(({ theme }) => ({
-		background: "transparent",
-		padding: theme.spacing(0),
-		textAlign: "left",
-		color: "#ffffff",
-	}));
-
-
 	return (
 		<div id="Statboard">
 
-			<div className="statboardButtons">
+			<div className="statboardHeader">
 
 				<Grid container>
 
