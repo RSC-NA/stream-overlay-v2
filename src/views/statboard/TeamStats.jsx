@@ -4,10 +4,6 @@ import TeamStatsTable from "@/components/TeamStatsTable";
 
 import "@/style/statboard.scss";
 
-// const expireEventsInMs = 7000;
-const socketServerUrl = "wss://rlws.kdoughboy.com:8321";
-// const socketServerUrl = "ws://localhost:8321";
-
 const statList = [
     {
         name: "%%RECORD%%",
