@@ -4,7 +4,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 
 import Overlay from "@/views/overlay/Overlay";
 import ControlPanel from "@/views/ControlPanel";
-import Statboard from "@/views/Statboard";
+import Statboard from "@/views/statboard/Statboard";
 
 import ("@/style/appMain.scss");
 
@@ -16,7 +16,7 @@ const router = createBrowserRouter(
 				element={<Overlay />}
 			/>
 			<Route
-				path="/stats/:clientId?"
+				path="/stats/:clientId"
 				element={<Statboard />}
 			/>
 			<Route
