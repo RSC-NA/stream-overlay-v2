@@ -150,7 +150,6 @@ const ControlPanel = () => {
 				case "viewstate":
 					if(event.newValue !== null) {
 						setViewState(event.newValue);
-						console.log("changed");
 					}
 				break;
 

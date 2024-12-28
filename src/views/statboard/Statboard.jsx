@@ -65,7 +65,7 @@ const Statboard = () => {
 		try {
 			dataParse = JSON.parse(d)
 			if (!dataParse.hasOwnProperty("clientId") || !dataParse.hasOwnProperty("event") || !dataParse.hasOwnProperty("data") || dataParse.clientId !== params.clientId) {
-				console.log("error");
+				console.error("Error handling server data");
 				return;
 			}
 			event = dataParse.event;
