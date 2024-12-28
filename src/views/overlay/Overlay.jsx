@@ -43,18 +43,18 @@ const Overlay = () => {
 	const teamColorsDefault = ["206cff", "f88521"];
 
 	const [activeConfig, _setActiveConfig] = useState(defaultConfig);
-	const [clientId, setClientId] = useState("");
-	const [clockRunning, setClockRunning] = useState(false);
+	const [clientId, _setClientId] = useState("");
+	const [clockRunning, _setClockRunning] = useState(false);
 	const [endGameData, setEndGameData] = useState({});
-	const [gameData, setGameData] = useState({
+    const [gameData, _setGameData] = useState({
 		teams: [{name: ""}, {name: ""}],
 		time_seconds: 0,
 	});
 	const [lastGoal, setLastGoal] = useState({});
-	const [playerData, setPlayerData] = useState({});
-	const [playerEvents, setPlayerEvents] = useState([]);
-	const [pregameStats, setPregameStats] = useState({});
-	const [seriesScore, setSeriesScore] = useState([0,0]);
+    const [playerData, _setPlayerData] = useState({});
+    const [playerEvents, _setPlayerEvents] = useState([]);
+    const [pregameStats, _setPregameStats] = useState({});
+    const [seriesScore, _setSeriesScore] = useState([0,0]);
 	const [teamDataSent, setTeamDataSent] = useState(false);
 	const [transition, setTransition] = useState(transitionDefault);
 	const [viewState, setViewState] = useState("");
@@ -64,6 +64,48 @@ const Overlay = () => {
 		activeConfigRef.current = data;
 		_setActiveConfig(data);
 	}
+
+    const clientIdRef = useRef(clientId);
+    const setClientId = (data) => {
+        clientIdRef.current = data;
+        _setClientId(data);
+    }
+
+	const clockRunningRef = useRef(clockRunning);
+    const setClockRunning = (data) => {
+        clientIdRef.current = data;
+        _setClockRunning(data);
+    }
+
+    const gameDataRef = useRef(gameData);
+    const setGameData = (data) => {
+        gameDataRef.current = data;
+        _setGameData(data);
+    }
+
+	const playerDataRef = useRef(playerData);
+    const setPlayerData = (data) => {
+        playerDataRef.current = data;
+        _setPlayerData(data);
+    }
+
+    const playerEventsRef = useRef(playerEvents);
+    const setPlayerEvents = (data) => {
+        playerEventsRef.current = data;
+        _setPlayerEvents(data);
+    }
+
+	const pregameStatsRef = useRef(pregameStats);
+    const setPregameStats = (data) => {
+        pregameStatsRef.current = data;
+        _setPregameStats(data);
+    }
+
+	const seriesScoreRef = useRef(seriesScore);
+    const setSeriesScore = (data) => {
+        seriesScoreRef.current = data;
+        _setSeriesScore(data);
+    }
 
 	useEffect(() => {
 
@@ -99,6 +141,13 @@ const Overlay = () => {
 			localStorage.setItem("viewstate", "");
 		}
 
+		// set interval to send data to websocket server (even before game initialized)
+		const sendExternalInterval = setInterval(() => {
+			sendDataToExternalSources();
+
+		}, 50);
+
+
 		// listen for localstorage updates from control panel
 		window.onstorage = (event) => {
 
@@ -117,7 +166,6 @@ const Overlay = () => {
 					break;
 
 				case "pregameStats":
-					console.log("Update stats");
 					if(event.newValue !== null) {
 						setPregameStats(JSON.parse(event.newValue));
 					} else {
@@ -135,11 +183,6 @@ const Overlay = () => {
 					break;
 
 				case "viewstate":
-					// if(event.newValue !== null) {
-					// 	setViewState(event.newValue);
-					// 	console.log("changed");
-					// }
-
 					switch (event.newValue) {
 
 						case "triggerMatchup": {
@@ -228,15 +271,12 @@ const Overlay = () => {
 
 					}
 
-
-
 					break;
 
 				}
 		};
 
 	}, []);
-
 
 	// websocket from Rocket League / BakkesMod
 	const {
@@ -431,22 +471,21 @@ const Overlay = () => {
 
 		}
 
-		sendDataToExternalSources();
-
 	}
 
 	// send game data to websocket server and local storage
 	const sendDataToExternalSources = () => {
+
 		sendJsonMessageServer({
 			clientId,
 			event: "overlay:game_data",
 			data: {
-				clockRunning,
-				config: activeConfig,
-				gameData,
-				playerData,
-				playerEvents,
-				seriesScore: seriesScore
+				clockRunning: clockRunningRef.current,
+				config: activeConfigRef.current,
+				gameData: gameDataRef.current,
+				playerData: playerDataRef.current,
+				playerEvents: playerEventsRef.current,
+				seriesScore: seriesScoreRef.current,
 			}
 		});
 
