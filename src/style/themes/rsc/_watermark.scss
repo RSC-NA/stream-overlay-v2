@@ -1,10 +1,10 @@
 .watermark {
 	position: absolute;
-	left: 80px;
-	bottom: 160px;
-	width: 90px;
-	height: 90px;
-	opacity: .4;
+	left: 75px;
+	bottom: $watchingHeight + 85px;
+	width: 150px;
+	height: 150px;
+	opacity: .55;
 
 	img {
 		filter: grayscale(.5);
@@ -14,4 +14,21 @@
 		object-position: 50% 50%;
 	}
 
+}
+
+.leagueName {
+	position: absolute;
+	z-index: 5;
+	bottom: calc($watchingHeight + 35px);
+	left: 30px;
+	width: 250px;
+	color: $highlightTranslucent;
+	font-family: var(--fontUltimatum);
+	font-size: 18px;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: .5em;
+	margin-right: 1.5em;
 }

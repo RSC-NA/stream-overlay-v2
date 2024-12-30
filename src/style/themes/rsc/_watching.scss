@@ -62,14 +62,14 @@
 		.name {
 			position: absolute;
 			z-index: 5;
-			top: calc(0px - $watchingHeight - $borderSize * 3);
+			top: calc(0px - $watchingHeight - $borderSize * 2);
 			left: 0;
 			width: calc($watchingWidth - $watchingBoostSize * .5 - $borderSize * 5 - 1.5em);
-			height: 40px;
+			height: 36px;
 			overflow: hidden;
 			color: $textColor;
 			font-family: var(--fontUltimatum);
-			font-size: 32px;
+			font-size: 28px;
 			font-weight: bold;
 			font-style: italic;
 			text-align: right;

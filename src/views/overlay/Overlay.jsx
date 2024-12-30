@@ -132,7 +132,11 @@ const Overlay = () => {
 		if (localStorage.hasOwnProperty("seriesScore")) {
 			setSeriesScore(JSON.parse(localStorage.getItem("seriesScore")));
 		} else {
-			localStorage.setItem("seriesScore", JSON.stringify(seriesScore));
+			if (Array.isArray(seriesScore)) {
+				localStorage.setItem("seriesScore", JSON.stringify(seriesScore));
+			} else {
+
+			}
 		}
 
 		if (localStorage.hasOwnProperty("viewstate")) {
