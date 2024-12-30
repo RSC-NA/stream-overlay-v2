@@ -43,6 +43,7 @@
 		height: $mainBarHeight;
 		font-family: var(--fontUltimatum);
 		font-weight: bold;
+		font-style: italic;
 		font-size: 2px;
 		color: $highlightColor;
 		text-align: center;
@@ -52,7 +53,7 @@
 		letter-spacing: 0;
 		text-shadow: 4px 4px 2px $backgroundColor;
 		white-space: nowrap;
-		margin-left: .1em;
+		margin-left: .08em;
 		padding: 0;
 		animation: goalText;
 		animation-duration: .25s;
