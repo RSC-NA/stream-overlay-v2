@@ -7,6 +7,11 @@ const TeamName = (props) => {
 
     return (
         <div className={`teamNameBox team${props.team}`}>
+
+			{props.goalScored ?
+				<div className="goal">Goal!</div>
+			: null}
+
             <div className={`teamName ${props.name.length >= longTeamName ? "long" : ""} ${props.franchiseName ? "withFranchise" : ""}`}>
 				{props.name}
 			</div>
@@ -14,7 +19,8 @@ const TeamName = (props) => {
 	            <div className={`franchiseName ${props.franchiseName.length >= longFranchiseName ? "long" : ""}`}>
 					{props.franchiseName}
 				</div>
-			: ""}
+			: null}
+
         </div>
     )
 

@@ -25,7 +25,6 @@
 		font-weight: bold;
 		font-size: 26px;
 		color: $textColor;
-		text-align: top;
 		margin-top: 1px;
 	}
 
@@ -34,5 +33,55 @@
 		font-size: 14px;
 		color: $secondaryTextColor;
 	}
+
+	.goal {
+		position: absolute;
+		top: -8px;
+		left: 0;
+		z-index: 55;
+		width: $teamNameWidth;
+		height: $mainBarHeight;
+		font-family: var(--fontUltimatum);
+		font-weight: bold;
+		font-size: 2px;
+		color: $highlightColor;
+		text-align: center;
+		vertical-align: middle;
+		line-height: $mainBarHeight;
+		text-transform: uppercase;
+		letter-spacing: 0;
+		text-shadow: 4px 4px 2px $backgroundColor;
+		white-space: nowrap;
+		margin-left: .1em;
+		padding: 0;
+		animation: goalText;
+		animation-duration: .25s;
+		animation-fill-mode: forwards;
+		animation-delay: 0s;
+		animation-timing-function: linear;
+	}
+
+	&:has(.goal) {
+
+		.teamName, .franchiseName {
+			display: none;
+		}
+
+	}
+
+}
+
+@keyframes goalText {
+
+	0% {
+		font-size: 2px;
+		letter-spacing: 0;
+	}
+
+	100% {
+		font-size: 65px;
+		letter-spacing: .2em;
+	}
+
 
 }

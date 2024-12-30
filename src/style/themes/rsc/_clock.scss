@@ -1,9 +1,20 @@
 .clock {
 	--clockBackgroundImage: url("/images/themes/rsc/clock-splatter.png");
+	--team0ClockColor: var(--team0);
+	--team1ClockColor: var(--team1);
 
 	&.overtime {
 		--clockBackgroundImage: url("/images/themes/rsc/clock-splatter-red.png");
 	}
+
+	&.goal0 {
+		--team0ClockColor: #{$highlightColor};
+	}
+
+	&.goal1 {
+		--team1ClockColor: #{$highlightColor};
+	}
+
 
 	height: $mainBarHeight;
 	background-image:
@@ -11,11 +22,11 @@
 		linear-gradient(to right,
 			transparent 0px,
 			transparent calc(($scoreboardWidth - $headerWidth) * .5 ),
-			var(--team0) calc(($scoreboardWidth - $headerWidth) * .5 + $headerGradientWidth)),
+			var(--team0ClockColor) calc(($scoreboardWidth - $headerWidth) * .5 + $headerGradientWidth)),
 		linear-gradient(to left,
 			transparent 0px,
 			transparent calc(($scoreboardWidth - $headerWidth) * .5 ),
-			var(--team1) calc(($scoreboardWidth - $headerWidth) * .5 + $headerGradientWidth));
+			var(--team1ClockColor) calc(($scoreboardWidth - $headerWidth) * .5 + $headerGradientWidth));
 	background-size:
 		230px 72px,
 		50% 100%,
@@ -28,7 +39,6 @@
 		no-repeat,
 		no-repeat,
 		no-repeat;
-
 
 	.time {
 		font-family: var(--fontUltimatum);

@@ -55,6 +55,7 @@ const Overlay = () => {
     const [playerEvents, _setPlayerEvents] = useState([]);
     const [pregameStats, _setPregameStats] = useState({});
     const [seriesScore, _setSeriesScore] = useState([0,0]);
+	const [showGoalTeam, setShowGoalTeam] = useState(false);
 	const [teamDataSent, setTeamDataSent] = useState(false);
 	const [transition, setTransition] = useState(transitionDefault);
 	const [viewState, setViewState] = useState("");
@@ -377,6 +378,7 @@ const Overlay = () => {
 
 			case "game:goal_scored":
 				setLastGoal(data);
+				setShowGoalTeam(true);
 				triggerTransition(
 					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
 					"GOAL!",
@@ -388,7 +390,10 @@ const Overlay = () => {
 					data.scorer.teamnum,
 					true,
 				);
-				break;
+				setTimeout(() => {
+					setShowGoalTeam(false);
+				}, 3750);
+			break;
 
 			case "game:match_ended":
 				setClockRunning(false);
@@ -657,6 +662,7 @@ const Overlay = () => {
 					playerEvents={playerEvents}
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
+					showGoalTeam={showGoalTeam}
 				/>
 			)}
 

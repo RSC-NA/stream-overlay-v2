@@ -39,7 +39,11 @@ const Live = (props) => {
 					tier={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.tier : null}
 				/>
 
-				<Clock time={props.gameData.time_seconds} overtime={props.gameData.isOT} />
+				<Clock
+					time={props.gameData.time_seconds}
+					overtime={props.gameData.isOT}
+					goalTeam={props.showGoalTeam && props.lastGoal.scorer.hasOwnProperty("teamnum") ? props.lastGoal.scorer.teamnum : null}
+				/>
 
 				{props.config.series.show || props.config.series.override ? (
 					<SeriesInfo seriesScore={props.seriesScore} seriesGame={props.seriesGame} seriesConfig={props.config.series} />
@@ -47,13 +51,29 @@ const Live = (props) => {
 
 				{props.gameData.teams.map((team, teamnum) => (
 					<Fragment key={teamnum}>
-						<TeamName name={props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name} team={teamnum} franchiseName={props.config.teams[teamnum].franchise} />
+						<TeamName
+							team={teamnum}
+							goalScored={props.showGoalTeam && props.lastGoal.scorer.hasOwnProperty("teamnum") && props.lastGoal.scorer.teamnum === teamnum}
+							name={props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name}
+							franchiseName={props.config.teams[teamnum].franchise}
+						/>
 						{props.config.teams[teamnum].hasOwnProperty("logo") && props.config.teams[teamnum].logo ? (
-							<TeamLogo team={teamnum} logo={props.config.teams[teamnum].logo} />
+							<TeamLogo
+								team={teamnum}
+								logo={props.config.teams[teamnum].logo}
+							/>
 						) : null}
-						<TeamScore score={team.score} team={teamnum} long={longScores} />
+						<TeamScore
+							team={teamnum}
+							score={team.score}
+							long={longScores}
+						/>
 						{props.config.series.show ? (
-							<TeamSeriesScore score={props.seriesScore[teamnum]} seriesConfig={props.config.series} team={teamnum} />
+							<TeamSeriesScore
+								team={teamnum}
+								score={props.seriesScore[teamnum]}
+								seriesConfig={props.config.series}
+							/>
 						) : null}
 					</Fragment>
 				))}
