@@ -141,7 +141,11 @@ const Overlay = () => {
 		}
 
 		if (localStorage.hasOwnProperty("viewstate")) {
-			applyViewState(localStorage.getItem("viewstate"));
+			if(localStorage.getItem("viewstate") === "postgame" && !endGameData.hasOwnProperty("teams")) {
+				applyViewState("");
+			} else {
+				applyViewState(localStorage.getItem("viewstate"));
+			}
 		} else {
 			localStorage.setItem("viewstate", "");
 		}

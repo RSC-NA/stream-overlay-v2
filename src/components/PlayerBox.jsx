@@ -1,6 +1,6 @@
 import React from "react";
 
-import PlayerEvents from "./PlayerEvents";
+import PlayerEvents from "@/components/PlayerEvents";
 
 const PlayerBox = (props) => {
 

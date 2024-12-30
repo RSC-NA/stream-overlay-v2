@@ -1,5 +1,5 @@
 import React from "react";
-import BoostDisplay from "./BoostDisplay";
+import BoostDisplay from "@/components/BoostDisplay";
 
 const Watching = (props) => {
 

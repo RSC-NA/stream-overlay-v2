@@ -1,6 +1,6 @@
 import React from "react";
 
-import PlayerBox from "./PlayerBox";
+import PlayerBox from "@/components/PlayerBox";
 
 const TeamPlayerBoxes = (props) => {
 
