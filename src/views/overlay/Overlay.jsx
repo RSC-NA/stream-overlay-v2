@@ -414,10 +414,11 @@ const Overlay = () => {
 					true,
 				), 1000);
 				setTimeout(() => {
-					setSeriesScore(sd => ([
-						sd[0] + (winningTeam === 0 ? 1 : 0),
-						sd[1] + (winningTeam === 1 ? 1 : 0),
-					]));
+					const oldSeriesScore = [...seriesScore];
+					setSeriesScore([
+						oldSeriesScore[0] + (winningTeam === 0 ? 1 : 0),
+						oldSeriesScore[1] + (winningTeam === 1 ? 1 : 0),
+					]);
 					applyViewState("postgame");
 				}, 4500);
 			break;
