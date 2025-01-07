@@ -1,27 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-
-const socialMediaList = [
-	{
-		icon: null,
-		text: "rocketsoccarconfederation.com",
-	},
-	{
-		icon: "/images/social/discord.png",
-		text: "discord.gg/rsc",
-	},
-	{
-		icon: "/images/social/twitch.png",
-		text: "RSCSolar",
-	},
-	{
-		icon: "/images/social/youtube.png",
-		text: "rocketsoccarconfederation",
-	},
-	{
-		icon: "/images/social/twitter.png",
-		text: "rsconfederation",
-	},
-];
+import socialMediaList from "@/data/rscSocialMedia";
 
 const rotationSeconds = 13;
 
