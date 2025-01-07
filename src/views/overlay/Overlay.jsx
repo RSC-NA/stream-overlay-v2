@@ -23,7 +23,7 @@ const socketServerUrl = "wss://rlws.kdoughboy.com:8321";
 const Overlay = () => {
 
 	const transitionDefault = {
-		delay: true,
+		delay: 3,
 		logo: null,
 		name: "stripeWipe",
 		show: false,
@@ -32,7 +32,7 @@ const Overlay = () => {
 	};
 	// For testing
 /* 	const transitionDefault = {
-		delay: false,
+		delay: 0,
 		logo: "/images/logos/rsc-splatter-logo.png",
 		name: "triangleMerge",
 		show: true,
@@ -217,7 +217,7 @@ const Overlay = () => {
 									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
 								null,
-								false,
+								0,
 							);
 							setTimeout(() => {
 								applyViewState("matchup");
@@ -233,7 +233,7 @@ const Overlay = () => {
 									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
 								null,
-								false,
+								0,
 							);
 							setTimeout(() => {
 								applyViewState("teamStats");
@@ -251,7 +251,7 @@ const Overlay = () => {
 										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
 								0,
-								false,
+								0,
 							);
 							setTimeout(() => {
 								applyViewState("playerStats0");
@@ -269,7 +269,7 @@ const Overlay = () => {
 										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
 								1,
-								false,
+								0,
 							);
 							setTimeout(() => {
 								applyViewState("playerStats1");
@@ -285,7 +285,7 @@ const Overlay = () => {
 									imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
 									: null,
 								null,
-								false,
+								0,
 							);
 							setTimeout(() => {
 								applyViewState("live");
@@ -372,7 +372,7 @@ const Overlay = () => {
 							imageLocation(activeConfig.general.brandLogo, "images/logos")
 							: null,
 						null,
-						false,
+						0,
 					);
 					setTimeout(() => {
 						applyViewState("live");
@@ -392,7 +392,7 @@ const Overlay = () => {
 							imageLocation(activeConfig.general.brandLogo, "images/logos")
 						: null,
 					data.scorer.teamnum,
-					true,
+					3,
 				);
 				setTimeout(() => {
 					setShowGoalTeam(false);
@@ -406,7 +406,7 @@ const Overlay = () => {
 					gameData,
 					playerData,
 				});
-				setTimeout(() => triggerTransition(
+				triggerTransition(
 					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
 					"WINNER!",
 					activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo ?
@@ -415,8 +415,8 @@ const Overlay = () => {
 							imageLocation(activeConfig.general.brandLogo, "images/logos")
 						: null,
 					winningTeam,
-					true,
-				), 1000);
+					4,
+				);
 				setTimeout(() => {
 					const oldSeriesScore = [...seriesScore];
 					setSeriesScore([
@@ -488,6 +488,19 @@ const Overlay = () => {
 					}
 				}
 				break;
+
+			case "game:replay_will_end":
+				triggerTransition(
+					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
+					"",
+					activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
+						imageLocation(activeConfig.general.brandLogo, "images/logos")
+						: null,
+					null,
+					2,
+				);
+			break;
+
 
 			case "match:created":
 

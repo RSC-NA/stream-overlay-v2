@@ -6,7 +6,6 @@ $logoLarge: 700px;
 $highlightSidePadding: 400px;
 $highlightWidth: calc($windowWidth + $highlightSidePadding * 2);
 
-$transitionDelay: 3s;
 $transitionDuration: 1.5s;
 
 #Transition.triangleMerge {
@@ -19,10 +18,6 @@ $transitionDuration: 1.5s;
 	height: $windowHeight;
     overflow: hidden;
     visibility: hidden;
-
-	&.delay {
-		--transitionDelay: #{$transitionDelay};
-	}
 
 	.bgLeft,
 	.trianglesLeft,
