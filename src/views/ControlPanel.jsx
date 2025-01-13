@@ -572,8 +572,7 @@ const ControlPanel = () => {
 				break;
 
 			case "RSC3-event":
-				// TODO: change when S22 is ready to start
-				changeBrandLogoField("RSC-3s.png");
+				changeBrandLogoField("rsc-splatter-logo.png");
 				if (headerField === "%%RSCHEADER%%") {
 					setHeaderField("");
 				}
@@ -741,11 +740,10 @@ const ControlPanel = () => {
 				matchday: matchdayNumberField,
 				tier: tierField,
 				brandLogo: logoField,
-				// TODO: change theme to rsc for other RSC events when S22 is ready to start
-				theme: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "rsc" : "default",
+				// TODO: create new theme for finals
+				theme: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "rsc" : "default",
 				// TODO: select transition for non-RSC streams
-				// TODO: change transition to triangleMerge for other RSC events when S22 is ready to start
-				transition: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "triangleMerge" : "stripeWipe",
+				transition: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "triangleMerge" : "stripeWipe",
 			},
 			series: {
 				show: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? true : showSeriesField,
