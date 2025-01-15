@@ -54,7 +54,7 @@ const LiveStats = (props) => {
 								.map((player, playerIndex) => (
 								<tr
 									key={playerIndex}
-									style={{background: hexToRgba(teamColor(teamnum), 30 + 20 * playerIndex)}}
+									style={{background: hexToRgba(props.teamColors[teamnum], 30 + 20 * playerIndex)}}
 								>
 									<td className="playerBoost">{player.boost}</td>
 									<td className="playerName tableAlignText">{player.name}</td>
@@ -72,6 +72,10 @@ const LiveStats = (props) => {
 					</Fragment>
 				))}
 			</table>
+
+			{props.splash && props.splash.show ?
+				<div className="splashCount">Splash Count: {props.splash.count}</div>
+			: null }
 
 		</div>
 	)

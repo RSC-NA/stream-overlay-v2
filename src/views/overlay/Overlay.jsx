@@ -30,17 +30,23 @@ const Overlay = () => {
 		team: null,
 		text: "",
 	};
+
 	// For testing
-/* 	const transitionDefault = {
-		delay: 0,
-		logo: "/images/logos/rsc-splatter-logo.png",
-		name: "triangleMerge",
-		show: true,
-		team: null,
-		text: "GOAL!",
-	};
- */
+	/* 	const transitionDefault = {
+			delay: 0,
+			logo: "/images/logos/rsc-splatter-logo.png",
+			name: "triangleMerge",
+			show: true,
+			team: null,
+			text: "GOAL!",
+		};
+	*/
 	const teamColorsDefault = ["206cff", "f88521"];
+
+	const splashDefault = {
+		show: false,
+		count: 0,
+	};
 
 	const [activeConfig, _setActiveConfig] = useState(defaultConfig);
 	const [clientId, _setClientId] = useState("");
@@ -56,6 +62,7 @@ const Overlay = () => {
     const [pregameStats, _setPregameStats] = useState({});
     const [seriesScore, _setSeriesScore] = useState([0,0]);
 	const [showGoalTeam, setShowGoalTeam] = useState(false);
+	const [splash, _setSplash] = useState(splashDefault);
 	const [teamDataSent, setTeamDataSent] = useState(false);
 	const [transition, setTransition] = useState(transitionDefault);
 	const [viewState, setViewState] = useState("");
@@ -74,7 +81,7 @@ const Overlay = () => {
 
 	const clockRunningRef = useRef(clockRunning);
     const setClockRunning = (data) => {
-        clientIdRef.current = data;
+        clockRunningRef.current = data;
         _setClockRunning(data);
     }
 
@@ -108,6 +115,12 @@ const Overlay = () => {
         _setSeriesScore(data);
     }
 
+	const splashRef = useRef(splash);
+    const setSplash = (data) => {
+        splashRef.current = data;
+        _setSplash(data);
+    }
+
 	useEffect(() => {
 
 		// on start, check for existing items in localstorage; if not, send default
@@ -135,9 +148,13 @@ const Overlay = () => {
 		} else {
 			if (Array.isArray(seriesScore)) {
 				localStorage.setItem("seriesScore", JSON.stringify(seriesScore));
-			} else {
-
 			}
+		}
+
+		if (localStorage.hasOwnProperty("splash")) {
+			setSplash(JSON.parse(localStorage.getItem("splash")));
+		} else {
+			localStorage.setItem("splash", JSON.stringify(splash));
 		}
 
 		if (localStorage.hasOwnProperty("viewstate")) {
@@ -164,6 +181,7 @@ const Overlay = () => {
 					playerEvents: playerEventsRef.current,
 					pregameStats: pregameStatsRef.current,
 					seriesScore: seriesScoreRef.current,
+					splash: splashRef.current,
 				}
 			});
 
@@ -203,6 +221,16 @@ const Overlay = () => {
 					} else {
 						setSeriesScore([0,0]);
 						localStorage.setItem("seriesScore", JSON.stringify([0,0]));
+					}
+					break;
+
+				case "splash":
+					if(event.newValue !== null) {
+						console
+						setSplash(JSON.parse(event.newValue));
+					} else {
+						setSplash(splashDefault);
+						localStorage.setItem("splash", JSON.stringify(splashDefault));
 					}
 					break;
 
@@ -681,6 +709,7 @@ const Overlay = () => {
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					showGoalTeam={showGoalTeam}
+					splash={splash}
 				/>
 			)}
 

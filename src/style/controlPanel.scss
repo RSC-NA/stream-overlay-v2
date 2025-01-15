@@ -30,6 +30,15 @@ body:has(#ControlPanel) {
 		}
 	}
 
+	.MuiButtonGroup-root {
+		margin: 3px;
+
+		.MuiButton-root {
+			margin: 0;
+		}
+
+	}
+
 	.team {
 		border: 1px solid #999999;
 	}
@@ -86,6 +95,10 @@ body:has(#ControlPanel) {
 	// checkbox
 	.changedField svg {
 		fill: yellow;
+	}
+
+	span.changedField {
+		color: yellow;
 	}
 
 	em {

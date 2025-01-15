@@ -1,0 +1,25 @@
+.splash {
+	position: absolute;
+	left: 500px;
+	bottom: calc($watchingHeight + 25px);
+	width: 200px;
+	height: 70px;
+	font-family: var(--fontCooper);
+	font-size: 36px;
+	color: #49dcee;
+	line-height: 70px;
+	opacity: .6;
+
+
+	&:before {
+		content: "";
+		position: absolute;
+		left: -85px;
+		top: 0;
+		height: 70px;
+		width: 70px;
+		background: url("/images/splash.png") no-repeat left center;
+		background-size: contain;
+	}
+
+}

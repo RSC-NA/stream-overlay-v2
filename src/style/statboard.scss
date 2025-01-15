@@ -82,13 +82,20 @@ body:has(#Statboard) {
 		}
 	}
 
+	.splashCount {
+		font-size: 1.2rem;
+		text-align: center;
+		color: #49dcee;
+	}
+
 	.seriesInfo {
 		position: static;
 		transform: none;
 		width: auto;
 		margin: 0;
 		padding: 0;
-		text-align: center; font-size: 1.3rem;
+		font-size: 1.3rem;
+		text-align: center;
 		font-weight: bold;
 	}
 

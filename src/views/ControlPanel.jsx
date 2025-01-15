@@ -18,11 +18,11 @@ import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
 import Snackbar from "@mui/material/Snackbar";
+import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
-import { styled, ThemeProvider, createTheme } from "@mui/material/styles";
+import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
 
 import defaultConfig from "@/data/config.json";
-
 
 import ("@/style/controlPanel.scss");
 
@@ -45,7 +45,7 @@ const defaultSeriesScore = [0, 0];
 // TODO: pull current season from API?
 const currentSeason = 22;
 
-const panelTheme = createTheme({
+let panelTheme = createTheme({
 	palette: {
 		mode: "dark",
 		primary: {
@@ -55,12 +55,26 @@ const panelTheme = createTheme({
 	},
 });
 
+panelTheme = createTheme(panelTheme, {
+	palette: {
+		splash: panelTheme.palette.augmentColor({
+			color: {
+				main: "#49dcee",
+				secondary: "#199ade",
+				dark: "#199ade",
+				contrastText: "#e90000",
+			},
+			name: "splash",
+		}),
+	}
+})
+
 const Item = styled("div")(({ theme }) => ({
 	background: "transparent",
 	padding: theme.spacing(1),
 	textAlign: "left",
 	color: "#ffffff",
-  }));
+}));
 
 const ControlPanel = () => {
 
@@ -78,10 +92,13 @@ const ControlPanel = () => {
 	const [leagueId, setLeagueId] = useState(-1);
 	const [tierLists, setTierLists] = useState({});
 	const [teamLists, setTeamLists] = useState({});
-	const [teamFields, setTeamFields] = useState(["", ""]);
+	const [splashOn, setSplashOn] = useState(false);
+	const [splashCount, setSplashCount] = useState(0);
 
 	const [fieldsWithChanges, setFieldsWithChanges] = useState([]);
+
 	const [streamTypeField, setStreamTypeField] = useState("RSC3-regular"); // default to regular season if not already set
+	const [teamFields, setTeamFields] = useState(["", ""]);
 	const [logoField, setBrandLogoField] = useState("");
 	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers? or send season/matchday/tier data separately?
 	const [seasonNumberField, setSeasonNumberField] = useState(currentSeason);
@@ -94,6 +111,8 @@ const ControlPanel = () => {
 	const [franchiseFields, setFranchiseFields] = useState(["", ""]);
 	const [teamLogoFields, setTeamLogoFields] = useState(["", ""]);
 	const [seriesScoreFields, setSeriesScoreFields] = useState(defaultSeriesScore);
+	const [splashOnField, setSplashOnField] = useState(false);
+	const [splashCountField, setSplashCountField] = useState(0);
 
 	const statsUrlPrefix = "https://rl.kdoughboy.com/stats/";
 
@@ -131,6 +150,8 @@ const ControlPanel = () => {
 		} else {
 			setViewState("");
 		}
+
+		setSplashFromLocalStorage();
 
 		// listen for localstorage updates for game data and series score
 		window.onstorage = (event) => {
@@ -209,6 +230,12 @@ const ControlPanel = () => {
 			if (tierField !== config.general.tier) {
 				tempFieldsWithChanges.push("tierField");
 			}
+			if (splashOnField !== splashOn) {
+				tempFieldsWithChanges.push("splashOnField");
+			}
+			if (splashCountField !== splashCount) {
+				tempFieldsWithChanges.push("splashCountField");
+			}
 
 			setFieldsWithChanges(tempFieldsWithChanges);
 		}
@@ -223,6 +250,8 @@ const ControlPanel = () => {
 		seriesScoreFields,
 		seriesTypeField,
 		showSeriesField,
+		splashCountField,
+		splashOnField,
 		streamTypeField,
 		teamFields,
 		teamLogoFields,
@@ -423,6 +452,7 @@ const ControlPanel = () => {
 
 	const changeSeriesScoreField = (score, teamNumber) => {
 		if (score === "" || Number.isInteger(Number(score))) {
+			console.log(seriesScoreFields);
 			const tempSeriesScoreField = [... seriesScoreFields];
 			tempSeriesScoreField[teamNumber] = score === "" ? "" : Number(score);
 			setSeriesScoreFields(tempSeriesScoreField);
@@ -512,9 +542,21 @@ const ControlPanel = () => {
 		localStorage.setItem("seriesScore", JSON.stringify(defaultSeriesScore))
 	}
 
+	const setSplashToDefault = () => {
+		setSplashOn(false);
+		setSplashOnField(false);
+		setSplashCount(0);
+		setSplashCountField(0);
+		localStorage.setItem("splash", JSON.stringify({
+			show: false,
+			count: 0,
+		}))
+	}
+
 	const setAllValuesToDefault = () => {
 		setConfigValuesToDefault();
 		setSeriesScoreToDefault();
+		setSplashToDefault();
 		closeDialog();
 	}
 
@@ -522,6 +564,38 @@ const ControlPanel = () => {
 		const seriesScoreIn = JSON.parse(localStorage.getItem("seriesScore"));
 		setSeriesScore(seriesScoreIn);
 		setSeriesScoreFields(seriesScoreIn);
+	}
+
+	const setSplashFromLocalStorage = () => {
+		if (localStorage.hasOwnProperty("splash")) {
+			const savedSplash = JSON.parse(localStorage.getItem("splash"));
+
+			if (savedSplash.hasOwnProperty("show")) {
+				setSplashOn(savedSplash.show);
+				setSplashOnField(savedSplash.show);
+			} else {
+				setSplashOn(false);
+				setSplashOnField(false);
+			}
+
+			if (savedSplash.hasOwnProperty("count")) {
+				setSplashCount(savedSplash.count);
+				setSplashCountField(savedSplash.count);
+			} else {
+				setSplashCount(0);
+				setSplashCountField(0);
+			}
+
+		} else {
+			localStorage.setItem("splash", JSON.stringify({
+				show: false,
+				count: 0,
+			}));
+			setSplashOn(false);
+			setSplashOnField(false);
+			setSplashCount(0);
+			setSplashCountField(0);
+		}
 	}
 
 	// TODO: handle multiple headers
@@ -593,6 +667,7 @@ const ControlPanel = () => {
 	const resetFieldValues = () => {
 		setConfigValuesFromLocalStorage();
 		setSeriesScoreFromLocalStorage();
+		setSplashFromLocalStorage();
 	}
 
 	const triggerViewState = (triggerState, endState) => {
@@ -601,6 +676,17 @@ const ControlPanel = () => {
 			localStorage.setItem("viewstate", triggerState);
 		}
 	}
+
+	const switchSplash = () => {
+		setSplashOnField(!splashOnField);
+	}
+
+	const changeSplashCountField = (count) => {
+		if (count === "" || Number.isInteger(Number(count))) {
+			setSplashCountField(count);
+		}
+	}
+
 
 	const saveToLocalStorage = () => {
 		const teamFranchiseLogos = ["", ""];
@@ -730,6 +816,11 @@ const ControlPanel = () => {
 
 		setSeriesScore(seriesScoreFields);
 		localStorage.setItem("seriesScore", JSON.stringify(seriesScoreFields));
+
+		localStorage.setItem("splash", JSON.stringify({
+			show: splashOnField,
+			count: splashCountField,
+		}));
 
 		const newConfig = {
 			general: {
@@ -1310,6 +1401,49 @@ const ControlPanel = () => {
 							</Grid>
 
 						))}
+
+					</Grid>
+
+					<Grid container size={12} spacing={2} className="mainPanelGrid">
+
+						<Grid size={6}>
+							<Item>
+								<span className={fieldHasChanges("splashOnField") ? "changedField" : ""}>
+									<strong>Show splash counter?</strong>
+								</span>
+								<Switch
+									checked={splashOnField}
+									onChange={switchSplash}
+									color={splashOnField ? "splash" : "primary"}
+								/>
+							</Item>
+						</Grid>
+
+						{splashOnField ?
+
+							<Grid size={6}>
+								<Item>
+									<TextField
+										required
+										inputProps={{
+											min: 0,
+											step: 1,
+										}}
+										id="splashCountField"
+										type="number"
+										size="small"
+										label="Splash Count"
+										value={splashCountField}
+										onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+										onChange={(e) => changeSplashCountField(e.target.value)}
+										className={`${fieldHasChanges(`splashCountField`) ? "changedField" : ""} ${splashCountField === "" ? "errorField" : ""}`}
+									/>
+								</Item>
+							</Grid>
+
+
+						: null}
+
 
 					</Grid>
 

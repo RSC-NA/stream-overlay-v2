@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 
-import Overlay from "@/views/overlay/Overlay";
 import ControlPanel from "@/views/ControlPanel";
+import Overlay from "@/views/overlay/Overlay";
 import Statboard from "@/views/statboard/Statboard";
 
 import ("@/style/appMain.scss");

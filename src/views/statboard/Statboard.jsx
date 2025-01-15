@@ -42,6 +42,7 @@ const Statboard = () => {
 	const [playerEvents, setPlayerEvents] = useState([]);
 	const [pregameStats, setPregameStats] = useState([]);
 	const [seriesScore, setSeriesScore] = useState([0,0]);
+	const [splash, setSplash] = useState({});
 
 	const [statboardView, setStatboardView] = useState("live");
 
@@ -112,6 +113,9 @@ const Statboard = () => {
 				}
 				if (data.hasOwnProperty("seriesScore")) {
 					setSeriesScore(data.seriesScore);
+				}
+				if (data.hasOwnProperty("splash")) {
+					setSplash(data.splash);
 				}
 			break;
 
@@ -203,6 +207,7 @@ const Statboard = () => {
 								gameData={gameData}
 								playerData={playerData}
 								seriesScore={seriesScore}
+								splash={splash}
 								teamColors={[teamColor(0), teamColor(1)]}
 							/>
 
