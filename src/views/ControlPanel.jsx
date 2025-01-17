@@ -863,6 +863,9 @@ const ControlPanel = () => {
 		setConfig(newConfig);
 		setHeaderField(streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "%%RSCHEADER%%" : headerField);
 		setFieldsWithChanges([]);
+
+		setSplashCount(splashCountField);
+		setSplashOn(splashOnField);
 	}
 
 
