@@ -114,7 +114,8 @@ const ControlPanel = () => {
 	const [splashOnField, setSplashOnField] = useState(false);
 	const [splashCountField, setSplashCountField] = useState(0);
 
-	const statsUrlPrefix = "https://rl.kdoughboy.com/stats/";
+	const thisUrl = new URL(document.location.href);
+	const statsUrlPrefix = `${thisUrl.protocol}//${thisUrl.host}`;
 
  	useEffect(() => {
 
@@ -331,7 +332,7 @@ const ControlPanel = () => {
 	// TODO: doesn't work in OBS currently; figure out how to fix?
 	const copyStatsUrlToClipboard = async () => {
 		try {
-			await navigator.clipboard.writeText(`${statsUrlPrefix}${clientId}`);
+			await navigator.clipboard.writeText(`${thisUrl.protocol}//${thisUrl.host}/stats/${clientId}`);
 			openSnackbar("Stats page URL Copied");
 		} catch (err) {
 			console.error(err.message);
@@ -937,7 +938,7 @@ const ControlPanel = () => {
 
 						<Grid size={{xs: 12, md: 5}}>
 							<Item >
-							<strong>Stats page URL:</strong><br />{statsUrlPrefix}{clientId}
+								<strong>Stats page URL:</strong><br />{thisUrl.protocol}//{thisUrl.host}/stats/{clientId}
 							</Item>
 						</Grid>
 
