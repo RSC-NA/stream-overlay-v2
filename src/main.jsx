@@ -1,10 +1,16 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 
-import ControlPanel from "@/views/ControlPanel";
-import Overlay from "@/views/overlay/Overlay";
-import Statboard from "@/views/statboard/Statboard";
+const ControlPanel = lazy(() => import("@/views/ControlPanel") )
+const ImageGenerator = lazy(() => import("@/views/ImageGenerator") )
+const Overlay = lazy(() => import("@/views/overlay/Overlay") )
+const Statboard = lazy(() => import("@/views/statboard/Statboard") )
+
+// import ControlPanel from "@/views/ControlPanel";
+// import ImageGenerator from "@/views/ImageGenerator";
+// import Overlay from "@/views/overlay/Overlay";
+// import Statboard from "@/views/statboard/Statboard";
 
 import ("@/style/appMain.scss");
 
@@ -13,15 +19,27 @@ const router = createBrowserRouter(
 		<Route path="/">
 			<Route
 				path="/overlay"
-				element={<Overlay />}
+				element={
+                    <Suspense fallback={<>Loading app...</>}>
+                        <Overlay />
+                    </Suspense>
+                }
 			/>
 			<Route
 				path="/stats/:clientId"
-				element={<Statboard />}
+				element={
+                    <Suspense fallback={<>Loading app...</>}>
+                        <Statboard />
+                    </Suspense>
+                }
 			/>
 			<Route
 				path="/panel"
-				element={<ControlPanel />}
+				element={
+                    <Suspense fallback={<>Loading app...</>}>
+                        <ControlPanel />
+                    </Suspense>
+				}
 			/>
 		</Route>
     )
