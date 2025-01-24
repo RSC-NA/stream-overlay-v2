@@ -444,17 +444,19 @@ const Overlay = () => {
 					gameData,
 					playerData,
 				});
-				triggerTransition(
-					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
-					"WINNER!",
-					activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo ?
-						imageLocation(activeConfig.teams[winningTeam].logo, "images/logos/teams/")
-						: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
-							imageLocation(activeConfig.general.brandLogo, "images/logos")
-						: null,
-					winningTeam,
-					4,
-				);
+				setTimeout(() => {
+					triggerTransition(
+						activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
+						"WINNER!",
+						activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo ?
+							imageLocation(activeConfig.teams[winningTeam].logo, "images/logos/teams/")
+							: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
+								imageLocation(activeConfig.general.brandLogo, "images/logos")
+							: null,
+						winningTeam,
+						0,
+					);
+				}, 4000);
 				setTimeout(() => {
 					const oldSeriesScore = [...seriesScore];
 					setSeriesScore([
