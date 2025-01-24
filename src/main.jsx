@@ -41,7 +41,16 @@ const router = createBrowserRouter(
                     </Suspense>
 				}
 			/>
+			<Route
+                path="/imagegen"
+                element={
+                    <Suspense fallback={<>Loading app...</>}>
+                        <ImageGenerator />
+                    </Suspense>
+                }
+            />
 		</Route>
+
     )
 )
 
