@@ -52,43 +52,67 @@ const TeamStatsTable = (props) => {
 				{props.statList.map((stat, statIndex) => (
 					<tr key={`stat${statIndex}`}>
 						{stat.name == "%%RECORD%%" ?
-							<td key={`team0${statIndex}`} className={`team0 ${props.pregameStats.teamStats[0].wins >= props.pregameStats.teamStats[1].wins ? "better" : ""}`}>
-								{`${props.pregameStats.teamStats[0].wins}-${props.pregameStats.teamStats[0].loss}`}
-							</td>
+							props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].hasOwnProperty("wins") && props.pregameStats.teamStats[0].hasOwnProperty("loss") ?
+								<td key={`team0${statIndex}`} className={`team0 ${props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty("wins") && props.pregameStats.teamStats[0].wins >= props.pregameStats.teamStats[1].wins ? "better" : ""}`}>
+									{`${props.pregameStats.teamStats[0].wins}-${props.pregameStats.teamStats[0].loss}`}
+								</td>
 							:
-							<td key={`team0${statIndex}`}
-								className={`team0
-									${stat.best === "higher" && props.pregameStats.teamStats[0][stat.name] >= props.pregameStats.teamStats[1][stat.name]
-										? "better"
-									: stat.best === "lower" && props.pregameStats.teamStats[0][stat.name] <= props.pregameStats.teamStats[1][stat.name]
-										? "better"
+								<td key={`team0${statIndex}na`} className={`team0`}>
+									n/a
+								</td>
+						:
+							props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].hasOwnProperty(stat.name) ?
+								<td key={`team0${statIndex}`}
+									className={`team0
+										${props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty(stat.name) ?
+											stat.best === "higher" && props.pregameStats.teamStats[0][stat.name] >= props.pregameStats.teamStats[1][stat.name]
+											? "better"
+											: stat.best === "lower" && props.pregameStats.teamStats[0][stat.name] <= props.pregameStats.teamStats[1][stat.name]
+												? "better"
+											: ""
 										: ""}`}
-							>
-								{displayDecimal(props.pregameStats.teamStats[0][stat.name], stat.round)}
-								{stat.name==="shotPct" ?
-									<span className="pctSymbol">%</span>
-								: null}
-							</td>
+								>
+									{displayDecimal(props.pregameStats.teamStats[0][stat.name], stat.round)}
+									{stat.name==="shotPct" ?
+										<span className="pctSymbol">%</span>
+									: null}
+								</td>
+							:
+								<td key={`team0${statIndex}na`} className={`team0`}>
+									n/a
+								</td>
 						}
 						<th scope="row" className="centerColumn"  colSpan={2}><span>{stat.label}</span></th>
 						{stat.name == "%%RECORD%%" ?
-							<td className={`team1 ${props.pregameStats.teamStats[0].wins <= props.pregameStats.teamStats[1].wins ? "better" : ""}`} key={`team1${statIndex}`}>
+							props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty("wins") && props.pregameStats.teamStats[1].hasOwnProperty("loss") ?
+							<td className={`team1 ${props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].wins <= props.pregameStats.teamStats[1].wins ? "better" : ""}`} key={`team1${statIndex}`}>
 								{`${props.pregameStats.teamStats[1].wins}-${props.pregameStats.teamStats[1].loss}`}
 							</td>
 							:
-							<td key={`team1${statIndex}`}
-								className={`team1
-									${stat.best === "higher" && props.pregameStats.teamStats[1][stat.name] >= props.pregameStats.teamStats[0][stat.name]
-										? "better"
-									: stat.best === "lower" && props.pregameStats.teamStats[1][stat.name] <= props.pregameStats.teamStats[0][stat.name]
-										? "better"
-										: ""}`}
-							>
-								{displayDecimal(props.pregameStats.teamStats[1][stat.name], stat.round)}
-								{stat.name==="shotPct" ?
-									<span className="pctSymbol">%</span>
-								: null}
+							<td key={`team1${statIndex}`} className={`team1`}>
+								n/a
 							</td>
+						:
+							props.pregameStats.teamStats[1] && props.pregameStats.teamStats[1].hasOwnProperty(stat.name) ?
+								<td key={`team1${statIndex}na`}
+									className={`team1
+										${props.pregameStats.teamStats[0] && props.pregameStats.teamStats[0].hasOwnProperty(stat.name) ?
+											stat.best === "higher" && props.pregameStats.teamStats[1][stat.name] >= props.pregameStats.teamStats[0][stat.name]
+											? "better"
+											: stat.best === "lower" && props.pregameStats.teamStats[1][stat.name] <= props.pregameStats.teamStats[0][stat.name]
+												? "better"
+											: ""
+										: ""}`}
+								>
+									{displayDecimal(props.pregameStats.teamStats[1][stat.name], stat.round)}
+									{stat.name==="shotPct" ?
+										<span className="pctSymbol">%</span>
+									: null}
+								</td>
+							:
+								<td key={`team1${statIndex}na`} className={`team1`}>
+									n/a
+								</td>
 						}
 					</tr>
 				))}
