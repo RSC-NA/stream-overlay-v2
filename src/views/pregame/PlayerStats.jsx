@@ -72,10 +72,6 @@ const PlayerStats = (props) => {
 					tier={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.tier : null}
 				/>
 
-				{(props.config.series.show && props.config.general.headers[0] !== "%%RSCHEADER%%" && props.config.series.type !== "unlimited") || props.config.series.override ? (
-					<SeriesInfo seriesScore={props.seriesScore} seriesGame={props.seriesGame} seriesConfig={props.config.series} pregame={true} />
-				) : null}
-
 			</div>
 
 			<PlayerStatsTable

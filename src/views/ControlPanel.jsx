@@ -100,7 +100,7 @@ const ControlPanel = () => {
 	const [streamTypeField, setStreamTypeField] = useState("RSC3-regular"); // default to regular season if not already set
 	const [teamFields, setTeamFields] = useState(["", ""]);
 	const [logoField, setBrandLogoField] = useState("");
-	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers? or send season/matchday/tier data separately?
+	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers?
 	const [seasonNumberField, setSeasonNumberField] = useState(currentSeason);
 	const [matchdayNumberField, setMatchdayNumberField] = useState(1);
 	const [tierField, setTierField] = useState("");

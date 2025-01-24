@@ -118,7 +118,6 @@
 
 				background-image: linear-gradient(to right,
 					$backgroundTransparent 0,
-					$backgroundTransparent calc($matchupTeamLogoSize * .5),
 					var(--team0fade) calc($matchupTeamLogoSize * .5),
 					var(--team0) calc($matchupTeamLogoSize + 100px),
 					var(--team0tone) 55%,
@@ -132,6 +131,10 @@
 					padding-left: 30px;
 				}
 
+				&:not(.hasLogo) {
+					grid-template-columns:  calc($matchupTeamLogoSize * .5) 1fr;
+				}
+
 			}
 
 			&.team1 {
@@ -142,7 +145,6 @@
 
 				background-image: linear-gradient(to left,
 					$backgroundTransparent 0,
-					$backgroundTransparent calc($matchupTeamLogoSize * .5),
 					var(--team1fade) calc($matchupTeamLogoSize * .5),
 					var(--team1) calc($matchupTeamLogoSize + 100px),
 					var(--team1tone) 55%,
@@ -155,6 +157,10 @@
 				.teamText {
 					text-align: right;
 					padding-right: 30px;
+				}
+
+				&:not(.hasLogo) {
+					grid-template-columns: 1fr calc($matchupTeamLogoSize * .5);
 				}
 
 			}
