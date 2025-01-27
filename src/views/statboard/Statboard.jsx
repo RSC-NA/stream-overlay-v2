@@ -34,6 +34,7 @@ const Statboard = () => {
 	const [config, setConfig] = useState({});
 	const [clockRunning, setClockRunning] = useState(false);
 	const [dataReceived, setDataReceived] = useState(false);
+	const [endGameData, setEndGameData] = useState({});
 	const [gameData, setGameData] = useState({
 		teams: [],
 		time_seconds: 0,
@@ -97,6 +98,9 @@ const Statboard = () => {
 				if (data.hasOwnProperty("config")) {
 					setConfig(data.config);
 					setDataReceived(true);
+				}
+				if (data.hasOwnProperty("endGameData")) {
+					setEndGameData(data.endGameData);
 				}
 				if (data.hasOwnProperty("gameData")) {
 					setGameData(data.gameData);
@@ -205,7 +209,7 @@ const Statboard = () => {
 							<LiveStats
 								config={config}
 								gameData={gameData}
-								playerData={playerData}
+								playerData={endGameData.hasOwnProperty("playerData") ? endGameData.playerData : playerData}
 								seriesScore={seriesScore}
 								splash={splash}
 								teamColors={[teamColor(0), teamColor(1)]}

@@ -17,7 +17,7 @@ const Matchup = (props) => {
 
 			<div className="matchupHeader">
 
-				{props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ?
+				{props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" || props.config.general.streamType === "RSC3-event" ?
 					<>
 						<div className="leagueLogo">
 							{props.config.general.brandLogo ?
@@ -36,10 +36,6 @@ const Matchup = (props) => {
 					tier={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.tier : null}
 				/>
 
-				{(props.config.series.show && props.config.general.headers[0] !== "%%RSCHEADER%%" && props.config.series.type !== "unlimited") || props.config.series.override ? (
-					<SeriesInfo seriesScore={props.seriesScore} seriesGame={props.seriesGame} seriesConfig={props.config.series} pregame={true} />
-				) : null}
-
 			</div>
 
 			<div className="matchupTeams">
@@ -51,7 +47,9 @@ const Matchup = (props) => {
 								<div className="logo">
 									<img src={imageLocation(props.config.teams[teamnum].logo, "images/logos/teams")}></img>
 								</div>
-							) : null }
+							) :
+								<div className="logo"></div>
+							}
 
 							<div className="teamText">
 								<div className={`name ${teamName(teamnum).length >= longTeamName ? "long" : ""}`}>{teamName(teamnum)}</div>
@@ -65,7 +63,7 @@ const Matchup = (props) => {
 
 						{teamnum === 0 ?
 
-							props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" ?
+							props.config.general.streamType === "RSC3-regular" || props.config.general.streamType === "RSC3-final" || props.config.general.streamType === "RSC3-event" ?
 								<div className="vs">VS</div>
 							:
 								<div className="matchupCenter">

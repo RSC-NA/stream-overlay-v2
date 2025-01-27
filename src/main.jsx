@@ -3,14 +3,8 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 
 const ControlPanel = lazy(() => import("@/views/ControlPanel") )
-const ImageGenerator = lazy(() => import("@/views/ImageGenerator") )
 const Overlay = lazy(() => import("@/views/overlay/Overlay") )
 const Statboard = lazy(() => import("@/views/statboard/Statboard") )
-
-// import ControlPanel from "@/views/ControlPanel";
-// import ImageGenerator from "@/views/ImageGenerator";
-// import Overlay from "@/views/overlay/Overlay";
-// import Statboard from "@/views/statboard/Statboard";
 
 import ("@/style/appMain.scss");
 

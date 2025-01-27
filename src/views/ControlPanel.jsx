@@ -28,13 +28,13 @@ import ("@/style/controlPanel.scss");
 
 const defaultTeamData = [
 	{
-		"color_primary": "",
+		"color_primary": "206cff",
 		"color_secondary": "",
 		"name": "",
 		"score": 0
 	},
 	{
-		"color_primary": "",
+		"color_primary": "f88521",
 		"color_secondary": "",
 		"name": "",
 		"score": 0
@@ -100,7 +100,7 @@ const ControlPanel = () => {
 	const [streamTypeField, setStreamTypeField] = useState("RSC3-regular"); // default to regular season if not already set
 	const [teamFields, setTeamFields] = useState(["", ""]);
 	const [logoField, setBrandLogoField] = useState("");
-	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers? or send season/matchday/tier data separately?
+	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers?
 	const [seasonNumberField, setSeasonNumberField] = useState(currentSeason);
 	const [matchdayNumberField, setMatchdayNumberField] = useState(1);
 	const [tierField, setTierField] = useState("");
@@ -116,6 +116,7 @@ const ControlPanel = () => {
 
 	const thisUrl = new URL(document.location.href);
 	const statsUrlPrefix = `${thisUrl.protocol}//${thisUrl.host}`;
+
 
  	useEffect(() => {
 
@@ -453,7 +454,6 @@ const ControlPanel = () => {
 
 	const changeSeriesScoreField = (score, teamNumber) => {
 		if (score === "" || Number.isInteger(Number(score))) {
-			console.log(seriesScoreFields);
 			const tempSeriesScoreField = [... seriesScoreFields];
 			tempSeriesScoreField[teamNumber] = score === "" ? "" : Number(score);
 			setSeriesScoreFields(tempSeriesScoreField);
@@ -871,392 +871,187 @@ const ControlPanel = () => {
 
 
 	return (
-		<div id="ControlPanel">
-{/*
-			<div>{JSON.stringify(config)}</div>
-			<div>{JSON.stringify(teamData)}</div>
-			<div>{JSON.stringify(fieldsWithChanges)}</div>
- */}
+		Array.isArray(teamData) && config.hasOwnProperty("teams") ?
 
-			<Dialog
-				open={currentDialog === "customId"}
-				onClose={closeDialog}
-			>
-				<DialogContent>
-					<p>Make this unique; don't cross the streams.</p>
-					<FormControl variant="outlined" required>
-						<InputLabel htmlFor="newClientId">New Client ID</InputLabel>
-						<OutlinedInput
-							id="newClientId"
-							label="New Client ID"
-							onChange={(e) => setCustomClientId(e.target.value)}
-							value={customClientId}
-						/>
-					</FormControl>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={saveCustomIdDialog}>Save</Button>
-					<Button color="inherit" onClick={closeDialog}>Cancel</Button>
-				</DialogActions>
-			</Dialog>
+			<div id="ControlPanel">
 
-			<Dialog
-				open={currentDialog === "confirmDefault"}
-				onClose={closeDialog}
-			>
-				<DialogContent>
-					<p>This will set <strong><em>everything</em></strong> to default and save immediately.  Are you sure?</p>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={setAllValuesToDefault}>Set to Default</Button>
-					<Button color="inherit" onClick={closeDialog}>Cancel</Button>
-				</DialogActions>
-			</Dialog>
+				<Dialog
+					open={currentDialog === "customId"}
+					onClose={closeDialog}
+				>
+					<DialogContent>
+						<p>Make this unique; don't cross the streams.</p>
+						<FormControl variant="outlined" required>
+							<InputLabel htmlFor="newClientId">New Client ID</InputLabel>
+							<OutlinedInput
+								id="newClientId"
+								label="New Client ID"
+								onChange={(e) => setCustomClientId(e.target.value)}
+								value={customClientId}
+							/>
+						</FormControl>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={saveCustomIdDialog}>Save</Button>
+						<Button color="inherit" onClick={closeDialog}>Cancel</Button>
+					</DialogActions>
+				</Dialog>
 
-			<Dialog
-				open={currentDialog === "loading"}
-				onClose={closeDialog}
-			>
-				<DialogContent>
-					<p>Loading...</p>
-				</DialogContent>
-			</Dialog>
+				<Dialog
+					open={currentDialog === "confirmDefault"}
+					onClose={closeDialog}
+				>
+					<DialogContent>
+						<p>This will set <strong><em>everything</em></strong> to default and save immediately.  Are you sure?</p>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={setAllValuesToDefault}>Set to Default</Button>
+						<Button color="inherit" onClick={closeDialog}>Cancel</Button>
+					</DialogActions>
+				</Dialog>
 
-			<Snackbar
-				autoHideDuration={4000}
-				open={snackbarIsOpen}
-				onClose={closeSnackbar}
-				message={snackbarMessage}
-			/>
+				<Dialog
+					open={currentDialog === "loading"}
+					onClose={closeDialog}
+				>
+					<DialogContent>
+						<p>Loading...</p>
+					</DialogContent>
+				</Dialog>
 
-			<h1>RSC overlay control panel</h1>
+				<Snackbar
+					autoHideDuration={4000}
+					open={snackbarIsOpen}
+					onClose={closeSnackbar}
+					message={snackbarMessage}
+				/>
 
-			<ThemeProvider theme={panelTheme}>
+				<h1>RSC overlay control panel</h1>
 
-				<Container>
-					<Grid container spacing={0} className="idGrid">
+				<ThemeProvider theme={panelTheme}>
 
-						<Grid size={{xs: 12, md: 5}}>
-							<Item >
-								<strong>Stats page URL:</strong><br />{thisUrl.protocol}//{thisUrl.host}/stats/{clientId}
-							</Item>
-						</Grid>
+					<Container>
+						<Grid container spacing={0} className="idGrid">
 
-						<Grid size={{xs: 12, md: 4}} justifyContent="flex-end" offset="auto" display="flex">
-							<Item>
-								<Button
-									size="small"
-									variant="contained"
-									color="inherit"
-									onClick={() => {setCurrentDialog("customId")}}
-								>
-									Set Custom Id
-								</Button>
-								<Button
-									variant="outlined"
-									color="warning"
-									onClick={generateRandomClientId}
-								>
-									New Random Id
-								</Button>
-							</Item>
-						</Grid>
-
-	{/* can't copy from within OBS; figure out later? */
-	/* 					<Grid size={{xs: 12, md: 4}}>
-							<Item>
-								<Button variant="contained" onClick={copyStatsUrlToClipboard}>Copy Stats URL</Button>
-								<Button variant="outlined" onClick={copyClientIdToClipboard}>Copy Id</Button>
-							</Item>
-						</Grid>
-	*/}
-
-						</Grid>
-
-						<Grid container spacing={2} className="buttons">
-
-							<Grid size={12}>
-								<Button
-									disabled={!fieldsWithChanges.length}
-									variant="contained"
-									color="success"
-									onClick={saveToLocalStorage}
-								>
-									Save
-								</Button>
-								<Button
-									disabled={!fieldsWithChanges.length}
-									variant="outlined"
-									color="warning"
-									onClick={resetFieldValues}
-								>
-									Reset
-								</Button>
-								<Button
-									// disabled={!hasChanges}
-									variant="outlined"
-									color="error"
-									onClick={() => openDialog("confirmDefault")}
-								>
-									Set to Default
-								</Button>
-							</Grid>
-
-						</Grid>
-
-						<Grid container size={12} spacing={0} className="gridRow">
-
-							<Grid size={{xs: 12, md: 3}}>
-								<Item>
-									<FormControl size="small" fullWidth>
-										<InputLabel id="streamTypeLabel" shrink>Stream Type</InputLabel>
-										<Select
-											notched
-											labelId="streamTypeLabel"
-											id="streanType"
-											value={streamTypeField}
-											label="Stream Type"
-											className={fieldHasChanges("streamTypeField") ? "changedField" : ""}
-											onChange={(e) => changeStreamTypeField(e.target.value)}
-										>
-											<MenuItem value="RSC3-regular">RSC 3s Regular Season</MenuItem>
-											<MenuItem value="RSC3-final">RSC 3s Finals</MenuItem>
-											<MenuItem value="RSC3-event">RSC 3s Other Event</MenuItem>
-											<MenuItem value="other">No RSC branding</MenuItem>
-										</Select>
-									</FormControl>
+							<Grid size={{xs: 12, md: 5}}>
+								<Item >
+									<strong>Stats page URL:</strong><br />{thisUrl.protocol}//{thisUrl.host}/stats/{clientId}
 								</Item>
 							</Grid>
 
-						</Grid>
+							<Grid size={{xs: 12, md: 4}} justifyContent="flex-end" offset="auto" display="flex">
+								<Item>
+									<Button
+										size="small"
+										variant="contained"
+										color="inherit"
+										onClick={() => {setCurrentDialog("customId")}}
+									>
+										Set Custom Id
+									</Button>
+									<Button
+										variant="outlined"
+										color="warning"
+										onClick={generateRandomClientId}
+									>
+										New Random Id
+									</Button>
+								</Item>
+							</Grid>
 
+		{/* can't copy from within OBS; figure out later? */
+		/* 					<Grid size={{xs: 12, md: 4}}>
+								<Item>
+									<Button variant="contained" onClick={copyStatsUrlToClipboard}>Copy Stats URL</Button>
+									<Button variant="outlined" onClick={copyClientIdToClipboard}>Copy Id</Button>
+								</Item>
+							</Grid>
+		*/}
 
-							{streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ?
+							</Grid>
 
-								<>
+							<Grid container spacing={2} className="buttons">
 
-									<Grid container size={12} spacing={0} className="gridRow">
+								<Grid size={12}>
+									<Button
+										disabled={!fieldsWithChanges.length}
+										variant="contained"
+										color="success"
+										onClick={saveToLocalStorage}
+									>
+										Save
+									</Button>
+									<Button
+										disabled={!fieldsWithChanges.length}
+										variant="outlined"
+										color="warning"
+										onClick={resetFieldValues}
+									>
+										Reset
+									</Button>
+									<Button
+										// disabled={!hasChanges}
+										variant="outlined"
+										color="error"
+										onClick={() => openDialog("confirmDefault")}
+									>
+										Set to Default
+									</Button>
+								</Grid>
 
-										<Grid size={3}>
-											<Item>
-												<TextField
-													fullWidth
-													required
-													inputProps={{
-														min: 1,
-														step: 1,
-													}}
-													id="seasonNumber"
-													type="number"
-													size="small"
-													label="Season"
-													value={seasonNumberField}
-													onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
-													onChange={(e) => changeSeasonNumberField(e.target.value)}
-													className={`${fieldHasChanges("seasonNumberField") ? "changedField" : ""} ${seasonNumberField === "" || seasonNumberField < 1 ? "errorField" : ""}`}
-												/>
-											</Item>
-										</Grid>
+							</Grid>
 
-										<Grid size={3}>
-											<Item>
-												<TextField
-													fullWidth
-													required
-													inputProps={{
-														min: 1,
-														step: 1,
-													}}
-													id="matchdayNumberField"
-													type="number"
-													size="small"
-													label="Matchday"
-													value={matchdayNumberField}
-													disabled={streamTypeField === "RSC3-final"}
-													onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
-													onChange={(e) => changeMatchdayNumberField(e.target.value)}
-													className={`${fieldHasChanges("matchdayNumberField") ? "changedField" : ""} ${streamTypeField === "RSC3-regular" && (matchdayNumberField === "" || matchdayNumberField < 1) ? "errorField" : ""}`}
-												/>
-											</Item>
-										</Grid>
+							<Grid container size={12} spacing={0} className="gridRow">
 
-										{Array.isArray(tierLists[leagueId]) && tierLists[leagueId].length > 0 ?
-
-											<Grid size={6}>
-												<Item>
-													<FormControl size="small" fullWidth>
-														<InputLabel id="tierFieldLabel" shrink>Tier</InputLabel>
-														<Select
-															notched
-															labelId="tierFieldLabel"
-															id="tierField"
-															value={tierField}
-															required
-															label="Tier"
-															onChange={(e) => changeTierField(e.target.value)}
-															className={`${fieldHasChanges("tierField") ? "changedField" : ""} ${tierField === "" ? "errorField" : ""}`}
-														>
-															{tierLists[leagueId]
-																.sort((a,b) => Number(a.position) < Number(b.position) ? 1 : Number(a.position) > Number(b.position) ? -1 : 0)
-																.map(tier => (
-																	<MenuItem key={tier.id} value={tier.name}>{tier.name}</MenuItem>
-															))}
-														</Select>
-													</FormControl>
-												</Item>
-											</Grid>
-
-										: null}
-
-									</Grid>
-
-									<Grid container size={12} spacing={0} className="gridRow pregameButtons">
-
-										<Grid size={12}>
-											<h2>Pregame cards</h2>
-
-											<Item justifyContent={"center"}>
-
-												<Button
-													variant={viewState === "matchup" ? "contained" : "outlined"}
-													disabled={viewState === "matchup" || viewState === "triggerMatchup"}
-													style={{
-														borderWidth: "2px",
-														borderStyle: "solid",
-														borderColor: viewState === "matchup" ? "yellowgreen" : "",
-													}}
-													color="primary"
-													onClick={() => {triggerViewState("triggerMatchup", "matchup")}}
-												>Matchup</Button>
-
-												<Button
-													color="secondary"
-													variant={viewState === "teamStats" ? "contained" : "outlined"}
-													disabled={viewState === "teamStats" || viewState === "triggerTeamStats"}
-													style={{
-														borderWidth: "2px",
-														borderStyle: "solid",
-														borderColor: viewState === "teamStats" ? "yellowgreen" : "",
-													}}
-													onClick={() => {triggerViewState("triggerTeamStats", "teamStats")}}
-												>Team stats</Button>
-
-												<Button
-													variant={viewState === "playerStats0" ? "contained" : "outlined"}
-													disabled={viewState === "playerStats0" || viewState === "triggerPlayerStats0"}
-													style={{
-														borderWidth: "2px",
-														borderStyle: "solid",
-														borderColor: viewState === "playerStats0" ? "yellowgreen" : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
-														backgroundColor: viewState === "playerStats0" ? `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}` : null,
-														color: viewState === "playerStats0" ? null : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
-													}}
-													onClick={() => {triggerViewState("triggerPlayerStats0", "playerStats0")}}
-												>Player stats 1</Button>
-
-												<Button
-													variant={viewState === "playerStats1" ? "contained" : "outlined"}
-													disabled={viewState === "playerStats1" || viewState === "triggerPlayerStats1"}
-													style={{
-														borderWidth: "2px",
-														borderStyle: "solid",
-														borderColor: viewState === "playerStats1" ? "yellowgreen" : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
-														backgroundColor: viewState === "playerStats1" ? `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}` : null,
-														color: viewState === "playerStats1" ? null : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
-													}}
-													onClick={() => {triggerViewState("triggerPlayerStats1", "playerStats1")}}
-												>Player stats 2</Button>
-
-												<Button
-													variant={viewState === "live" ? "contained" : "outlined"}
-													disabled={viewState === "live" || viewState === "triggerLive"}
-													color="error"
-													style={{
-														borderWidth: "2px",
-														borderStyle: "solid",
-														borderColor: viewState === "live" ? "yellowgreen" : "",
-													}}
-													onClick={() => {triggerViewState("triggerLive", "live")}}
-												>Live game</Button>
-
-											</Item>
-
-										</Grid>
-
-									</Grid>
-
-								</>
-
-							:
-
+								<Grid size={{xs: 12, md: 3}}>
 									<Item>
-										<FormControl variant="outlined" size="small" fullWidth>
-											<InputLabel shrink htmlFor={`header`}>Header</InputLabel>
-											<OutlinedInput
+										<FormControl size="small" fullWidth>
+											<InputLabel id="streamTypeLabel" shrink>Stream Type</InputLabel>
+											<Select
 												notched
-												id="header"
-												label="Header"
-												onChange={(e) => changeHeaderField(e.target.value)}
-												value={headerField}
-												className={`${fieldHasChanges(`headerField`) ? "changedField" : ""} ${headerField === "" ? "errorField" : ""}`}
-											/>
+												labelId="streamTypeLabel"
+												id="streanType"
+												value={streamTypeField}
+												label="Stream Type"
+												className={fieldHasChanges("streamTypeField") ? "changedField" : ""}
+												onChange={(e) => changeStreamTypeField(e.target.value)}
+											>
+												<MenuItem value="RSC3-regular">RSC 3s Regular Season</MenuItem>
+												<MenuItem value="RSC3-final">RSC 3s Finals</MenuItem>
+												<MenuItem value="RSC3-event">RSC 3s Other Event</MenuItem>
+												<MenuItem value="other">No RSC branding</MenuItem>
+											</Select>
 										</FormControl>
 									</Item>
+								</Grid>
 
-							}
+							</Grid>
 
 
+								{streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ?
 
-							{/* TODO: Handle custom series text */}
+									<>
 
-							{streamTypeField !== "RSC3-regular" && streamTypeField !== "RSC3-final" ?
+										<Grid container size={12} spacing={0} className="gridRow">
 
-								<Grid container size={12} spacing={0} className="gridRow">
-
-									<Grid size={3}>
-										<Item>
-											<FormControl size="small" fullWidth>
-												<InputLabel id="showSeriesLabel" shrink>Show Series?</InputLabel>
-												<Select
-													notched
-													labelId="showSeriesLabel"
-													id="showSeries"
-													value={showSeriesField}
-													label="Show Series?"
-													className={fieldHasChanges("showSeriesField") ? "changedField" : ""}
-													onChange={(e) => changeShowSeriesField(e.target.value)}
-												>
-													<MenuItem value={true}>Yes</MenuItem>
-													<MenuItem value={false}>No</MenuItem>
-
-												</Select>
-											</FormControl>
-										</Item>
-									</Grid>
-
-									{showSeriesField === true ?
-
-										<>
-
-											<Grid size={6}>
+											<Grid size={3}>
 												<Item>
-													<FormControl size="small" fullWidth>
-														<InputLabel id="seriesTypeLabel" shrink>Series Type</InputLabel>
-														<Select
-															notched
-															labelId="seriesTypeLabel"
-															id="seriesType"
-															value={seriesTypeField}
-															label="Series Type"
-															className={fieldHasChanges("seriesTypeField") ? "changedField" : ""}
-															onChange={(e) => changeSeriesTypeField(e.target.value)}
-														>
-															<MenuItem value="bestof">Best of</MenuItem>
-															<MenuItem value="set">Set number of games</MenuItem>
-															<MenuItem value="unlimited">Unlimited</MenuItem>
-														</Select>
-													</FormControl>
-
+													<TextField
+														fullWidth
+														required
+														inputProps={{
+															min: 1,
+															step: 1,
+														}}
+														id="seasonNumber"
+														type="number"
+														size="small"
+														label="Season"
+														value={seasonNumberField}
+														onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+														onChange={(e) => changeSeasonNumberField(e.target.value)}
+														className={`${fieldHasChanges("seasonNumberField") ? "changedField" : ""} ${seasonNumberField === "" || seasonNumberField < 1 ? "errorField" : ""}`}
+													/>
 												</Item>
 											</Grid>
 
@@ -1269,193 +1064,403 @@ const ControlPanel = () => {
 															min: 1,
 															step: 1,
 														}}
-														id="seriesLength"
+														id="matchdayNumberField"
 														type="number"
 														size="small"
-														label="Games"
-														disabled={seriesTypeField === "unlimited"}
-														value={seriesLengthField}
+														label="Matchday"
+														value={matchdayNumberField}
+														disabled={streamTypeField === "RSC3-final"}
 														onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
-														onChange={(e) => changeSeriesLengthField(e.target.value)}
-														className={`${fieldHasChanges("seriesLengthField") ? "changedField" : ""} ${seriesTypeField !== "unlimited" && !seriesLengthField ? "errorField" : ""}`}
+														onChange={(e) => changeMatchdayNumberField(e.target.value)}
+														className={`${fieldHasChanges("matchdayNumberField") ? "changedField" : ""} ${streamTypeField === "RSC3-regular" && (matchdayNumberField === "" || matchdayNumberField < 1) ? "errorField" : ""}`}
 													/>
 												</Item>
 											</Grid>
 
-										</>
+											{Array.isArray(tierLists[leagueId]) && tierLists[leagueId].length > 0 ?
+
+												<Grid size={6}>
+													<Item>
+														<FormControl size="small" fullWidth>
+															<InputLabel id="tierFieldLabel" shrink>Tier</InputLabel>
+															<Select
+																notched
+																labelId="tierFieldLabel"
+																id="tierField"
+																value={tierField}
+																required
+																label="Tier"
+																onChange={(e) => changeTierField(e.target.value)}
+																className={`${fieldHasChanges("tierField") ? "changedField" : ""} ${tierField === "" ? "errorField" : ""}`}
+															>
+																{tierLists[leagueId]
+																	.sort((a,b) => Number(a.position) < Number(b.position) ? 1 : Number(a.position) > Number(b.position) ? -1 : 0)
+																	.map(tier => (
+																		<MenuItem key={tier.id} value={tier.name}>{tier.name}</MenuItem>
+																))}
+															</Select>
+														</FormControl>
+													</Item>
+												</Grid>
+
+											: null}
+
+										</Grid>
+
+										<Grid container size={12} spacing={0} className="gridRow pregameButtons">
+
+											<Grid size={12}>
+												<h2>Pregame cards</h2>
+
+												<Item justifyContent={"center"}>
+
+													<Button
+														variant={viewState === "matchup" ? "contained" : "outlined"}
+														disabled={viewState === "matchup" || viewState === "triggerMatchup"}
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "matchup" ? "yellowgreen" : "",
+														}}
+														color="primary"
+														onClick={() => {triggerViewState("triggerMatchup", "matchup")}}
+													>Matchup</Button>
+
+													<Button
+														color="secondary"
+														variant={viewState === "teamStats" ? "contained" : "outlined"}
+														disabled={viewState === "teamStats" || viewState === "triggerTeamStats"}
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "teamStats" ? "yellowgreen" : "",
+														}}
+														onClick={() => {triggerViewState("triggerTeamStats", "teamStats")}}
+													>Team stats</Button>
+
+													<Button
+														variant={viewState === "playerStats0" ? "contained" : "outlined"}
+														disabled={viewState === "playerStats0" || viewState === "triggerPlayerStats0"}
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "playerStats0" ? "yellowgreen" : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
+															backgroundColor: viewState === "playerStats0" ? `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}` : null,
+															color: viewState === "playerStats0" ? null : `#${config.teams[0].color ? config.teams[0].color : teamData[0].color_primary}`,
+														}}
+														onClick={() => {triggerViewState("triggerPlayerStats0", "playerStats0")}}
+													>Player stats 1</Button>
+
+													<Button
+														variant={viewState === "playerStats1" ? "contained" : "outlined"}
+														disabled={viewState === "playerStats1" || viewState === "triggerPlayerStats1"}
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "playerStats1" ? "yellowgreen" : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
+															backgroundColor: viewState === "playerStats1" ? `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}` : null,
+															color: viewState === "playerStats1" ? null : `#${config.teams[1].color ? config.teams[1].color : teamData[1].color_primary}`,
+														}}
+														onClick={() => {triggerViewState("triggerPlayerStats1", "playerStats1")}}
+													>Player stats 2</Button>
+
+													<Button
+														variant={viewState === "live" ? "contained" : "outlined"}
+														disabled={viewState === "live" || viewState === "triggerLive"}
+														color="error"
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "live" ? "yellowgreen" : "",
+														}}
+														onClick={() => {triggerViewState("triggerLive", "live")}}
+													>Live game</Button>
+
+												</Item>
+
+											</Grid>
+
+										</Grid>
+
+									</>
+
+								:
+
+										<Item>
+											<FormControl variant="outlined" size="small" fullWidth>
+												<InputLabel shrink htmlFor={`header`}>Header</InputLabel>
+												<OutlinedInput
+													notched
+													id="header"
+													label="Header"
+													onChange={(e) => changeHeaderField(e.target.value)}
+													value={headerField}
+													className={`${fieldHasChanges(`headerField`) ? "changedField" : ""} ${headerField === "" ? "errorField" : ""}`}
+												/>
+											</FormControl>
+										</Item>
+
+								}
+
+
+
+								{/* TODO: Handle custom series text */}
+
+								{streamTypeField !== "RSC3-regular" && streamTypeField !== "RSC3-final" ?
+
+									<Grid container size={12} spacing={0} className="gridRow">
+
+										<Grid size={3}>
+											<Item>
+												<FormControl size="small" fullWidth>
+													<InputLabel id="showSeriesLabel" shrink>Show Series?</InputLabel>
+													<Select
+														notched
+														labelId="showSeriesLabel"
+														id="showSeries"
+														value={showSeriesField}
+														label="Show Series?"
+														className={fieldHasChanges("showSeriesField") ? "changedField" : ""}
+														onChange={(e) => changeShowSeriesField(e.target.value)}
+													>
+														<MenuItem value={true}>Yes</MenuItem>
+														<MenuItem value={false}>No</MenuItem>
+
+													</Select>
+												</FormControl>
+											</Item>
+										</Grid>
+
+										{showSeriesField === true ?
+
+											<>
+
+												<Grid size={6}>
+													<Item>
+														<FormControl size="small" fullWidth>
+															<InputLabel id="seriesTypeLabel" shrink>Series Type</InputLabel>
+															<Select
+																notched
+																labelId="seriesTypeLabel"
+																id="seriesType"
+																value={seriesTypeField}
+																label="Series Type"
+																className={fieldHasChanges("seriesTypeField") ? "changedField" : ""}
+																onChange={(e) => changeSeriesTypeField(e.target.value)}
+															>
+																<MenuItem value="bestof">Best of</MenuItem>
+																<MenuItem value="set">Set number of games</MenuItem>
+																<MenuItem value="unlimited">Unlimited</MenuItem>
+															</Select>
+														</FormControl>
+
+													</Item>
+												</Grid>
+
+												<Grid size={3}>
+													<Item>
+														<TextField
+															fullWidth
+															required
+															inputProps={{
+																min: 1,
+																step: 1,
+															}}
+															id="seriesLength"
+															type="number"
+															size="small"
+															label="Games"
+															disabled={seriesTypeField === "unlimited"}
+															value={seriesLengthField}
+															onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+															onChange={(e) => changeSeriesLengthField(e.target.value)}
+															className={`${fieldHasChanges("seriesLengthField") ? "changedField" : ""} ${seriesTypeField !== "unlimited" && !seriesLengthField ? "errorField" : ""}`}
+														/>
+													</Item>
+												</Grid>
+
+											</>
+
+										: null}
+
+									</Grid>
+
+								: null}
+
+
+
+							<Grid container size={12} spacing={2} className="mainPanelGrid">
+								{teamData.map((team, teamnum) => (
+								<Grid container
+									spacing={0}
+									key={teamnum}
+									size={{xs:12, md: 6}}
+									className={`team team${teamnum}`}
+									style={{
+										borderColor: `#${config.teams[teamnum].color ? config.teams[teamnum].color : team.color_primary}`,
+									}}
+								>
+
+									<Grid size={12}>
+										<Item>
+											<strong>In Game:</strong> {team.name}
+										</Item>
+									</Grid>
+
+									<Grid size={9}>
+										<Item>
+											{streamTypeField !== "RSC3-regular" && streamTypeField !== "RSC3-final" ?
+												<>
+													<FormControl variant="outlined" size="small" fullWidth>
+														<InputLabel shrink htmlFor={`teamNameField${teamnum}`}>Team Name</InputLabel>
+														<OutlinedInput
+															notched
+															id={`teamNameField${teamnum}`}
+															label="Team Name"
+															onChange={(e) => changeTeamNameField(e.target.value, teamnum)}
+															value={teamNameFields[teamnum]}
+															placeholder={team.name}
+															className={fieldHasChanges(`teamNameField${teamnum}`) ? "changedField" : ""}
+														/>
+													</FormControl><br />
+													<FormControl variant="outlined" size="small" fullWidth>
+														<InputLabel shrink htmlFor={`franchiseField${teamnum}`}>Franchise Name</InputLabel>
+														<OutlinedInput
+															notched
+															id={`franchiseField${teamnum}`}
+															label="Franchise Name"
+															onChange={(e) => changeFranchiseField(e.target.value, teamnum)}
+															value={franchiseFields[teamnum]}
+															className={fieldHasChanges(`franchiseField${teamnum}`) ? "changedField" : ""}
+														/>
+													</FormControl>
+													{/* TODO: upload team logo */}
+													<FormControl variant="outlined" size="small" fullWidth>
+														<InputLabel shrink htmlFor={`teamLogoField${teamnum}`}>Team Logo</InputLabel>
+														<OutlinedInput
+															notched
+															id={`teamLogoField${teamnum}`}
+															label="Team Logo"
+															onChange={(e) => changeTeamLogoField(e.target.value, teamnum)}
+															value={teamLogoFields[teamnum]}
+															className={fieldHasChanges(`teamLogoField${teamnum}`) ? "changedField" : ""}
+														/>
+													</FormControl><br />
+												</>
+											: teamLists.hasOwnProperty(leagueId) && Array.isArray(teamLists[leagueId][tierField]) && teamLists[leagueId][tierField].length > 0 ?
+												<>
+													<FormControl size="small" fullWidth>
+														<InputLabel id={`teamField${teamnum}Label`} shrink>Team</InputLabel>
+														<Select
+															notched
+															labelId={`teamField${teamnum}Label`}
+															id={`teamField${teamnum}`}
+															value={teamFields[teamnum]}
+															required
+															label="Team"
+															className={`${fieldHasChanges(`teamField${teamnum}`) ? "changedField" : ""} ${teamFields[teamnum] === "" ? "errorField" : ""}`}
+															onChange={(e) => changeTeamField(e.target.value, teamnum)}
+														>
+															{teamLists[leagueId][tierField]
+																	.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+																	.map(team => (
+																		<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
+																))}
+														</Select>
+													</FormControl>
+
+												</>
+											: null
+											}
+										</Item>
+									</Grid>
+
+									{(streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final") || showSeriesField ?
+
+										<Grid size={3}>
+											<Item>
+												<TextField
+													required
+													inputProps={{
+														min: 0,
+														step: 1,
+													}}
+													id={`seriesScoreField${teamnum}`}
+													type="number"
+													size="small"
+													label="Games"
+													value={seriesScoreFields[teamnum]}
+													onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+													onChange={(e) => changeSeriesScoreField(e.target.value, teamnum)}
+													className={`${fieldHasChanges(`seriesScoreField${teamnum}`) ? "changedField" : ""} ${seriesScoreFields[teamnum] === "" ? "errorField" : ""}`}
+												/>
+											</Item>
+										</Grid>
 
 									: null}
 
 								</Grid>
 
-							: null}
+							))}
 
-
-
-						<Grid container size={12} spacing={2} className="mainPanelGrid">
-							{teamData.map((team, teamnum) => (
-							<Grid container
-								spacing={0}
-								key={teamnum}
-								size={{xs:12, md: 6}}
-								className={`team team${teamnum}`}
-								style={{
-									borderColor: `#${config.teams[teamnum].color ? config.teams[teamnum].color : team.color_primary}`,
-								}}
-							>
-
-								<Grid size={12}>
-									<Item>
-										<strong>In Game:</strong> {team.name}
-									</Item>
-								</Grid>
-
-								<Grid size={9}>
-									<Item>
-										{streamTypeField !== "RSC3-regular" && streamTypeField !== "RSC3-final" ?
-											<>
-												<FormControl variant="outlined" size="small" fullWidth>
-													<InputLabel shrink htmlFor={`teamNameField${teamnum}`}>Team Name</InputLabel>
-													<OutlinedInput
-														notched
-														id={`teamNameField${teamnum}`}
-														label="Team Name"
-														onChange={(e) => changeTeamNameField(e.target.value, teamnum)}
-														value={teamNameFields[teamnum]}
-														placeholder={team.name}
-														className={fieldHasChanges(`teamNameField${teamnum}`) ? "changedField" : ""}
-													/>
-												</FormControl><br />
-												<FormControl variant="outlined" size="small" fullWidth>
-													<InputLabel shrink htmlFor={`franchiseField${teamnum}`}>Franchise Name</InputLabel>
-													<OutlinedInput
-														notched
-														id={`franchiseField${teamnum}`}
-														label="Franchise Name"
-														onChange={(e) => changeFranchiseField(e.target.value, teamnum)}
-														value={franchiseFields[teamnum]}
-														className={fieldHasChanges(`franchiseField${teamnum}`) ? "changedField" : ""}
-													/>
-												</FormControl>
-												{/* TODO: upload team logo */}
-												<FormControl variant="outlined" size="small" fullWidth>
-													<InputLabel shrink htmlFor={`teamLogoField${teamnum}`}>Team Logo</InputLabel>
-													<OutlinedInput
-														notched
-														id={`teamLogoField${teamnum}`}
-														label="Team Logo"
-														onChange={(e) => changeTeamLogoField(e.target.value, teamnum)}
-														value={teamLogoFields[teamnum]}
-														className={fieldHasChanges(`teamLogoField${teamnum}`) ? "changedField" : ""}
-													/>
-												</FormControl><br />
-											</>
-										: teamLists.hasOwnProperty(leagueId) && Array.isArray(teamLists[leagueId][tierField]) && teamLists[leagueId][tierField].length > 0 ?
-											<>
-												<FormControl size="small" fullWidth>
-													<InputLabel id={`teamField${teamnum}Label`} shrink>Team</InputLabel>
-													<Select
-														notched
-														labelId={`teamField${teamnum}Label`}
-														id={`teamField${teamnum}`}
-														value={teamFields[teamnum]}
-														required
-														label="Team"
-														className={`${fieldHasChanges(`teamField${teamnum}`) ? "changedField" : ""} ${teamFields[teamnum] === "" ? "errorField" : ""}`}
-														onChange={(e) => changeTeamField(e.target.value, teamnum)}
-													>
-														{teamLists[leagueId][tierField]
-																.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
-																.map(team => (
-																	<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
-															))}
-													</Select>
-												</FormControl>
-
-											</>
-										: null
-										}
-									</Item>
-								</Grid>
-
-								{(streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final") || showSeriesField ?
-
-									<Grid size={3}>
-										<Item>
-											<TextField
-												required
-												inputProps={{
-													min: 0,
-													step: 1,
-												}}
-												id={`seriesScoreField${teamnum}`}
-												type="number"
-												size="small"
-												label="Games"
-												value={seriesScoreFields[teamnum]}
-												onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
-												onChange={(e) => changeSeriesScoreField(e.target.value, teamnum)}
-												className={`${fieldHasChanges(`seriesScoreField${teamnum}`) ? "changedField" : ""} ${seriesScoreFields[teamnum] === "" ? "errorField" : ""}`}
-											/>
-										</Item>
-									</Grid>
-
-								: null}
-
-							</Grid>
-
-						))}
-
-					</Grid>
-
-					<Grid container size={12} spacing={2} className="mainPanelGrid">
-
-						<Grid size={6}>
-							<Item>
-								<span className={fieldHasChanges("splashOnField") ? "changedField" : ""}>
-									<strong>Show splash counter?</strong>
-								</span>
-								<Switch
-									checked={splashOnField}
-									onChange={switchSplash}
-									color={splashOnField ? "splash" : "primary"}
-								/>
-							</Item>
 						</Grid>
 
-						{splashOnField ?
+						<Grid container size={12} spacing={2} className="mainPanelGrid">
 
 							<Grid size={6}>
 								<Item>
-									<TextField
-										required
-										inputProps={{
-											min: 0,
-											step: 1,
-										}}
-										id="splashCountField"
-										type="number"
-										size="small"
-										label="Splash Count"
-										value={splashCountField}
-										onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
-										onChange={(e) => changeSplashCountField(e.target.value)}
-										className={`${fieldHasChanges(`splashCountField`) ? "changedField" : ""} ${splashCountField === "" ? "errorField" : ""}`}
+									<span className={fieldHasChanges("splashOnField") ? "changedField" : ""}>
+										<strong>Show splash counter?</strong>
+									</span>
+									<Switch
+										checked={splashOnField}
+										onChange={switchSplash}
+										color={splashOnField ? "splash" : "primary"}
 									/>
 								</Item>
 							</Grid>
 
+							{splashOnField ?
 
-						: null}
+								<Grid size={6}>
+									<Item>
+										<TextField
+											required
+											inputProps={{
+												min: 0,
+												step: 1,
+											}}
+											id="splashCountField"
+											type="number"
+											size="small"
+											label="Splash Count"
+											value={splashCountField}
+											onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+											onChange={(e) => changeSplashCountField(e.target.value)}
+											className={`${fieldHasChanges(`splashCountField`) ? "changedField" : ""} ${splashCountField === "" ? "errorField" : ""}`}
+										/>
+									</Item>
+								</Grid>
 
 
-					</Grid>
+							: null}
 
-				</Container>
 
-			</ThemeProvider>
+						</Grid>
 
-		</div>
+					</Container>
+
+				</ThemeProvider>
+
+			</div>
+
+		:
+
+			// TODO: Figure out the real issue?  Maybe useRef?
+			<div>
+				<p>Refresh this panel.  (Within OBS: right click in this panel, then click "Refresh".)</p>
+				<p>If you&apos;ve already refreshed, ask for help.</p>
+			</div>
 	)
 
 }

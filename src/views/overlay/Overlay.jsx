@@ -53,7 +53,7 @@ const Overlay = () => {
 	const [activeConfig, _setActiveConfig] = useState(defaultConfig);
 	const [clientId, _setClientId] = useState("");
 	const [clockRunning, _setClockRunning] = useState(false);
-	const [endGameData, setEndGameData] = useState({});
+	const [endGameData, _setEndGameData] = useState({});
     const [gameData, _setGameData] = useState({
 		teams: [{name: ""}, {name: ""}],
 		time_seconds: 0,
@@ -85,6 +85,12 @@ const Overlay = () => {
     const setClockRunning = (data) => {
         clockRunningRef.current = data;
         _setClockRunning(data);
+    }
+
+	const endGameDataRef = useRef(endGameData);
+    const setEndGameData = (data) => {
+        endGameDataRef.current = data;
+        _setEndGameData(data);
     }
 
     const gameDataRef = useRef(gameData);
@@ -178,6 +184,7 @@ const Overlay = () => {
 				data: {
 					clockRunning: clockRunningRef.current,
 					config: activeConfigRef.current,
+					endGameData: endGameDataRef.current,
 					gameData: gameDataRef.current,
 					playerData: playerDataRef.current,
 					playerEvents: playerEventsRef.current,
@@ -405,6 +412,7 @@ const Overlay = () => {
 						0,
 					);
 					setTimeout(() => {
+						setEndGameData({});
 						applyViewState("live");
 					}, 750);
 				}
@@ -436,17 +444,19 @@ const Overlay = () => {
 					gameData,
 					playerData,
 				});
-				triggerTransition(
-					activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
-					"WINNER!",
-					activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo ?
-						imageLocation(activeConfig.teams[winningTeam].logo, "images/logos/teams/")
-						: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
-							imageLocation(activeConfig.general.brandLogo, "images/logos")
-						: null,
-					winningTeam,
-					4,
-				);
+				setTimeout(() => {
+					triggerTransition(
+						activeConfig.general.hasOwnProperty("transition") && activeConfig.general.transition ? activeConfig.general.transition : transitionDefault.name,
+						"WINNER!",
+						activeConfig.teams[winningTeam].hasOwnProperty("logo") && activeConfig.teams[winningTeam].logo ?
+							imageLocation(activeConfig.teams[winningTeam].logo, "images/logos/teams/")
+							: activeConfig.general.hasOwnProperty("brandLogo") && activeConfig.general.brandLogo ?
+								imageLocation(activeConfig.general.brandLogo, "images/logos")
+							: null,
+						winningTeam,
+						0,
+					);
+				}, 4000);
 				setTimeout(() => {
 					const oldSeriesScore = [...seriesScore];
 					setSeriesScore([
