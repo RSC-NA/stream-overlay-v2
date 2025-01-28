@@ -274,7 +274,10 @@ const ControlPanel = () => {
 		setCurrentDialog(dialog);
 	}
 
-	const closeDialog = () => {
+	const closeDialog = (event, reason) => {
+		if (reason && reason === "backdropClick") {
+			return;
+		}
 		setCurrentDialog(null);
 		setCustomClientId("");
 	}

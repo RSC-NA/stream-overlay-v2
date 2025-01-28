@@ -1,15 +1,87 @@
-#result {
+$backgroundTransparent: rgba(0, 0, 0, 0);
+$backgroundHighlight: #333333;
 
-    .pants {
-        width: 300px;
+:root:has(#ImageGenerator) {
+	background: black;
+}
 
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: 50% 50%;
-        }
-    }
+body:has(#ImageGenerator) {
+	overflow: auto;
+}
 
+@import "themes/rsc/fonts";
+
+#ImageGenerator {
+	--fontCooper: "CooperHewitt", Helvetica, Arial, sans-serif;
+	--fontUltimatum: "Ultimatum", Helvetica, Arial, sans-serif;
+
+	.selectors {
+		margin-bottom: 20px;
+		padding: 20px;
+		background-color: #222222;
+		border-bottom: 2px solid #ffffff;
+
+		p {
+			font-weight: bold;
+			margin: 0 0 1.2em 0;
+		}
+
+		.MuiFormControl-root {
+			margin-bottom: 1em;
+		}
+
+		.MuiButton-root {
+			margin-right: 1em;
+		}
+
+		.errorField fieldset {
+			border-color: red;
+		}
+
+	}
+
+	.sources {
+		position: absolute;
+		left: -4000px;
+		top: -4000px;
+
+		> div {
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+
+		@import "themes/rsc/imageGen/streamSchedule";
+
+	}
+
+	.output {
+		display: flex;
+		align-items: flex-start;
+		flex-wrap: wrap;
+
+		.generatedImage {
+			width: 300px;
+			height: 200px;
+			margin: 0 20px 30px;
+			padding: 10px;
+			align-self: flex-start;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				object-position: 50% 50%;
+				border: 1px solid #FFFFFF;
+			}
+
+			.label {
+				text-align: center;
+				margin-bottom: .5em;
+			}
+
+		}
+
+	}
 
 }

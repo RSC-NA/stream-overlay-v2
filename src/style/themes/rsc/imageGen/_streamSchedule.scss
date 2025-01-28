@@ -1,0 +1,336 @@
+$windowWidth: 1920px;
+$windowHeight: 1080px;
+
+$mainHeaderHeight: 33px;
+
+$leagueLogoSize: 200px;
+$headerGradientWidth: 120px;
+$spanSpacing: .5em;
+$pipeSpacing: .2em;
+
+$gameMargin: 70px;
+$teamLogoSize: 175px;
+$teamStripeHeight: 100px;
+
+$textColor: #ffffff;
+$secondaryTextColor: #cccccc;
+$highlightColor: #f5ca19;
+
+$backgroundColor: #231f20;
+$backgroundHighlight: #333333;
+$backgroundTranslucent: rgba($backgroundColor, .4);
+$backgroundTransparent: rgba($backgroundColor, 0);
+$highlightTranslucent: rgba($highlightColor, .4);
+
+.streamSchedule {
+	--team0: #206cff;
+	--team0tone: #{rgba(#206cff, .7)};
+	--team0fade: #{rgba(#206cff, .25)};
+	--team1: #f88521;
+	--team1tone: #{rgba(#f88521, .7)};
+	--team1fade: #{rgba(#f88521, .25)};
+
+	&.base {
+		width: 1920px;
+		height: 1080px;
+		background: url("/images/themes/rsc/triangle-bg-blue-orange.png") no-repeat center center;
+
+		.header {
+			display: grid;
+			grid-template-areas:
+				"logo league"
+				"logo header"
+			;
+			grid-template-columns: $leagueLogoSize 1fr;
+			grid-template-rows: 1fr 1fr;
+			width: calc($windowWidth - 600px);
+			margin: 10px auto 0;
+			background-image: linear-gradient(to right,
+				$backgroundTransparent 0,
+				$backgroundTransparent calc($leagueLogoSize * .5),
+				$backgroundHighlight calc($leagueLogoSize * .5),
+				$backgroundHighlight 70%,
+				$backgroundTransparent 95%
+			);
+			background-size: 100% 120px;
+			background-repeat: no-repeat;
+			background-position: left 40px;
+
+			.leagueLogo {
+				grid-area: logo;
+				width: $leagueLogoSize;
+				height: $leagueLogoSize;
+
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: contain;
+					object-position: 50% 50%;
+				}
+			}
+
+			.leagueName {
+				grid-area: league;
+				align-self: end;
+				font-family: var(--fontUltimatum);
+				font-size: 44px;
+				font-weight: bold;
+				font-style: italic;
+				color: white;
+				text-transform: uppercase;
+				letter-spacing: .3em;
+				padding: 45px 0 0 20px;
+			}
+
+			.header0 {
+				font-family: var(--fontUltimatum);
+				font-style: italic;
+				font-size: 40px;
+				color: $highlightColor;
+				text-transform: uppercase;
+				text-align: left;
+				line-height: $mainHeaderHeight;
+				letter-spacing: .3em;
+				margin: 0;
+				padding: 5px 0 20px 20px;
+
+				&.pipes {
+
+					span {
+						&:not(:last-child) {
+							margin-right: $spanSpacing;
+
+							&:after {
+								content: "|";
+								font-family: var(--fontSans);
+								font-weight: bold;
+								font-style: italic;
+								color: $secondaryTextColor;
+								margin: 0 $pipeSpacing 0 calc($pipeSpacing + $spanSpacing);
+							}
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+		.scheduleHeader {
+			color: $textColor;
+			font-family: var(--fontCooper);
+			font-weight: bold;
+			font-size: 36px;
+			text-transform: uppercase;
+			letter-spacing: 1em;
+			margin: 0 0 60px 20px;
+			text-align: center;
+		}
+
+		.games {
+			display: flex;
+			justify-content: center;
+
+			.game {
+				width: calc(($windowWidth - $gameMargin * 3) * .5);
+				margin: 0 $gameMargin;
+
+				.gameInfo {
+					text-align: center;
+					margin-bottom: 2em;
+					padding: 10px 0;
+
+					.time {
+						font-family: var(--fontCooper);
+						font-weight: bold;
+						font-size: 70px;
+						text-align: center;
+						text-shadow: 2px 2px 1px $backgroundColor;
+					}
+
+					.tier {
+						font-family: var(--fontUltimatum);
+						font-size: 40px;
+						font-weight: bold;
+						text-align: center;
+						text-transform: uppercase;
+						line-height: 45px;
+						text-shadow: 2px 2px 1px $backgroundColor;
+						padding-bottom: 8px;
+						background-image: linear-gradient(to right,
+							$backgroundTransparent 8%,
+							var(--tierColor) 40%,
+							var(--tierColor) 60%,
+							$backgroundTransparent 92%
+						);
+
+					}
+
+					&.tierPremier {
+						--tierColor: #d600d6;
+					};
+					&.tierMaster {
+						--tierColor: #9b59b6;
+					};
+					&.tierElite {
+						--tierColor: #3498db;
+					};
+					&.tierVeteran {
+						--tierColor: #33ffda;
+					};
+					&.tierRival {
+						--tierColor: #2ecc71;
+					};
+					&.tierChallenger {
+						--tierColor: #ceb337;
+					};
+					&.tierProspect {
+						--tierColor: #e67e22;
+					};
+					&.tierContender {
+						--tierColor: #d64694;
+					};
+					&.tierAmateur {
+						--tierColor: #f3a9a9;
+					};
+
+				}
+
+				.teams {
+
+					.team {
+						display: grid;
+						margin: 0 auto -15px;
+
+						.logo {
+							grid-area: logo;
+							width: $teamLogoSize;
+							height: $teamLogoSize;
+
+							img {
+								width: 100%;
+								height: 100%;
+								object-fit: contain;
+								object-position: 50% 50%;
+							}
+
+						}
+
+						.teamText {
+							padding-top: 30px;
+							text-transform: uppercase;
+
+							.name {
+								font-family: var(--fontUltimatum);
+								font-size: 50px;
+								font-weight: bold;
+								color: $textColor;
+							}
+
+							.franchise {
+								font-family: var(--fontCooper);
+								font-size: 24px;
+								color: $secondaryTextColor;
+							}
+
+
+						}
+
+						&.team0 {
+							grid-template-areas:
+								"logo text"
+							;
+							grid-template-columns: $teamLogoSize 1fr;
+							background-image: linear-gradient(to right,
+								$backgroundTransparent 0,
+								var(--team0fade) calc($teamLogoSize * .5),
+								var(--team0) calc($teamLogoSize + 100px),
+								var(--team0tone) 55%,
+								$backgroundTransparent 80%
+							);
+							background-size: 100% $teamStripeHeight;
+							background-repeat: no-repeat;
+							background-position: left center;
+
+							.teamText {
+								padding-left: 15px;
+							}
+
+							&:not(.hasLogo) {
+								grid-template-columns:  calc($teamLogoSize * .5) 1fr;
+							}
+
+						}
+
+						&.team1 {
+							grid-template-areas:
+								"text logo"
+							;
+							grid-template-columns: 1fr $teamLogoSize;
+
+							background-image: linear-gradient(to left,
+								$backgroundTransparent 0,
+								var(--team1fade) calc($teamLogoSize * .5),
+								var(--team1) calc($teamLogoSize + 100px),
+								var(--team1tone) 55%,
+								$backgroundTransparent 80%
+							);
+							background-size: 100% $teamStripeHeight;
+							background-repeat: no-repeat;
+							background-position: left center;
+
+							.teamText {
+								text-align: right;
+								padding-right: 15px;
+							}
+
+							&:not(.hasLogo) {
+								grid-template-columns: 1fr calc($teamLogoSize * .5);
+							}
+
+						}
+
+					}
+
+					.vs {
+						color: $secondaryTextColor;
+						font-family: var(--fontUltimatum);
+						font-style: italic;
+						font-size: 45px;
+						text-align: center;
+						line-height: 20px;
+					}
+
+				}
+
+
+
+
+			}
+
+			&.gameCount1 {
+
+			}
+
+		}
+
+
+		.streamLocation {
+			color: $highlightColor;
+			font-family: var(--fontUltimatum);
+			font-size: 65px;
+			font-style: italic;
+			font-weight: bolder;
+			text-transform: uppercase;
+			letter-spacing: .4em;
+			margin: 80px 0 50px 20px;
+			text-align: center;
+		}
+
+	}
+
+
+
+}

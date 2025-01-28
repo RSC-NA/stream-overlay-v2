@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 
 const ControlPanel = lazy(() => import("@/views/ControlPanel") )
+const ImageGenerator = lazy(() => import("@/views/imageGenerator/ImageGenerator") )
 const Overlay = lazy(() => import("@/views/overlay/Overlay") )
 const Statboard = lazy(() => import("@/views/statboard/Statboard") )
 
