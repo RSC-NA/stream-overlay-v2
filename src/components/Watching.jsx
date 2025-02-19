@@ -20,7 +20,7 @@ const Watching = (props) => {
                         <span className="value">{props.player.assists}</span>
                     </div>
                     <div className="stat">
-                        <span className="label">SH</span>
+                        <span className="label">{props.gameMode === "dropshot" ? "DMG" : "SH"}</span>
                         <span className="value">{props.player.shots}</span>
                     </div>
                     <div className="stat">

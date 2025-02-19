@@ -12,38 +12,39 @@ import imageLocation from "@/utils/imageLocation";
 
 const longPlayerName = 14;
 const longTeamScore = 100;
-const statList = [
-    {
-        name: "score",
-        label: "Score",
-    },
-    {
-        name: "goals",
-        label: "Goals",
-    },
-    {
-        name: "assists",
-        label: "Assists",
-    },
-    {
-        name: "saves",
-        label: "Saves",
-    },
-    {
-        name: "shots",
-        label: "Shots",
-    },
-    {
-        name: "demos",
-        label: "Demos",
-    },
-    {
-        name: "touches",
-        label: "Touches",
-    },
-];
 
 const Postgame = (props) => {
+
+	const statList = [
+		{
+			name: "score",
+			label: "Score",
+		},
+		{
+			name: "goals",
+			label: "Goals",
+		},
+		{
+			name: "assists",
+			label: "Assists",
+		},
+		{
+			name: "saves",
+			label: "Saves",
+		},
+		{
+			name: "shots",
+			label: props.gameMode === "dropshot" ? "Damage" : "Shots",
+		},
+		{
+			name: "demos",
+			label: "Demos",
+		},
+		{
+			name: "touches",
+			label: "Touches",
+		},
+	];
 
     let longScores = false;
     if (props.hasOwnProperty("gameData") && props.gameData.hasOwnProperty("teams") && props.gameData.teams.length > 0) {

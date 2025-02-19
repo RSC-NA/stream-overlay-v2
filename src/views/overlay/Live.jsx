@@ -84,6 +84,7 @@ const Live = (props) => {
 			{props.config.general.show.players ? (
 				<Fragment>
 					<TeamPlayerBoxes
+						gameMode={props.gameMode}
 						players={Object.values(props.playerData).filter(player => player.team === 0)}
 						team={0}
 						showStats={props.config.general.show.playerStats}
@@ -91,6 +92,7 @@ const Live = (props) => {
 						watching={!props.gameData.isReplay && props.gameData.target && props.playerData.hasOwnProperty(props.gameData.target) ? props.gameData.target : null}
 					/>
 					<TeamPlayerBoxes
+						gameMode={props.gameMode}
 						players={Object.values(props.playerData).filter(player => player.team === 1)}
 						team={1}
 						showStats={props.config.general.show.playerStats}
@@ -119,6 +121,7 @@ const Live = (props) => {
 
             {!props.gameData.isReplay && props.gameData.target && props.playerData.hasOwnProperty(props.gameData.target) ? (
                 <Watching
+					gameMode={props.gameMode}
 					player={props.playerData[props.gameData.target]}
 					config={props.config}
 				/>

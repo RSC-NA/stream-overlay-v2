@@ -58,6 +58,7 @@ const Overlay = () => {
 		teams: [{name: ""}, {name: ""}],
 		time_seconds: 0,
 	});
+	const [gameMode, _setGameMode] = useState("soccar");
 	const [lastGoal, setLastGoal] = useState({});
     const [playerData, _setPlayerData] = useState({});
     const [playerEvents, _setPlayerEvents] = useState([]);
@@ -97,6 +98,12 @@ const Overlay = () => {
     const setGameData = (data) => {
         gameDataRef.current = data;
         _setGameData(data);
+    }
+
+	const gameModeRef = useRef(gameMode);
+    const setGameMode = (data) => {
+        gameModeRef.current = data;
+        _setGameMode(data);
     }
 
 	const playerDataRef = useRef(playerData);
@@ -520,6 +527,11 @@ const Overlay = () => {
 					} else if (viewState === "") {
 						applyViewState("matchup");
 					}
+					if (data.game.arena === "ShatterShot_P") {
+						setGameMode("dropshot");
+					} else {
+						setGameMode("soccar");
+					}
 
 					// on first load of game data, send team data to local storage for control panel to see
 					if (!teamDataSent) {
@@ -539,7 +551,7 @@ const Overlay = () => {
 					null,
 					2,
 				);
-			break;
+				break;
 
 
 			case "match:created":
@@ -673,6 +685,7 @@ const Overlay = () => {
 				<Postgame
 					config={activeConfig}
 					gameData={endGameData.gameData}
+					gameMode={gameMode}
 					players={endGameData.playerData}
 					seriesScore={seriesScore}
 					seriesGame={seriesScore[0] + seriesScore[1]}
@@ -715,6 +728,7 @@ const Overlay = () => {
 					clockRunning={clockRunning}
 					config={activeConfig}
 					gameData={gameData}
+					gameMode={gameMode}
 					lastGoal={lastGoal}
 					playerData={playerData}
 					playerEvents={playerEvents}

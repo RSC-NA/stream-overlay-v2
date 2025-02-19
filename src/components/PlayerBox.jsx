@@ -22,7 +22,7 @@ const PlayerBox = (props) => {
         },
         {
             name: "shots",
-            label: "SH",
+            label: props.gameMode === "dropshot" ? "DMG" : "SH",
         },
         {
             name: "demos",
