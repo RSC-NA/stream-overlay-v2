@@ -99,7 +99,7 @@ const ControlPanel = () => {
 
 	const [streamTypeField, setStreamTypeField] = useState("RSC3-regular"); // default to regular season if not already set
 	const [teamFields, setTeamFields] = useState(["", ""]);
-	const [logoField, setBrandLogoField] = useState("");
+	const [brandLogoField, setBrandLogoField] = useState("");
 	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers?
 	const [seasonNumberField, setSeasonNumberField] = useState(currentSeason);
 	const [matchdayNumberField, setMatchdayNumberField] = useState(1);
@@ -217,8 +217,8 @@ const ControlPanel = () => {
 			if (showSeriesField !== config.series.show) {
 				tempFieldsWithChanges.push("showSeriesField");
 			}
-			if (logoField !== config.general.brandLogo) {
-				tempFieldsWithChanges.push("logoField");
+			if (brandLogoField !== config.general.brandLogo) {
+				tempFieldsWithChanges.push("brandLogoField");
 			}
 			if (streamTypeField !== config.general.streamType) {
 				tempFieldsWithChanges.push("streamTypeField");
@@ -245,7 +245,7 @@ const ControlPanel = () => {
 	}, [
 		franchiseFields,
 		headerField,
-		logoField,
+		brandLogoField,
 		matchdayNumberField,
 		seasonNumberField,
 		seriesLengthField,
@@ -834,7 +834,7 @@ const ControlPanel = () => {
 				season: seasonNumberField,
 				matchday: matchdayNumberField,
 				tier: tierField,
-				brandLogo: logoField,
+				brandLogo: brandLogoField,
 				// TODO: create new theme for finals
 				theme: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "rsc" : "default",
 				// TODO: select transition for non-RSC streams
@@ -1188,6 +1188,7 @@ const ControlPanel = () => {
 									</>
 
 								:
+									<>
 
 										<Item>
 											<FormControl variant="outlined" size="small" fullWidth>
@@ -1202,6 +1203,28 @@ const ControlPanel = () => {
 												/>
 											</FormControl>
 										</Item>
+
+										{streamTypeField === "other" ?
+
+										<Item>
+											<FormControl variant="outlined" size="small" fullWidth>
+												<InputLabel shrink htmlFor={`brandLogo`}>Brand Logo</InputLabel>
+												<OutlinedInput
+													notched
+													id="brandLogo"
+													label="Brand Logo"
+													onChange={(e) => changeBrandLogoField(e.target.value)}
+													value={brandLogoField}
+													className={`${fieldHasChanges(`brandLogoField`) ? "changedField" : ""}`}
+												/>
+											</FormControl>
+										</Item>
+
+
+
+										: null}
+
+									</>
 
 								}
 
