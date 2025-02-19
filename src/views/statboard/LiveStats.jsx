@@ -40,7 +40,7 @@ const LiveStats = (props) => {
 								<th>Score</th>
 								<th>Goals</th>
 								<th>Assists</th>
-								<th>Shots</th>
+								<th>{props.gameMode === "dropshot" ? "Damage" : "Shots"}</th>
 								<th>Saves</th>
 								<th>Touches</th>
 								<th>Demos</th>

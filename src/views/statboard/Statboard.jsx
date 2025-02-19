@@ -39,6 +39,7 @@ const Statboard = () => {
 		teams: [],
 		time_seconds: 0,
 	});
+	const [gameMode, setGameMode] = useState("soccar");
 	const [playerData, setPlayerData] = useState({});
 	const [playerEvents, setPlayerEvents] = useState([]);
 	const [pregameStats, setPregameStats] = useState([]);
@@ -104,6 +105,9 @@ const Statboard = () => {
 				}
 				if (data.hasOwnProperty("gameData")) {
 					setGameData(data.gameData);
+				}
+				if (data.hasOwnProperty("gameMode")) {
+					setGameMode(data.gameMode);
 				}
 				if (data.hasOwnProperty("playerData")) {
 					setPlayerData(data.playerData);
@@ -209,6 +213,7 @@ const Statboard = () => {
 							<LiveStats
 								config={config}
 								gameData={gameData}
+								gameMode={gameMode}
 								playerData={endGameData.hasOwnProperty("playerData") ? endGameData.playerData : playerData}
 								seriesScore={seriesScore}
 								splash={splash}

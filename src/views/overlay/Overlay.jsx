@@ -193,6 +193,7 @@ const Overlay = () => {
 					config: activeConfigRef.current,
 					endGameData: endGameDataRef.current,
 					gameData: gameDataRef.current,
+					gameMode: gameModeRef.current,
 					playerData: playerDataRef.current,
 					playerEvents: playerEventsRef.current,
 					pregameStats: pregameStatsRef.current,
