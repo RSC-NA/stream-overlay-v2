@@ -49,7 +49,7 @@ const PlayerStatsTable = (props) => {
 
 							{props.statList.map((stat, statIndex) => (
 								<td scope="col" className={stat.name==="shotPct" ? "pct" : ""} key={statIndex}>
-									{player[stat.name]}
+									{displayDecimal(player[stat.name], stat.round)}
 									{stat.name==="shotPct" ?
 										<span className="pctSymbol">%</span>
 									: null}
