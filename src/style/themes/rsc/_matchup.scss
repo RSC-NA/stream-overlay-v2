@@ -143,6 +143,8 @@
 				;
 				grid-template-columns: 1fr $matchupTeamLogoSize;
 
+				margin-top: -20px;
+
 				background-image: linear-gradient(to left,
 					$backgroundTransparent 0,
 					var(--team1fade) calc($matchupTeamLogoSize * .5),
@@ -175,6 +177,8 @@
 			font-size: 60px;
 			text-align: center;
 			line-height: 20px;
+			margin-top: -20px;
+			padding: 20px 0;
 		}
 
 	}

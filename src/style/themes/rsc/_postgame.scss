@@ -80,12 +80,12 @@ $postGameTableWidth: calc($windowWidth - 300px);
 	.seriesScoreText {
 		color: $textColor;
 		font-family: var(--fontUltimatum);
-		font-size: 30px;
+		font-size: 36px;
 		font-weight: bold;
 		font-style: italic;
 		text-align: center;
-		margin: $borderSize 0 50px;
-		text-shadow: 2px 2px 1px $backgroundColor;
+		margin: $borderSize 0 44px;
+		filter: drop-shadow(2px 2px $backgroundColor);
 	}
 
 

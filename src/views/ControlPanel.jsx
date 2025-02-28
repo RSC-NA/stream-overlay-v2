@@ -643,7 +643,7 @@ const ControlPanel = () => {
 
 			case "RSC3-final":
 				setLeagueId(1);
-				changeBrandLogoField("rsc-splatter-logo.png");
+				changeBrandLogoField("rsc-s22-finals.png");
 				if (!skipTeamNames) {
 					setNamesFromDropdowns();
 				}
@@ -835,9 +835,9 @@ const ControlPanel = () => {
 				matchday: matchdayNumberField,
 				tier: tierField,
 				brandLogo: brandLogoField,
-				// TODO: create new theme for finals
-				theme: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "rsc" : "default",
-				// TODO: select transition for non-RSC streams
+				theme: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-event" ? "rsc" :
+					streamTypeField === "RSC3-final" ? "rsc rscfinal" : "default",
+				// TODO: select transition for non-RSC streams?
 				transition: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" || streamTypeField === "RSC3-event" ? "triangleMerge" : "stripeWipe",
 			},
 			series: {

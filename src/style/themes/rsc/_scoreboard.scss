@@ -1,4 +1,6 @@
 .scoreboard {
+	--scoreboardBackgroundImage: url("/images/themes/rsc/scoreboard-triangles-bg.png");
+
 	position: absolute;
 	left: 50%;
 	top: 0;
@@ -7,7 +9,7 @@
 	max-height: calc($topHeaderHeight + $mainHeaderHeight + $mainBarHeight + $seriesInfoHeight);
 	background-color: $backgroundColor;
 	background-image:
-		url("/images/themes/rsc/scoreboard-triangles-bg.png"),
+		var(--scoreboardBackgroundImage),
 		linear-gradient(240deg,
 			$backgroundColor 0px,
 			var(--team0fade) 150px,

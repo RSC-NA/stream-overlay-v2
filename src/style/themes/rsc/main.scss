@@ -70,7 +70,7 @@ $rscBlue: rgba(#4378bb, 1);
 $rscBlueTone: rgba($rscBlue, .7);
 $rscBlueFade: rgba($rscBlue, .25);
 
-$timeColor: $backgroundColor;
+$timeColor: #000000;
 $overtimeColor: #d8262e;
 
 $transitionDelay: 3s;
@@ -108,5 +108,11 @@ $transitionDelay: 3s;
 	@import "postgame";
 
 	@import "../transitions/triangleMerge";
+
+	&.rscfinal {
+
+		@import "final/rscfinal";
+
+	}
 
 }

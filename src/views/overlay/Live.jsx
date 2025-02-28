@@ -108,7 +108,7 @@ const Live = (props) => {
 				</div>
 			: null }
 
-			{props.config.general.theme === "rsc" ?
+			{props.config.general.theme.search("rsc") > -1 ?
 				<>
 					<div className="leagueName">Rocket Soccar Confederation</div>
 					<SocialMedia />

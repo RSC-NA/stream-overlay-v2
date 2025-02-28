@@ -1,0 +1,113 @@
+
+.matchup {
+	@include triangleFadingBackgroundGold;
+
+	.matchupHeader {
+		@include goldHeaderBackground($pregameLeagueLogoSize);
+	}
+
+	.vs {
+		color: transparent;
+		background-image: linear-gradient(-30deg,
+			#ce9728 0,
+			#865b11 15%,
+			#e7b846 30%,
+			#cc992a 40%,
+			#e7b846 55%,
+			#ce9728 70%,
+			#ffff73 85%,
+			#f2b93a 100%
+		);
+		background-clip: text;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		text-shadow: none;
+	}
+
+}
+
+.teamStats {
+	@include triangleFadingBackgroundGold;
+
+	.teamStatsHeader {
+		@include goldHeaderBackground($pregameLeagueLogoSizeSmall);
+	}
+
+	.centerColumn {
+		color: #cc992a;
+	}
+
+}
+
+.playerStats {
+	@include triangleFadingBackgroundGold;
+
+	.playerStatsHeader {
+		@include goldHeaderBackground($pregameLeagueLogoSizeSmall);
+	}
+
+	.playerStatsTable thead th.statHeader {
+		color: #cc992a;
+	}
+
+}
+
+.scoreboard {
+	--scoreboardBackgroundImage: url("/images/themes/rsc/scoreboard-triangles-bg-gold.png");
+
+	.clock {
+		--clockBackgroundImage: url("/images/themes/rsc/clock-splatter-gold.png");
+
+	}
+
+}
+
+.postgame {
+	@include triangleFadingBackgroundGold;
+
+	.seriesScoreText:has(.seriesWinner) {
+		color: transparent;
+		background-image: linear-gradient(-30deg,
+			#ce9728 0,
+			#865b11 15%,
+			#e7b846 30%,
+			#cc992a 40%,
+			#e7b846 55%,
+			#ce9728 70%,
+			#ffff73 85%,
+			#f2b93a 100%
+		);
+		filter: drop-shadow(2px 2px $backgroundColor);
+		background-clip: text;
+		background-position: center center;
+		background-repeat: no-repeat;
+		text-shadow: none;
+	}
+
+	.centerColumn {
+		color: #cc992a;
+	}
+
+}
+
+#Transition.triangleMerge {
+	.trianglesLeft,
+	.trianglesRight {
+		background: url("/images/themes/rsc/triangle-bg-transparent-gold.png");
+	}
+
+	&:not(.team0):not(.team1) .highlight {
+		background: linear-gradient(-30deg,
+			rgba(#ffff73, 0) 0,
+			rgba(#ce9728, .5) 15%,
+			#e7b846 30%,
+			#cc992a 40%,
+			#e7b846 55%,
+			#ce9728 70%,
+			rgba(#ffff73, .5) 85%,
+			rgba(#f2b93a, 0) 100%
+		);
+	}
+
+}
