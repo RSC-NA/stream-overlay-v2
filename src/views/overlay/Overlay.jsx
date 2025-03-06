@@ -19,7 +19,6 @@ const expireEventsInMs = 7000;
 const gameSocketUrl = "ws://localhost:49122";
 
 const socketServerUrl = "https://overlay.rscna.com/ws/"; // prod
-// const socketServerUrl = "wss://rlws.kdoughboy.com:8321"; // testing on my server
 // const socketServerUrl = "ws://localhost:8321"; // local testing
 
 const Overlay = () => {
@@ -185,12 +184,18 @@ const Overlay = () => {
 		// set interval to send data to websocket server (even before game initialized)
 		const sendExternalInterval = setInterval(() => {
 
+			// don't send logos, could be very large and the statboard doesn't use them
+			const configToSend = Object.assign({}, JSON.parse(JSON.stringify(activeConfigRef.current)));
+			configToSend.teams[0].logo = undefined;
+			configToSend.teams[1].logo = undefined;
+			configToSend.general.brandLogo = undefined;
+
 			sendJsonMessageServer({
 				clientId: clientIdRef.current,
 				event: "overlay:game_data",
 				data: {
 					clockRunning: clockRunningRef.current,
-					config: activeConfigRef.current,
+					config: configToSend,
 					endGameData: endGameDataRef.current,
 					gameData: gameDataRef.current,
 					gameMode: gameModeRef.current,

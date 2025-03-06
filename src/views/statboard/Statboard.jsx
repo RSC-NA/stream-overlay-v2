@@ -15,7 +15,6 @@ import { styled } from "@mui/material/styles";
 import "@/style/statboard.scss";
 
 const socketServerUrl = "https://overlay.rscna.com/ws/"; // prod
-// const socketServerUrl = "wss://rlws.kdoughboy.com:8321"; // testing on my server
 // const socketServerUrl = "ws://localhost:8321"; // local testing
 
 const Item = styled("div")(({ theme }) => ({
