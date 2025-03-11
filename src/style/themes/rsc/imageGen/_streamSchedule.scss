@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $windowWidth: 1920px;
 $windowHeight: 1080px;
 
@@ -305,17 +307,9 @@ $highlightTranslucent: rgba($highlightColor, .4);
 
 				}
 
-
-
-
-			}
-
-			&.gameCount1 {
-
 			}
 
 		}
-
 
 		.streamLocation {
 			color: $highlightColor;
@@ -329,8 +323,26 @@ $highlightTranslucent: rgba($highlightColor, .4);
 			text-align: center;
 		}
 
+		&.finals {
+			background-image: url("/images/themes/rsc/triangle-bg-gold.png");
+
+			// TODO: create variable module and don't duplicate this code
+			.header {
+				background-image: linear-gradient(to right,
+					rgba(#ce9728, 0) 0,
+					rgba(#ce9728, 0) calc($leagueLogoSize * .5),
+					rgba(#ce9728, 1) calc($leagueLogoSize * .5),
+					color.mix(#865b11, $backgroundHighlight, $weight: 70%) calc($leagueLogoSize * 1.1),
+					color.mix(#865b11, $backgroundHighlight, $weight: 40%) 30%,
+					color.mix(#e7b846, $backgroundHighlight, $weight: 30%) 60%,
+					color.mix(#e7b846, $backgroundHighlight, $weight: 40%) 75%,
+					rgba(color.mix(#865b11, #ffec7a, $weight: 85%), .75) 88%,
+					$backgroundTransparent 95%
+				);
+			}
+
+		}
+
 	}
-
-
 
 }
