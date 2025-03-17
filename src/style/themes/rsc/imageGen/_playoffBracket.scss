@@ -96,6 +96,7 @@ $highlightTranslucent: rgba($highlightColor, .4);
 				text-align: left;
 				line-height: $mainHeaderHeight;
 				letter-spacing: .3em;
+				text-shadow: 2px 2px 1px $backgroundColor;
 				margin: 0;
 				padding: 5px 0 20px 20px;
 
