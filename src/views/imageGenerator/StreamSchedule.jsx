@@ -2,18 +2,17 @@ import React, { Fragment } from "react";
 
 import imageLocation from "@/utils/imageLocation";
 
-// TODO: make style for finals
 // TODO: make style for special events (handle teams without logos)
 
 const StreamSchedule = (props) => {
 
 	return (
-		<div id={props.imageData.id} className={`generatedImage streamSchedule ${props.gameData.gameType} ${props.imageData.id}`}>
+		<div id={props.imageData.id} className={`generatedImage streamSchedule ${props.gameData.imageType} ${props.imageData.id}`}>
 
 			<div className="header">
 
 				<div className="leagueLogo">
-					{props.gameData.gameType === "finals" ?
+					{props.gameData.imageType === "finals" ?
 						<img src="/images/logos/rsc-s22-finals.png" />
 					:
 						<img src="/images/logos/rsc-splatter-logo.png" />
@@ -23,7 +22,7 @@ const StreamSchedule = (props) => {
 				<div className="leagueName">Rocket Soccar Confederation</div>
 
 				<div className="header0 pipes">
-					{props.gameData.gameType === "finals" ?
+					{props.gameData.imageType === "finals" ?
 						<span className="season">Season {props.gameData.season} Tier Finals</span>
 					:
 						<>
@@ -41,7 +40,7 @@ const StreamSchedule = (props) => {
 					<div className="game" key={index}>
 						<div className={`gameInfo tier${game.tier}`}>
 							<div className="time">{game.time}</div>
-							<div className="tier">{game.tier}{props.gameData.gameType === "finals" ? " Final" : ""}</div>
+							<div className="tier">{game.tier}{props.gameData.imageType === "finals" ? " Final" : ""}</div>
 						</div>
 						<div className="teams">
 							{game.teams.map((team, index) => (

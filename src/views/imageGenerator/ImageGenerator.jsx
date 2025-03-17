@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as htmlToImage from "html-to-image";
 
+import PlayoffBracket from "@/views/imageGenerator/PlayoffBracket";
 import StreamSchedule from "@/views/imageGenerator/StreamSchedule";
 
 import { getFranchiseList } from "@/services/franchiseService";
@@ -22,6 +23,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
+
+import playoffConfig from "@/data/playoffs";
 
 import ("@/style/appMain.scss");
 import ("@/style/imageGen.scss");
@@ -86,6 +89,42 @@ function b64toBlob(dataURI) {
     return new Blob([ab], { type: "image/png" });
 }
 
+const gamesInRound = (tier, round) => {
+	if (!tier || !round || !playoffConfig.hasOwnProperty(tier) || !playoffConfig[tier].teams) {
+		return 0;
+	}
+
+	const teamCount = playoffConfig[tier].teams;
+	const hasConf = playoffConfig[tier].conferences;
+
+	switch(round) {
+		case 1:
+			if (teamCount <= 8) {
+				return 0;
+			} else {
+				return 8;
+			}
+			break;
+		case 2:
+			if (teamCount <= 4) {
+				return 0;
+			} else {
+				return 4;
+			}
+			break;
+		case 3:
+			return 2;
+			break;
+		default:
+			console.error("Error finding games in round");
+			return 0;
+			break;
+	}
+
+}
+
+const blankArray = (len) => Array.from({length: len}, () => "");
+
 // NOTE: This is iniitally just set up for RSC 3s and will need a serious rework to handle multiple leagues
 
 const ImageGenerator = () => {
@@ -95,13 +134,20 @@ const ImageGenerator = () => {
 	const [tierLists, setTierLists] = useState({});
 	const [teamLists, setTeamLists] = useState({});
 
-	const [gameType, setGameType] = useState("regular"); // TODO: create finals styles
+	const [imageType, setImageType] = useState("regular");
 	const [season, setSeason] = useState(currentSeason); // TODO: Update default each season?
 	const [matchday, setMatchday] = useState(1);
 	const [gameCount, setGameCount] = useState(2);
-	const [times, setTimes] = useState(["",""]);
-	const [tiers, setTiers] = useState(["",""]);
-	const [teams, setTeams] = useState([["",""],["",""]]);
+	const [scheduleTimes, setScheduleTimes] = useState(["",""]);
+	const [scheduleTiers, setScheduleTiers] = useState(["",""]);
+	const [scheduleTeams, setScheduleTeams] = useState([["",""],["",""]]);
+
+	const [bracketTier, setBracketTier] = useState("");
+	const [lunarTeams, setLunarTeams] = useState([]);
+	const [solarTeams, setSolarTeams] = useState([]);
+	const [rd2Teams, setRd2Teams] = useState([]);
+	const [semiTeams, setSemiTeams] = useState([]);
+	const [finalTeams, setFinalTeams] = useState([]);
 
 	const [sameTeams, setSameTeams] = useState([false, false]);
 
@@ -226,28 +272,28 @@ const ImageGenerator = () => {
 
 	}
 
-	const changeTierField = (game, value) => {
-		const currentTiers = [...tiers];
+	const changeScheduleTierField = (game, value) => {
+		const currentTiers = [...scheduleTiers];
 		currentTiers[game] = value;
-		setTiers(currentTiers);
+		setScheduleTiers(currentTiers);
 		loadTeamList(leagueId, value);
 
-		changeTeamField(game, 0, "");
-		changeTeamField(game, 1, "");
+		changeScheduleTeamField(game, 0, "");
+		changeScheduleTeamField(game, 1, "");
 	}
 
-	const changeTimeField = (game, value) => {
-		const currentTimes = [...times];
+	const changeScheduleTimeField = (game, value) => {
+		const currentTimes = [...scheduleTimes];
 		currentTimes[game] = value;
-		setTimes(currentTimes);
+		setScheduleTimes(currentTimes);
 	}
 
-	const changeTeamField = (game, teamNum, value) => {
-		const currentTeams = [...teams];
+	const changeScheduleTeamField = (game, teamNum, value) => {
+		const currentTeams = [...scheduleTeams];
 		const currentSameTeams = [...sameTeams];
 
 		currentTeams[game][teamNum] = value;
-		setTeams(currentTeams);
+		setScheduleTeams(currentTeams);
 
 		for (let gm = 0; gm < gameCount; gm++) {
 			if (currentTeams[gm][0].hasOwnProperty("name") && currentTeams[gm][1].hasOwnProperty("name")) {
@@ -260,68 +306,160 @@ const ImageGenerator = () => {
 
 	}
 
-	const clearFields = () => {
+	const changeBracketTierField = (value) => {
+
+		setBracketTier(value);
+		loadTeamList(leagueId, value);
+		resetBracketTeamFields(value);
+
+	}
+
+	const changeSolarTeamField = (teamNum, value) => {
+	const currentTeams = [...solarTeams];
+
+		currentTeams[teamNum] = value;
+		setSolarTeams(currentTeams);
+	}
+
+	const changeLunarTeamField = (teamNum, value) => {
+		const currentTeams = [...lunarTeams];
+
+		currentTeams[teamNum] = value;
+		setLunarTeams(currentTeams);
+	}
+
+	const changeRd2TeamField = (teamNum, value) => {
+		const currentTeams = [...rd2Teams];
+
+		currentTeams[teamNum] = value;
+		setRd2Teams(currentTeams);
+	}
+
+	const changeSemiTeamField = (teamNum, value) => {
+		const currentTeams = [...semiTeams];
+
+		currentTeams[teamNum] = value;
+		setSemiTeams(currentTeams);
+	}
+
+	const changeFinalTeamField = (teamNum, value) => {
+		const currentTeams = [...finalTeams];
+
+		currentTeams[teamNum] = value;
+		setFinalTeams(currentTeams);
+	}
+
+
+	const resetFields = () => {
 
 		setSeason(currentSeason);
 		setMatchday(1);
 		setGameCount(2);
-		setTimes(["",""]);
-		setTiers(["",""]);
-		setTeams([["",""],["",""]]);
+		setScheduleTimes(["",""]);
+		setScheduleTiers(["",""]);
+		setScheduleTeams([["",""],["",""]]);
+		setBracketTier("");
+		resetBracketTeamFields();
+
+	}
+
+	const resetBracketTeamFields = (tier) => {
+		setSolarTeams(!tier ? [] : blankArray(playoffConfig[tier].teams / (playoffConfig[tier].conferences ? 2 : 1)));
+		setLunarTeams(!tier ? [] : blankArray(playoffConfig[tier].teams / (playoffConfig[tier].conferences ? 2 : 1)));
+		setRd2Teams(!tier ? [] : blankArray(gamesInRound(tier, 1)));
+		setSemiTeams(!tier ? [] : blankArray(gamesInRound(tier, 2)));
+		setFinalTeams(!tier ? [] : blankArray(gamesInRound(tier, 3)));
 
 	}
 
 	const generate = () => {
-		if (!season
-			|| (gameType === "regular" && !matchday)
-			|| !tiers[0]
-			|| !teams[0][0].hasOwnProperty("name")
-			|| !teams[0][1].hasOwnProperty("name")
-			|| (gameCount === 2 && (
-				!tiers[1]
-				|| !teams[1][0].hasOwnProperty("name")
-				|| !teams[1][1].hasOwnProperty("name")
-			))
-		) {
-			openSnackbar("Please fill all fields.")
-			return;
-		}
 
-		if (teams[0][0].name === teams[0][1].name
-			|| (gameCount === 2 && teams[1][0].name === teams[1][1].name)
-		) {
-			openSnackbar("A team can't play against themselves.")
-			return;
-		}
-
-		const genData = {
-			gameType,
-			games: [],
-			matchday,
-			season,
+		let genData = {
+			ready: false,
 		};
 
-		for (let gm = 0; gm < gameCount; gm++) {
+		setGeneratedImages([]);
 
-			const gameData = {
-				time: times[gm] || defaultTimes[gameType][gm],
-				tier: tiers[gm],
-				teams: [...teams[gm]],
+		if (imageType === "regular" || imageType === "finals") {
+			if (!season
+				|| (imageType === "regular" && !matchday)
+				|| !scheduleTiers[0]
+				|| !scheduleTeams[0][0].hasOwnProperty("name")
+				|| !scheduleTeams[0][1].hasOwnProperty("name")
+				|| (gameCount === 2 && (
+					!scheduleTiers[1]
+					|| !scheduleTeams[1][0].hasOwnProperty("name")
+					|| !scheduleTeams[1][1].hasOwnProperty("name")
+				))
+			) {
+				openSnackbar("Please fill all fields.")
+				return;
 			}
 
-			for (let tm = 0; tm < 2; tm++) {
-				gameData.teams[tm].logo = franchiseLists[leagueId].filter((franchise) => franchise.id === teams[gm][tm].franchise.id)[0].logo
+			if (scheduleTeams[0][0].name === scheduleTeams[0][1].name
+				|| (gameCount === 2 && scheduleTeams[1][0].name === scheduleTeams[1][1].name)
+			) {
+				openSnackbar("A team can't play against themselves.")
+				return;
 			}
 
-			genData.games.push(gameData);
+			genData = {
+				imageType,
+				games: [],
+				matchday,
+				ready: true,
+				season,
+			};
+
+			for (let gm = 0; gm < gameCount; gm++) {
+
+				const gameData = {
+					time: scheduleTimes[gm] || defaultTimes[imageType][gm],
+					tier: scheduleTiers[gm],
+					teams: [...scheduleTeams[gm]],
+				}
+
+				for (let tm = 0; tm < 2; tm++) {
+					gameData.teams[tm].logo = franchiseLists[leagueId].filter((franchise) => franchise.id === scheduleTeams[gm][tm].franchise.id)[0].logo
+				}
+
+				genData.games.push(gameData);
+
+			}
+
+		} else if (imageType === "bracket") {
+
+			if (solarTeams.indexOf("") > -1 || (playoffConfig[bracketTier].conferences && lunarTeams.indexOf("") > -1) ) {
+				openSnackbar("All playoff teams must be chosen.")
+				return;
+			}
+
+			genData = {
+				imageType,
+				ready: true,
+				franchiseList: franchiseLists[leagueId],
+				season,
+				tier: bracketTier,
+				config: playoffConfig[bracketTier],
+				solarTeams,
+				lunarTeams,
+				rd2Teams,
+				semiTeams,
+				finalTeams,
+			}
+
 
 		}
 
-		setGeneratorData(genData);
-		openDialog("generating");
-		setTimeout(() => {
-			generateImageFiles();
-		}, 2000);
+		if (genData.ready) {
+
+			openDialog("generating");
+			setGeneratorData(genData);
+			setTimeout(() => {
+				generateImageFiles();
+			}, 2000);
+
+		}
 
 	}
 
@@ -365,10 +503,6 @@ const ImageGenerator = () => {
 				height: imgData.height,
 			})
 			.then(dataUrl => {
-				// var img = new Image();
-				// img.className = "pants";
-				// img.src = dataUrl;
-				// document.getElementById("result").appendChild(img);
 				return dataUrl;
 			})
 			.catch(error => {
@@ -383,7 +517,6 @@ const ImageGenerator = () => {
 				open={currentDialog === "loading"}
 				onClose={closeDialog}
 				disableEscapeKeyDown={true}
-
 			>
 				<DialogContent>
 					<p>Loading...</p>
@@ -409,7 +542,7 @@ const ImageGenerator = () => {
 			<div className="selectors">
 
 				<ThemeProvider theme={panelTheme}>
-					<Container>
+					<Container maxWidth="xxxxl">
 
 						<Grid size={12} container>
 
@@ -419,19 +552,19 @@ const ImageGenerator = () => {
 									<p>Options</p>
 
 									<FormControl size="small" fullWidth>
-										<InputLabel id="gameTypeLabel" shrink>Game Type</InputLabel>
+										<InputLabel id="imageTypeLabel" shrink>Game Type</InputLabel>
 										<Select
 											notched
-											labelId="gameTypeLabel"
-											id="gameType"
-											value={gameType}
+											labelId="imageTypeLabel"
+											id="imageType"
+											value={imageType}
 											required
-											label="Game Type"
-											// className={""}
-											onChange={(e) => setGameType(e.target.value)}
+											label="Image Type"
+											onChange={(e) => setImageType(e.target.value)}
 										>
-											<MenuItem value="regular">Regular Season</MenuItem>
-											<MenuItem value="finals">Finals</MenuItem>
+											<MenuItem value="regular">Regular Season Schedule</MenuItem>
+											<MenuItem value="finals">Finals Schedule</MenuItem>
+											<MenuItem value="bracket">Playoff Bracket</MenuItem>
 										</Select>
 									</FormControl>
 
@@ -453,119 +586,352 @@ const ImageGenerator = () => {
 										className={season === "" || season < 1 || season > currentSeason ? "errorField" : ""}
 									/>
 
-									<TextField
-										fullWidth
-										required
-										inputProps={{
-											min: 1,
-											step: 1,
-										}}
-										id="matchday"
-										type="number"
-										size="small"
-										label="Matchday"
-										value={matchday}
-										disabled={gameType !== "regular"}
-										onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
-										onChange={(e) => setMatchday(e.target.value)}
-										className={matchday === "" || matchday < 1 ? "errorField" : ""}
-									/>
+									{ imageType === "regular" || imageType === "finals" ?
 
-									<FormControl size="small" fullWidth>
-										<InputLabel id="gameCountLabel" shrink>Games</InputLabel>
-										<Select
-											notched
-											labelId="gameCountLabel"
-											id="gameCount"
-											value={gameCount}
-											required
-											label="Game"
-											onChange={(e) => setGameCount(e.target.value)}
-										>
-											<MenuItem value={1}>1</MenuItem>
-											<MenuItem value={2}>2</MenuItem>
-										</Select>
-									</FormControl>
+										<>
+
+											<TextField
+												fullWidth
+												required
+												inputProps={{
+													min: 1,
+													step: 1,
+												}}
+												id="matchday"
+												type="number"
+												size="small"
+												label="Matchday"
+												value={matchday}
+												disabled={imageType !== "regular"}
+												onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
+												onChange={(e) => setMatchday(e.target.value)}
+												className={matchday === "" || matchday < 1 ? "errorField" : ""}
+											/>
+
+											<FormControl size="small" fullWidth>
+												<InputLabel id="gameCountLabel" shrink>Games</InputLabel>
+												<Select
+													notched
+													labelId="gameCountLabel"
+													id="gameCount"
+													value={gameCount}
+													required
+													label="Game"
+													onChange={(e) => setGameCount(e.target.value)}
+												>
+													<MenuItem value={1}>1</MenuItem>
+													<MenuItem value={2}>2</MenuItem>
+												</Select>
+											</FormControl>
+
+										</>
+
+									:
+
+										<FormControl size="small" fullWidth>
+											<InputLabel id="bracketTierLabel" shrink>Tier</InputLabel>
+											<Select
+												notched
+												labelId="bracketTierLabel"
+												id="bracketTier"
+												value={bracketTier}
+												required
+												label="Tier"
+												onChange={(e) => changeBracketTierField(e.target.value)}
+												className={!bracketTier ? "errorField" : ""}
+											>
+												{tierLists[leagueId]
+													.sort((a,b) => Number(a.position) < Number(b.position) ? 1 : Number(a.position) > Number(b.position) ? -1 : 0)
+													.map(tier => (
+														<MenuItem key={tier.id} value={tier.name}>{tier.name}</MenuItem>
+												))}
+											</Select>
+										</FormControl>
+
+									}
 
 									<Button onClick={generate} variant="contained">Generate</Button>
-									<Button onClick={clearFields} color="error" variant="contained">Clear</Button>
+									<Button onClick={resetFields} color="error" variant="contained">Reset Fields</Button>
 
 								</Item>
 							</Grid>
 
-							{ Array.isArray(tierLists[leagueId]) && tierLists[leagueId].length ?
+							{ imageType === "regular" || imageType === "finals" ?
 
-								Array.from({length: gameCount}).map((dummy, gameIndex) =>
+								Array.isArray(tierLists[leagueId]) && tierLists[leagueId].length ?
 
-									<Grid size={{xs: 12, md: 4}} key={`game${gameIndex}`}>
-										<Item>
+									Array.from({length: gameCount}).map((dummy, gameIndex) =>
 
-											<p>Game {gameIndex + 1}</p>
+										<Grid size={{xs: 12, md: 4}} key={`game${gameIndex}`}>
+											<Item>
 
-											<FormControl variant="outlined" size="small" fullWidth>
-												<InputLabel shrink htmlFor={`time${gameIndex}`}>Time</InputLabel>
-												<OutlinedInput
-													notched
-													id={`time${gameIndex}`}
-													label="Time"
-													onChange={(e) => changeTimeField(gameIndex, e.target.value)}
-													value={times[gameIndex]}
-													placeholder={defaultTimes[gameType][gameIndex]}
-												/>
-											</FormControl><br />
+												<p>Game {gameIndex + 1}</p>
 
-											<FormControl size="small" fullWidth>
-												<InputLabel id={`tier${gameIndex}Label`} shrink>Tier</InputLabel>
-												<Select
-													notched
-													labelId={`tier${gameIndex}Label`}
-													id={`tier${gameIndex}`}
-													value={tiers[gameIndex]}
-													required
-													label="Tier"
-													onChange={(e) => changeTierField(gameIndex, e.target.value)}
-													className={!tiers[gameIndex] ? "errorField" : ""}
-												>
-													{tierLists[leagueId]
-														.sort((a,b) => Number(a.position) < Number(b.position) ? 1 : Number(a.position) > Number(b.position) ? -1 : 0)
-														.map(tier => (
-															<MenuItem key={tier.id} value={tier.name}>{tier.name}</MenuItem>
-													))}
-												</Select>
-											</FormControl>
+												<FormControl variant="outlined" size="small" fullWidth>
+													<InputLabel shrink htmlFor={`time${gameIndex}`}>Time</InputLabel>
+													<OutlinedInput
+														notched
+														id={`time${gameIndex}`}
+														label="Time"
+														onChange={(e) => changeScheduleTimeField(gameIndex, e.target.value)}
+														value={scheduleTimes[gameIndex]}
+														placeholder={defaultTimes[imageType][gameIndex]}
+													/>
+												</FormControl><br />
 
-											{tiers[gameIndex] && teamLists[leagueId].hasOwnProperty(tiers[gameIndex]) ?
+												<FormControl size="small" fullWidth>
+													<InputLabel id={`tier${gameIndex}Label`} shrink>Tier</InputLabel>
+													<Select
+														notched
+														labelId={`tier${gameIndex}Label`}
+														id={`tier${gameIndex}`}
+														value={scheduleTiers[gameIndex]}
+														required
+														label="Tier"
+														onChange={(e) => changeScheduleTierField(gameIndex, e.target.value)}
+														className={!scheduleTiers[gameIndex] ? "errorField" : ""}
+													>
+														{tierLists[leagueId]
+															.sort((a,b) => Number(a.position) < Number(b.position) ? 1 : Number(a.position) > Number(b.position) ? -1 : 0)
+															.map(tier => (
+																<MenuItem key={tier.id} value={tier.name}>{tier.name}</MenuItem>
+														))}
+													</Select>
+												</FormControl>
 
-												Array.from({length: 2}).map((dummyTeam, teamIndex) =>
+												{scheduleTiers[gameIndex] && teamLists[leagueId].hasOwnProperty(scheduleTiers[gameIndex]) ?
 
-													<FormControl size="small" fullWidth key={`game${gameIndex}team${teamIndex}`}>
-														<InputLabel id={`game${gameIndex}team${teamIndex}Label`} shrink>Team {teamIndex + 1}</InputLabel>
-														<Select
-															notched
-															labelId={`game${gameIndex}team${teamIndex}Label`}
-															id={`game${gameIndex}team${teamIndex}`}
-															value={teams[gameIndex][teamIndex]}
-															required
-															label={`Team ${teamIndex + 1}`}
-															onChange={(e) => changeTeamField(gameIndex, teamIndex, e.target.value)}
-															className={!teams[gameIndex][teamIndex].hasOwnProperty("name") || sameTeams[gameIndex] ? "errorField" : ""}
-														>
-															{teamLists[leagueId][tiers[gameIndex]]
-																.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
-																.map(team => (
-																	<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
-															))}
-														</Select>
-													</FormControl>
+													Array.from({length: 2}).map((dummyTeam, teamIndex) =>
 
-												)
-											: null}
+														<FormControl size="small" fullWidth key={`game${gameIndex}team${teamIndex}`}>
+															<InputLabel id={`game${gameIndex}team${teamIndex}Label`} shrink>Team {teamIndex + 1}</InputLabel>
+															<Select
+																notched
+																labelId={`game${gameIndex}team${teamIndex}Label`}
+																id={`game${gameIndex}team${teamIndex}`}
+																value={scheduleTeams[gameIndex][teamIndex]}
+																required
+																label={`Team ${teamIndex + 1}`}
+																onChange={(e) => changeScheduleTeamField(gameIndex, teamIndex, e.target.value)}
+																className={!scheduleTeams[gameIndex][teamIndex].hasOwnProperty("name") || sameTeams[gameIndex] ? "errorField" : ""}
+															>
+																{teamLists[leagueId][scheduleTiers[gameIndex]]
+																	.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+																	.map(team => (
+																		<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
+																))}
+															</Select>
+														</FormControl>
+
+													)
+												: null}
 
 
-										</Item>
+											</Item>
+										</Grid>
+
+									)
+
+								: null
+
+
+							:
+
+								bracketTier
+									&& teamLists[leagueId].hasOwnProperty(bracketTier)
+									&& playoffConfig.hasOwnProperty(bracketTier)
+									?
+
+									<>
+
+										{playoffConfig[bracketTier].conferences ?
+
+											<Grid size={{xs: 12, md: 2}}>
+												<Item>
+													<p>Lunar Teams (by seed)</p>
+
+													{lunarTeams.map((team, teamIndex) =>
+
+														<FormControl size="small" fullWidth key={`bracketTeam${teamIndex}`}>
+															<InputLabel id={`bracketTeam${teamIndex}Label`} shrink>Team {teamIndex + 1}</InputLabel>
+															<Select
+																notched
+																labelId={`bracketTeam${teamIndex}Label`}
+																id={`bracketTeam${teamIndex}`}
+																value={team}
+																required
+																label={`Team ${teamIndex + 1}`}
+																onChange={(e) => changeLunarTeamField(teamIndex, e.target.value)}
+																className={!team.hasOwnProperty("name") ? "errorField" : ""}
+															>
+																{teamLists[leagueId][bracketTier]
+																	.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+																	.map(team => (
+																		<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
+																))}
+															</Select>
+														</FormControl>
+
+													)}
+
+												</Item>
+											</Grid>
+
+										: null}
+
+
+										<Grid size={{xs: 12, md: 2}}>
+											<Item>
+
+												{playoffConfig[bracketTier].conferences ?
+													<p>Solar Teams (by seed)</p>
+												:
+													<p>Playoff Teams (by seed)</p>
+												}
+
+												{ solarTeams.map((team, teamIndex) =>
+
+														<FormControl size="small" fullWidth key={`bracketTeam${teamIndex}`}>
+															<InputLabel id={`bracketTeam${teamIndex}Label`} shrink>Team {teamIndex + 1}</InputLabel>
+															<Select
+																notched
+																labelId={`bracketTeam${teamIndex}Label`}
+																id={`bracketTeam${teamIndex}`}
+																value={team}
+																required
+																label={`Team ${teamIndex + 1}`}
+																onChange={(e) => changeSolarTeamField(teamIndex, e.target.value)}
+																className={!team.hasOwnProperty("name") ? "errorField" : ""}
+															>
+																{teamLists[leagueId][bracketTier]
+																	.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+																	.map(team => (
+																		<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
+																))}
+															</Select>
+														</FormControl>
+
+												)}
+
+											</Item>
+										</Grid>
+
+									<Grid size={{xs: 12, md: 4}} container>
+
+											<>
+
+												{rd2Teams.length ?
+
+													<Grid size={{xs: 12, md: 4}}>
+														<Item>
+
+															<p>Rd 2</p>
+
+															{rd2Teams.map((team, teamIndex) =>
+
+																<FormControl size="small" fullWidth key={`bracketTeam${teamIndex}`}>
+																	<InputLabel id={`bracketTeam${teamIndex}Label`} shrink>Team {teamIndex + 1}</InputLabel>
+																	<Select
+																		notched
+																		labelId={`bracketTeam${teamIndex}Label`}
+																		id={`bracketTeam${teamIndex}`}
+																		value={team}
+																		required
+																		label={`Team ${teamIndex + 1}`}
+																		onChange={(e) => changeRd2TeamField(teamIndex, e.target.value)}
+																	>
+																		{teamLists[leagueId][bracketTier]
+																			.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+																			.map(team => (
+																				<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
+																		))}
+																	</Select>
+																</FormControl>
+
+															)}
+														</Item>
+													</Grid>
+
+												: null}
+
+												{semiTeams.length ?
+
+													<Grid size={{xs: 12, md: 4}}>
+														<Item>
+
+															<p>Semis</p>
+
+															{semiTeams.map((team, teamIndex) =>
+
+																<FormControl size="small" fullWidth key={`bracketTeam${teamIndex}`}>
+																	<InputLabel id={`bracketTeam${teamIndex}Label`} shrink>Team {teamIndex + 1}</InputLabel>
+																	<Select
+																		notched
+																		labelId={`bracketTeam${teamIndex}Label`}
+																		id={`bracketTeam${teamIndex}`}
+																		value={team}
+																		required
+																		label={`Team ${teamIndex + 1}`}
+																		onChange={(e) => changeSemiTeamField(teamIndex, e.target.value)}
+																	>
+																		{teamLists[leagueId][bracketTier]
+																			.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+																			.map(team => (
+																				<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
+																		))}
+																	</Select>
+																</FormControl>
+
+															)}
+
+														</Item>
+													</Grid>
+
+												: null}
+
+												{finalTeams.length ?
+
+													<Grid size={{xs: 12, md: 4}}>
+														<Item>
+
+															<p>Final</p>
+
+															{finalTeams.map((team, teamIndex) =>
+
+																<FormControl size="small" fullWidth key={`bracketTeam${teamIndex}`}>
+																	<InputLabel id={`bracketTeam${teamIndex}Label`} shrink>Team {teamIndex + 1}</InputLabel>
+																	<Select
+																		notched
+																		labelId={`bracketTeam${teamIndex}Label`}
+																		id={`bracketTeam${teamIndex}`}
+																		value={team}
+																		required
+																		label={`Team ${teamIndex + 1}`}
+																		onChange={(e) => changeFinalTeamField(teamIndex, e.target.value)}
+																	>
+																		{teamLists[leagueId][bracketTier]
+																			.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+																			.map(team => (
+																				<MenuItem key={team.id} value={team}>{team.name}</MenuItem>
+																		))}
+																	</Select>
+																</FormControl>
+
+															)}
+														</Item>
+													</Grid>
+
+												: null}
+
+
+											</>
+
+
 									</Grid>
 
-								)
+								</>
+
+
 							: null}
 
 						</Grid>
@@ -575,24 +941,34 @@ const ImageGenerator = () => {
 
 			</div>
 
-			{generatorData.hasOwnProperty("games") ?
+			{generatorData.ready ?
 
 				<>
 
 					<div className="sources">
 
-						{imageSizes.map((img, index) => (
+						{imageSizes.map((img, index) =>
 
-							<StreamSchedule key={index}
-								gameData={generatorData}
-								imageData={img}
-							/>
+							generatorData.imageType === "regular" || generatorData.imageType === "finals" ?
 
-						))}
+								<StreamSchedule key={index}
+									gameData={generatorData}
+									imageData={img}
+								/>
+
+							:
+
+								<PlayoffBracket
+									bracketData={generatorData}
+									imageData={img}
+								/>
+
+						)}
 
 					</div>
 
 					<div className="output">
+
 						{generatedImages.map((img, index) => (
 							<div key={index} className="generatedImage">
 								<div className="label">{img.label} ({img.width} x {img.height})</div>
