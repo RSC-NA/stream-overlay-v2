@@ -8,7 +8,7 @@ const BoostDisplay = (props) => {
 
         <div className="boostDisplay">
 
-			{props.theme === "rsc" ?
+			{props.theme.includes("rsc") ?
 				<>
 					<div className="boostText">{props.boost}</div>
 
