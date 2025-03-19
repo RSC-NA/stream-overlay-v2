@@ -47,11 +47,15 @@ const StreamSchedule = (props) => {
 								<Fragment key={index}>
 									<div className={`team team${index} hasLogo`}>
 										<div className="teamText">
-											<div className="name">{team.name}</div>
-											<div className="franchise">{team.franchise.name}</div>
+											<div className={`name ${team.id === "TBD" ? "tbd" : ""}`}>{team.name}</div>
+											<div className="franchise">{team.franchise ? team.franchise.name : ""}</div>
 										</div>
 										<div className="logo">
-											<img src={imageLocation(team.logo, "images/logos/teams")}></img>
+											{team.logo ?
+												<img src={imageLocation(team.logo, "images/logos/teams")}></img>
+											: team.id === "TBD" ?
+												<img src="/images/logos/rsc-splatter-logo.png" />
+											: null}
 										</div>
 									</div>
 									{index === 0 ?

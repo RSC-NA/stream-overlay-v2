@@ -125,6 +125,11 @@ const gamesInRound = (tier, round) => {
 
 const blankArray = (len) => Array.from({length: len}, () => "");
 
+const teamTBD = {
+	"id": "TBD",
+	"name": "TBD",
+};
+
 // NOTE: This is iniitally just set up for RSC 3s and will need a serious rework to handle multiple leagues
 
 const ImageGenerator = () => {
@@ -297,7 +302,10 @@ const ImageGenerator = () => {
 
 		for (let gm = 0; gm < gameCount; gm++) {
 			if (currentTeams[gm][0].hasOwnProperty("name") && currentTeams[gm][1].hasOwnProperty("name")) {
-				currentSameTeams[gm] = (currentTeams[gm][0].name === currentTeams[gm][1].name);
+				currentSameTeams[gm] = (
+					currentTeams[gm][0].name !== "TBD"
+						&& currentTeams[gm][0].name === currentTeams[gm][1].name
+					);
 			} else {
 				currentSameTeams[gm] = false;
 			}
@@ -396,8 +404,8 @@ const ImageGenerator = () => {
 				return;
 			}
 
-			if (scheduleTeams[0][0].name === scheduleTeams[0][1].name
-				|| (gameCount === 2 && scheduleTeams[1][0].name === scheduleTeams[1][1].name)
+			if (scheduleTeams[0][0].name !== "TBD" && scheduleTeams[0][0].name === scheduleTeams[0][1].name
+				|| (gameCount === 2 && scheduleTeams[1][0].name !== "TBD" &&scheduleTeams[1][0].name === scheduleTeams[1][1].name)
 			) {
 				openSnackbar("A team can't play against themselves.")
 				return;
@@ -420,7 +428,9 @@ const ImageGenerator = () => {
 				}
 
 				for (let tm = 0; tm < 2; tm++) {
-					gameData.teams[tm].logo = franchiseLists[leagueId].filter((franchise) => franchise.id === scheduleTeams[gm][tm].franchise.id)[0].logo
+					if (scheduleTeams[gm][tm].hasOwnProperty("franchise")) {
+						gameData.teams[tm].logo = franchiseLists[leagueId].filter((franchise) => franchise.id === scheduleTeams[gm][tm].franchise.id)[0].logo;
+					}
 				}
 
 				genData.games.push(gameData);
@@ -715,6 +725,10 @@ const ImageGenerator = () => {
 																onChange={(e) => changeScheduleTeamField(gameIndex, teamIndex, e.target.value)}
 																className={!scheduleTeams[gameIndex][teamIndex].hasOwnProperty("name") || sameTeams[gameIndex] ? "errorField" : ""}
 															>
+																{imageType === "finals" ?
+																	<MenuItem value={teamTBD}>TBD</MenuItem>
+																: null}
+
 																{teamLists[leagueId][scheduleTiers[gameIndex]]
 																	.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
 																	.map(team => (
