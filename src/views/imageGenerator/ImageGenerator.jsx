@@ -972,7 +972,7 @@ const ImageGenerator = () => {
 
 							:
 
-								<PlayoffBracket
+								<PlayoffBracket key={index}
 									bracketData={generatorData}
 									imageData={img}
 								/>

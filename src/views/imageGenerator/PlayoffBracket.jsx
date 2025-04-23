@@ -320,7 +320,7 @@ const PlayoffBracket = ({bracketData, imageData}) => {
 
 									<div className="team team1">
 										<div className="logo">
-											<img src={imageLocation(franchiseLogo(bracketData.solarTeams[2 - higherSeed]), "images/logos/teams")}></img>
+											<img src={imageLocation(franchiseLogo(bracketData.solarTeams[(bracketData.config.conferences ? 2 : 4) - higherSeed]), "images/logos/teams")}></img>
 										</div>
 										<div className="seed">{(bracketData.config.conferences ? 3 : 5) - higherSeed}</div>
 										<div className="name">{bracketData.solarTeams[(bracketData.config.conferences ? 2 : 4) - higherSeed].name}</div>
