@@ -192,6 +192,13 @@ body:has(#Statboard) {
 			text-transform: uppercase;
 		}
 
+		tr.out {
+            td, th {
+                color: #999999;
+                background: #333333dd;
+            }
+        }
+
 	}
 
 	.statboardTeamStats {
