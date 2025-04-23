@@ -13,7 +13,7 @@ const StreamSchedule = (props) => {
 
 				<div className="leagueLogo">
 					{props.gameData.imageType === "finals" ?
-						<img src="/images/logos/rsc-s22-finals.png" />
+						<img src="/images/logos/rsc-s23-finals.png" />
 					:
 						<img src="/images/logos/rsc-splatter-logo.png" />
 					}

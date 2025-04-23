@@ -65,8 +65,8 @@ $highlightWidth: calc($windowWidth + $highlightSidePadding * 2);
 @mixin goldHeaderBackground($logoSize) {
 	background-image: linear-gradient(to right,
 		rgba(#ce9728, 0) 0,
-		rgba(#ce9728, 0) calc($logoSize * .5),
-		rgba(#ce9728, 1) calc($logoSize * .5),
+		rgba(#ce9728, 0) calc($logoSize * .4),
+		rgba(#ce9728, .25) calc($logoSize * .8),
 		color.mix(#865b11, $backgroundHighlight, $weight: 70%) calc($logoSize * 1.1),
 		color.mix(#865b11, $backgroundHighlight, $weight: 40%) 30%,
 		color.mix(#e7b846, $backgroundHighlight, $weight: 30%) 60%,

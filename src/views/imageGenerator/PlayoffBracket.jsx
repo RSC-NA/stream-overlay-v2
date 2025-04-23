@@ -35,7 +35,7 @@ const PlayoffBracket = ({bracketData, imageData}) => {
 			<div className="header">
 
 				<div className="leagueLogo">
-						<img src="/images/logos/rsc-s22-finals.png" />
+						<img src="/images/logos/rsc-s23-finals.png" />
 				</div>
 
 				<div className="leagueName">Rocket Soccar Confederation</div>

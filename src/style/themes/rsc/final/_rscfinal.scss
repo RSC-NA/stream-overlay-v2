@@ -4,6 +4,14 @@
 
 	.matchupHeader {
 		@include goldHeaderBackground($pregameLeagueLogoSize);
+
+		.leagueLogo {
+			height: 90%;
+			width: 90%;
+			margin-top: 4%;
+			margin-left: 4%;
+		}
+
 	}
 
 	.vs {
