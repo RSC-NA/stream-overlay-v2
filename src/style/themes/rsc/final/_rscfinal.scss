@@ -40,6 +40,11 @@
 
 	.teamStatsHeader {
 		@include goldHeaderBackground($pregameLeagueLogoSizeSmall);
+
+		.leagueLogo {
+			margin-top: 3px;
+		}
+
 	}
 
 	.centerColumn {
@@ -53,6 +58,11 @@
 
 	.playerStatsHeader {
 		@include goldHeaderBackground($pregameLeagueLogoSizeSmall);
+
+		.leagueLogo {
+			margin-top: 3px;
+		}
+
 	}
 
 	.playerStatsTable thead th.statHeader {
