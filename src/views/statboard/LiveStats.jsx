@@ -48,15 +48,18 @@ const LiveStats = (props) => {
 							</tr>
 						</thead>
 						<tbody>
-							{Object.values(props.playerData)
+							{Object.values(props.playerStats)
 								.filter(player => player.team === teamnum)
 								.sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0 )
 								.map((player, playerIndex) => (
 								<tr
 									key={playerIndex}
-									style={{background: hexToRgba(props.teamColors[teamnum], 30 + 20 * playerIndex)}}
+									style={{
+										background: hexToRgba(props.teamColors[teamnum], 30 + 20 * playerIndex
+									)}}
+									className={!player.inGame ? "out" : ""}
 								>
-									<td className="playerBoost">{player.boost}</td>
+                                    <td className="playerBoost">{player.inGame ? player.boost : "-"}</td>
 									<td className="playerName tableAlignText">{player.name}</td>
 									<td>{player.score}</td>
 									<td>{player.goals}</td>

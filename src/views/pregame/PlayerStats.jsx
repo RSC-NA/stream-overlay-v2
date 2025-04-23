@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 
 import Header from "@/components/Header";
-import SeriesInfo from "@/components/SeriesInfo";
 
 import PlayerStatsTable from "@/components/PlayerStatsTable";
 
