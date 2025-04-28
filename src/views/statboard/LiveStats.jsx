@@ -9,6 +9,11 @@ import "@/style/statboard.scss";
 
 const LiveStats = (props) => {
 
+	const teamStatTotal = (teamnum, stat) =>
+		Object.values(props.playerStats)
+			.filter(player => player.team === teamnum)
+			.reduce((sum, player) => sum + Number(player[stat]), 0);
+
 	return (
 		<div className="statboardLiveStats">
 
@@ -21,7 +26,7 @@ const LiveStats = (props) => {
 			<table className="statboardLiveStatsTable">
 				{props.gameData.teams.map((team, teamnum) => (
 					<Fragment key={teamnum}>
-						<thead>
+						<tbody>
 							<tr className="teamNameHeader" style={{background: hexToRgba(props.teamColors[teamnum], 100)}}>
 								<th className="teamIdentification" colSpan={8}>
 									<span className="teamName">{props.config.teams[teamnum].name ? props.config.teams[teamnum].name : team.name}</span>
@@ -46,8 +51,6 @@ const LiveStats = (props) => {
 								<th>Demos</th>
 								<th>Bumps</th>
 							</tr>
-						</thead>
-						<tbody>
 							{Object.values(props.playerStats)
 								.filter(player => player.team === teamnum)
 								.sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0 )
@@ -71,6 +74,33 @@ const LiveStats = (props) => {
 									<td>{player.cartouches}</td>
 								</tr>
 							))}
+							<tr className="teamTotals">
+								<td colSpan={2}>Totals</td>
+								<td>
+									{teamStatTotal(teamnum, "score")}
+								</td>
+								<td>
+									{teamStatTotal(teamnum, "goals")}
+								</td>
+								<td>
+									{teamStatTotal(teamnum, "assists")}
+								</td>
+								<td>
+									{teamStatTotal(teamnum, "shots")}
+								</td>
+								<td>
+									{teamStatTotal(teamnum, "saves")}
+								</td>
+								<td>
+									{teamStatTotal(teamnum, "touches")}
+								</td>
+								<td>
+									{teamStatTotal(teamnum, "demos")}
+								</td>
+								<td>
+									{teamStatTotal(teamnum, "cartouches")}
+								</td>
+							</tr>
 						</tbody>
 					</Fragment>
 				))}
