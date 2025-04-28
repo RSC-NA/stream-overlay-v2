@@ -57,7 +57,7 @@ body:has(#Statboard) {
 		font-family: var(--fontOxanium);
 		font-weight: 700;
 		text-align: center;
-		margin-top: 30px;
+		margin-top: 10px;
 
 		// fix colon being at bottom in Oxanium
 		.colon {
@@ -73,7 +73,8 @@ body:has(#Statboard) {
 		}
 
 		.time {
-			font-size: 4.5rem;
+			font-size: 4.2rem;
+			line-height: 4rem;
 		}
 
 		.overtimeText {
@@ -136,8 +137,8 @@ body:has(#Statboard) {
 			vertical-align: middle;
 		}
 
-		thead:nth-of-type(2) tr.teamNameHeader th {
-			border-top: 70px solid var(--pageBackground);
+		tbody:nth-of-type(2) tr.teamNameHeader th {
+			border-top: 40px solid var(--pageBackground);
 		}
 
 
@@ -198,6 +199,10 @@ body:has(#Statboard) {
                 background: #333333dd;
             }
         }
+
+		tr.teamTotals {
+			font-size: 1.2rem;
+		}
 
 	}
 
