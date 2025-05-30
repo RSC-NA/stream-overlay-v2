@@ -145,6 +145,7 @@ $highlightTranslucent: rgba($highlightColor, .4);
 					padding: 10px 0;
 
 					.time {
+						color: $textColor;
 						font-family: var(--fontCooper);
 						font-weight: bold;
 						font-size: 70px;
@@ -153,6 +154,7 @@ $highlightTranslucent: rgba($highlightColor, .4);
 					}
 
 					.tier {
+						color: $textColor;
 						font-family: var(--fontUltimatum);
 						font-size: 40px;
 						font-weight: bold;
