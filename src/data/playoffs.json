@@ -29,6 +29,6 @@
 	},
 	"Premier": {
 		"teams": 6,
-		"conferences": false
+		"conferences": true
 	}
 }
