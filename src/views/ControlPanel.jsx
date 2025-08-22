@@ -43,7 +43,7 @@ const defaultTeamData = [
 
 const defaultSeriesScore = [0, 0];
 // TODO: pull current season from API?
-const currentSeason = 23;
+const currentSeason = 24;
 
 let panelTheme = createTheme({
 	palette: {
@@ -643,7 +643,7 @@ const ControlPanel = () => {
 
 			case "RSC3-final":
 				setLeagueId(1);
-				changeBrandLogoField("rsc-s23-finals.png");
+				changeBrandLogoField("rsc-s24-finals.png");
 				if (!skipTeamNames) {
 					setNamesFromDropdowns();
 				}
