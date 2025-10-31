@@ -1,10 +1,10 @@
 {
 	"Amateur": {
-		"teams": 6,
-		"conferences": true
+		"teams": 4,
+		"conferences": false
 	},
 	"Prospect": {
-		"teams": 7,
+		"teams": 6,
 		"conferences": false
 	},
 	"Challenger": {
@@ -24,11 +24,11 @@
 		"conferences": true
 	},
 	"Master": {
-		"teams": 7,
+		"teams": 6,
 		"conferences": false
 	},
 	"Premier": {
-		"teams": 6,
-		"conferences": true
+		"teams": 4,
+		"conferences": false
 	}
 }
