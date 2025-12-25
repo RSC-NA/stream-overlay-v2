@@ -170,7 +170,6 @@ const Overlay = () => {
 		if (localStorage.hasOwnProperty("interview")) {
 			setInterview(JSON.parse(localStorage.getItem("interview")));
 		} else {
-			console.log("no");
 			setInterview({
 				name: "",
 				team: {
