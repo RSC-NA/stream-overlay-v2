@@ -43,7 +43,7 @@ const defaultTeamData = [
 
 const defaultSeriesScore = [0, 0];
 // TODO: pull current season from API?
-const currentSeason = 24;
+const currentSeason = 25;
 
 let panelTheme = createTheme({
 	palette: {

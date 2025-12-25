@@ -34,7 +34,7 @@ const defaultTimes = {
 	regular: ["10:50", "11:30"],
 	finals: ["9:30", "10:30"],
 }
-const currentSeason = 24; // TODO: set on new season (or dynamically?)
+const currentSeason = 25; // TODO: set on new season (or dynamically?)
 
 // TODO: don't have formats yet
 const imageSizes = [
