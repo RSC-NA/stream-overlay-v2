@@ -75,6 +75,8 @@ $overtimeColor: #d8262e;
 
 $transitionDelay: 3s;
 
+$interviewLogoWidth: 450px;
+
 :root {
 	background: transparent;
 
@@ -106,6 +108,8 @@ $transitionDelay: 3s;
 	@import "teamStats";
 
 	@import "postgame";
+
+	@import "interview";
 
 	@import "../transitions/triangleMerge";
 

@@ -4,6 +4,7 @@ import useWebSocket from "react-use-websocket";
 
 import defaultConfig from "@/data/config.json";
 
+import Interview from "@/views/overlay/Interview";
 import Live from "@/views/overlay/Live";
 import Postgame from "@/views/overlay/Postgame";
 import Matchup from "@/views/pregame/Matchup";
@@ -57,6 +58,7 @@ const Overlay = () => {
 		time_seconds: 0,
 	});
 	const [gameMode, _setGameMode] = useState("soccar");
+	const [interview, _setInterview] = useState({});
 	const [lastGoal, setLastGoal] = useState({});
     const [playerData, _setPlayerData] = useState({});
     const [playerEvents, _setPlayerEvents] = useState([]);
@@ -97,6 +99,12 @@ const Overlay = () => {
     const setGameMode = (data) => {
         gameModeRef.current = data;
         _setGameMode(data);
+    }
+
+	const interviewRef = useRef(interview);
+    const setInterview = (data) => {
+        interviewRef.current = data;
+        _setInterview(data);
     }
 
 	const playerDataRef = useRef(playerData);
@@ -157,6 +165,28 @@ const Overlay = () => {
 			setActiveConfig(JSON.parse(localStorage.getItem("config")));
 		} else {
 			localStorage.setItem("config", JSON.stringify(activeConfig));
+		}
+
+		if (localStorage.hasOwnProperty("interview")) {
+			setInterview(JSON.parse(localStorage.getItem("interview")));
+		} else {
+			console.log("no");
+			setInterview({
+				name: "",
+				team: {
+					name: "",
+					franchise: "",
+					logo: "",
+				}
+			});
+			localStorage.setItem("interview", JSON.stringify({
+				name: "",
+				team: {
+					name: "",
+					franchise: "",
+					logo: "",
+				}
+			}));
 		}
 
 		if (localStorage.hasOwnProperty("pregameStats")) {
@@ -231,6 +261,33 @@ const Overlay = () => {
 					} else {
 						setActiveConfig(defaultConfig);
 						localStorage.setItem("config", JSON.stringify(defaultConfig));
+					}
+					break;
+
+				case "interview":
+					if(event.newValue !== null) {
+						const newInterview = JSON.parse(event.newValue);
+						if (viewStateRef.current === "interview" && newInterview.hasOwnProperty("team")) {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								newInterview.team.hasOwnProperty("logo") ?
+									newInterview.team.logo
+									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								null,
+								null,
+								0,
+							);
+							setTimeout(() => {
+								setInterview(newInterview);
+							}, 700);
+						} else {
+							setInterview(JSON.parse(event.newValue));
+						}
+					} else {
+						setInterview({});
 					}
 					break;
 
@@ -344,6 +401,25 @@ const Overlay = () => {
 							);
 							setTimeout(() => {
 								applyViewState("live");
+							}, 750);
+							break;
+						}
+
+						case "triggerInterview": {
+							triggerTransition(
+								activeConfigRef.current.general.hasOwnProperty("transition") && activeConfigRef.current.general.transition ? activeConfigRef.current.general.transition : transitionDefault.name,
+								"",
+								interviewRef.current.team.hasOwnProperty("logo") ?
+									interviewRef.current.team.logo
+									: activeConfigRef.current.general.hasOwnProperty("brandLogo") && activeConfigRef.current.general.brandLogo ?
+										imageLocation(activeConfigRef.current.general.brandLogo, "images/logos")
+									: null,
+								null,
+								null,
+								0,
+							);
+							setTimeout(() => {
+								applyViewState("interview");
 							}, 750);
 							break;
 						}
@@ -536,7 +612,7 @@ const Overlay = () => {
 					}
 					if (viewState !== "postgame" && data.game.time_milliseconds % 1 !== 0) {
 						applyViewState("live");
-					} else if (viewState === "") {
+					} else if (viewStateRef.current === "") {
 						applyViewState("matchup");
 					}
 					if (data.game.arena === "ShatterShot_P") {
@@ -713,7 +789,7 @@ const Overlay = () => {
 			}}
 		>
 
-			{viewState === "postgame" ? (
+			{viewStateRef.current === "postgame" ? (
 				<Postgame
 					config={activeConfigRef.current}
 					gameData={gameDataRef.current}
@@ -722,14 +798,14 @@ const Overlay = () => {
 					seriesScore={seriesScoreRef.current}
 					seriesGame={seriesScore[0] + seriesScore[1]}
 				/>
-			) : viewState ==="matchup" ? (
+			) : viewStateRef.current ==="matchup" ? (
 				<Matchup
 					config={activeConfigRef.current}
 					gameData={gameDataRef.current}
 					seriesScore={seriesScoreRef.current}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 				/>
-			) : viewState ==="teamStats" ? (
+			) : viewStateRef.current ==="teamStats" ? (
 				<TeamStats
 					config={activeConfigRef.current}
 					gameData={gameDataRef.current}
@@ -737,7 +813,7 @@ const Overlay = () => {
 					seriesScore={seriesScoreRef.current}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 				/>
-			) : viewState ==="playerStats0" ? (
+			) : viewStateRef.current ==="playerStats0" ? (
 				<PlayerStats
 					config={activeConfigRef.current}
 					gameData={gameDataRef.current}
@@ -746,7 +822,7 @@ const Overlay = () => {
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					team={0}
 				/>
-			) : viewState ==="playerStats1" ? (
+			) : viewStateRef.current ==="playerStats1" ? (
 				<PlayerStats
 					config={activeConfigRef.current}
 					gameData={gameDataRef.current}
@@ -754,6 +830,12 @@ const Overlay = () => {
 					seriesScore={seriesScoreRef.current}
 					seriesGame={seriesScore[0] + seriesScore[1] + 1}
 					team={1}
+				/>
+			) : viewStateRef.current === "interview" ? (
+				<Interview
+					config={activeConfig}
+					name={interviewRef.current.name}
+					team={interviewRef.current.team}
 				/>
 			) : (
 				<Live

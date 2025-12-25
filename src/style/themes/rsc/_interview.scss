@@ -1,0 +1,150 @@
+.interview {
+	position: absolute;
+    left: 0;
+    top: 0;
+	width: $windowWidth;
+	height: $windowHeight;
+	color: $textColor;
+	padding-top: 20px;
+	@include triangleFadingBackground;
+
+	@import "header";
+
+	.interviewHeader {
+		display: grid;
+		grid-template-areas:
+			"logo header"
+			"logo title"
+		;
+		grid-template-columns: $pregameLeagueLogoSizeSmall 1fr;
+		grid-template-rows: .8fr 1fr;
+		width: calc($windowWidth - 900px);
+		margin: 0 auto 70px;
+		background-image: linear-gradient(to right,
+			$backgroundTransparent 0,
+			$backgroundTransparent calc($pregameLeagueLogoSizeSmall * .5),
+			$backgroundHighlight calc($pregameLeagueLogoSizeSmall * .5),
+			$backgroundHighlight 70%,
+			$backgroundTransparent 95%
+		);
+		background-size: 100% 115px;
+		background-repeat: no-repeat;
+		background-position: left 25px;
+
+		.leagueLogo {
+			grid-area: logo;
+			width: $pregameLeagueLogoSizeSmall ;
+			height: $pregameLeagueLogoSizeSmall;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				object-position: 50% 50%;
+			}
+		}
+
+		@import "header";
+
+		.header0 {
+			grid-area: header;
+			align-self: end;
+			width: auto;
+			font-size: 30px;
+			text-align: left;
+			margin: 0;
+			padding: 0 60px 0 20px;
+			background: none;
+		}
+
+		.interviewTitle {
+			grid-area: title;
+			align-self: start;
+			font-family: var(--fontUltimatum);
+			font-size: 54px;
+			font-weight: bold;
+			font-style: italic;
+			color: white;
+			text-transform: uppercase;
+			letter-spacing: .3em;
+			margin: -10px 0 0 0;
+			padding: 0 0px 0 20px;
+		}
+
+	}
+
+	.interviewDisplay {
+		display: grid;
+		margin: 175px;
+		grid-template-areas: "logo text";
+		grid-template-columns: $interviewLogoWidth 1fr;
+		grid-gap: 100px;
+
+		.teamLogo {
+			grid-area: logo;
+			width: $interviewLogoWidth;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				object-position: 50% 50%;
+			}
+
+		}
+
+		.interviewing {
+			display: grid;
+			grid-area: text;
+			align-items: center;
+			text-transform: uppercase;
+			margin: 50px 0;
+			padding: 25px;
+			background: rgba(#ffffff, .11);
+
+			.interviewingText {
+				padding: 25px;
+				text-align: center;
+
+				.name {
+					color: $textColor;
+					font-family: var(--fontUltimatum);
+					font-weight: bold;
+					font-size: 90px;
+					line-height: 84px;
+
+					&.hasTeam {
+						padding-bottom: 30px;
+						border-bottom: 2px solid $highlightColor;
+					}
+				}
+
+				.teamText {
+					text-transform: uppercase;
+					margin-top: 25px;
+
+					.teamName {
+						color: $textColor;
+						font-family: var(--fontCooper);
+						font-size: 32px;
+						font-weight: bold;
+						line-height: 34px;
+						margin: 30px 0 15px;
+					}
+
+					.franchise {
+						color: $secondaryTextColor;
+						font-family: var(--fontCooper);
+						font-size: 24px;
+					}
+
+				}
+
+			}
+
+
+		}
+
+	}
+
+}

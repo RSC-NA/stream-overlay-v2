@@ -114,6 +114,10 @@ const ControlPanel = () => {
 	const [splashOnField, setSplashOnField] = useState(false);
 	const [splashCountField, setSplashCountField] = useState(0);
 
+	const [interviewSaved, setInterviewSaved] = useState({});
+	const [interviewNameField, setInterviewNameField] = useState("");
+	const [interviewTeamField, setInterviewTeamField] = useState(-1);
+
 	const thisUrl = new URL(document.location.href);
 	const statsUrlPrefix = `${thisUrl.protocol}//${thisUrl.host}`;
 
@@ -132,6 +136,15 @@ const ControlPanel = () => {
 			setConfigValuesFromLocalStorage();
 		} else {
 			setConfigValuesToDefault();
+		}
+
+		if (localStorage.hasOwnProperty("interview")) {
+			const interviewIn = JSON.parse(localStorage.getItem("interview"));
+			setInterviewSaved(interviewIn);
+			setInterviewNameField(interviewIn.name);
+		} else {
+			setInterviewNameField("");
+			setInterviewTeamField(-1);
 		}
 
 		if (localStorage.hasOwnProperty("seriesScore")) {
@@ -238,7 +251,12 @@ const ControlPanel = () => {
 			if (splashCountField !== splashCount) {
 				tempFieldsWithChanges.push("splashCountField");
 			}
-
+			if (interviewNameField !== interviewSaved.name) {
+				tempFieldsWithChanges.push("InterviewNameField");
+			}
+			if (interviewTeamField !== interviewSaved.team) {
+				tempFieldsWithChanges.push("InterviewTeamField");
+			}
 			setFieldsWithChanges(tempFieldsWithChanges);
 		}
 
@@ -246,6 +264,8 @@ const ControlPanel = () => {
 		franchiseFields,
 		headerField,
 		brandLogoField,
+		interviewNameField,
+		interviewTeamField,
 		matchdayNumberField,
 		seasonNumberField,
 		seriesLengthField,
@@ -870,6 +890,42 @@ const ControlPanel = () => {
 
 		setSplashCount(splashCountField);
 		setSplashOn(splashOnField);
+
+		let interviewTeam = {};
+		switch(interviewTeamField) {
+			case -1:
+				interviewTeam = {
+					name: "",
+					franchiseName: "",
+					logo: "/images/logos/rsc-splatter-logo.png",
+				};
+				break;
+			case 0:
+				interviewTeam = {
+					name: teamNameFields[0],
+					franchise: franchiseFields[0],
+					logo: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? teamFranchiseLogos[0] : teamLogoFields[0],
+				};
+				break;
+			case 1:
+				interviewTeam = {
+					name: teamNameFields[1],
+					franchise: franchiseFields[1],
+					logo: streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? teamFranchiseLogos[1] : teamLogoFields[1],
+				};
+				break;
+
+		}
+
+		localStorage.setItem("interview", JSON.stringify({
+			name: interviewNameField,
+			team: interviewTeam,
+		}));
+
+		setInterviewSaved({
+			name: interviewNameField,
+			team: interviewTeamField,
+		});
 	}
 
 
@@ -1113,9 +1169,21 @@ const ControlPanel = () => {
 										<Grid container size={12} spacing={0} className="gridRow pregameButtons">
 
 											<Grid size={12}>
-												<h2>Pregame cards</h2>
+												<h2>Overlay Card Control</h2>
 
 												<Item justifyContent={"center"}>
+
+													<Button
+														variant={viewState === "live" ? "contained" : "outlined"}
+														disabled={viewState === "live" || viewState === "triggerLive"}
+														color="error"
+														style={{
+															borderWidth: "2px",
+															borderStyle: "solid",
+															borderColor: viewState === "live" ? "yellowgreen" : "",
+														}}
+														onClick={() => {triggerViewState("triggerLive", "live")}}
+													>Live game</Button>
 
 													<Button
 														variant={viewState === "matchup" ? "contained" : "outlined"}
@@ -1168,16 +1236,16 @@ const ControlPanel = () => {
 													>Player stats 2</Button>
 
 													<Button
-														variant={viewState === "live" ? "contained" : "outlined"}
-														disabled={viewState === "live" || viewState === "triggerLive"}
-														color="error"
+														variant={viewState === "interview" ? "contained" : "outlined"}
+														disabled={viewState === "interview" || viewState === "triggerInterview"}
+														color="primary"
 														style={{
 															borderWidth: "2px",
 															borderStyle: "solid",
-															borderColor: viewState === "live" ? "yellowgreen" : "",
+															borderColor: viewState === "interview" ? "yellowgreen" : "",
 														}}
-														onClick={() => {triggerViewState("triggerLive", "live")}}
-													>Live game</Button>
+														onClick={() => {triggerViewState("triggerInterview", "interview")}}
+													>Interview</Button>
 
 												</Item>
 
@@ -1473,6 +1541,59 @@ const ControlPanel = () => {
 
 
 						</Grid>
+
+						{streamTypeField !== "other" ?
+
+							<Grid container size={12} spacing={0} border={1} marginTop={3} className="mainPanelGrid">
+
+								<Grid size={12} paddingLeft={1}>
+									<p>Interview</p>
+								</Grid>
+
+								{/* {Array.isArray(teamList) && teamList.length > 0 ? */}
+									<Grid size={6} padding={1}>
+
+										<FormControl size="small" fullWidth>
+											<InputLabel id="interviewTeamFieldLabel" shrink>Team</InputLabel>
+											<Select
+												notched
+												labelId="interviewTeamFieldLabel"
+												id="interviewTeamField"
+												value={interviewTeamField}
+												label="Team"
+												className={`${fieldHasChanges("InterviewTeamField") ? "changedField" : ""}`}
+												onChange={(e) => setInterviewTeamField(e.target.value)}
+											>
+												<MenuItem value={-1}>(none)</MenuItem>
+												{teamFields[0].name ?
+													<MenuItem key={0} value={0}>{teamFields[0].name}</MenuItem>
+												: null }
+												{teamFields[1].name ?
+													<MenuItem key={1} value={1}>{teamFields[1].name}</MenuItem>
+												: null }
+											</Select>
+										</FormControl>
+
+									</Grid>
+
+								{/* : null} */}
+
+								<Grid size={6}>
+									<Item>
+										<TextField
+											id="InterviewNameField"
+											size="small"
+											label="Name"
+											value={interviewNameField}
+											onChange={(e) => setInterviewNameField(e.target.value)}
+											className={`${fieldHasChanges("InterviewNameField") ? "changedField" : ""}`}
+										/>
+									</Item>
+								</Grid>
+
+							</Grid>
+
+						: null}
 
 					</Container>
 
