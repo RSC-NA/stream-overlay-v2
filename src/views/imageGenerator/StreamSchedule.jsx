@@ -69,7 +69,7 @@ const StreamSchedule = (props) => {
 			</div>
 
 			<div className="streamLocation">
-				twitch.tv/rscsolar
+				twitch.tv/RSC_NA
 			</div>
 
 		</div>
