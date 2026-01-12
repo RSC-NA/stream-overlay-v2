@@ -619,14 +619,14 @@ const ImageGenerator = () => {
 											/>
 
 											<FormControl size="small" fullWidth>
-												<InputLabel id="gameCountLabel" shrink>Games</InputLabel>
+												<InputLabel id="gameCountLabel" shrink>Number of series</InputLabel>
 												<Select
 													notched
 													labelId="gameCountLabel"
 													id="gameCount"
 													value={gameCount}
 													required
-													label="Game"
+													label="Number of series"
 													onChange={(e) => setGameCount(e.target.value)}
 												>
 													<MenuItem value={1}>1</MenuItem>
@@ -675,7 +675,7 @@ const ImageGenerator = () => {
 										<Grid size={{xs: 12, md: 4}} key={`game${gameIndex}`}>
 											<Item>
 
-												<p>Game {gameIndex + 1}</p>
+												<p>Series {gameIndex + 1}</p>
 
 												<FormControl variant="outlined" size="small" fullWidth>
 													<InputLabel shrink htmlFor={`time${gameIndex}`}>Time</InputLabel>
