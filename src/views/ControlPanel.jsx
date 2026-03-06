@@ -663,7 +663,7 @@ const ControlPanel = () => {
 
 			case "RSC3-final":
 				setLeagueId(1);
-				changeBrandLogoField("rsc-s24-finals.png");
+				changeBrandLogoField("rsc-splatter-logo.png");
 				if (!skipTeamNames) {
 					setNamesFromDropdowns();
 				}
