@@ -98,6 +98,7 @@ const ControlPanel = () => {
 	const [fieldsWithChanges, setFieldsWithChanges] = useState([]);
 
 	const [streamTypeField, setStreamTypeField] = useState("RSC3-regular"); // default to regular season if not already set
+	const [bakkesmodOnField, setBakkesmodOnField] = useState(true);
 	const [teamFields, setTeamFields] = useState(["", ""]);
 	const [brandLogoField, setBrandLogoField] = useState("");
 	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers?
@@ -197,6 +198,11 @@ const ControlPanel = () => {
 	useEffect(() => {
 		if (config.hasOwnProperty("teams")) {
 			const tempFieldsWithChanges = [];
+
+			if (bakkesmodOnField !== config.bakkesmod) {
+				tempFieldsWithChanges.push("bakkesmodOnField");
+			}
+
 			for (let teamnum in config.teams) {
 				if (teamNameFields[teamnum] !== config.teams[teamnum].name) {
 					tempFieldsWithChanges.push(`teamNameField${teamnum}`);
@@ -261,6 +267,7 @@ const ControlPanel = () => {
 		}
 
 	}, [
+		bakkesmodOnField,
 		franchiseFields,
 		headerField,
 		brandLogoField,
@@ -551,6 +558,13 @@ const ControlPanel = () => {
 		setMatchdayNumberField(loadedConfig.general.matchday);
 		changeTierField(loadedConfig.general.tier);
 		changeStreamTypeField(loadedConfig.general.streamType, true);
+
+		if (loadedConfig.hasOwnProperty("bakkesmod")) {
+			setBakkesmodOnField(loadedConfig.bakkesmod);
+		} else {
+			setBakkesmodOnField(true);
+		}
+
 	}
 
 	const setConfigValuesToDefault = () => {
@@ -705,6 +719,10 @@ const ControlPanel = () => {
 		setSplashOnField(!splashOnField);
 	}
 
+	const switchBakkesmod = () => {
+		setBakkesmodOnField(!bakkesmodOnField);
+	}
+
 	const changeSplashCountField = (count) => {
 		if (count === "" || Number.isInteger(Number(count))) {
 			setSplashCountField(count);
@@ -847,6 +865,7 @@ const ControlPanel = () => {
 		}));
 
 		const newConfig = {
+			bakkesmod: bakkesmodOnField,
 			general: {
 				...config.general,
 				headers: [streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final" ? "%%RSCHEADER%%" : headerField],
@@ -1059,6 +1078,23 @@ const ControlPanel = () => {
 								</Grid>
 
 							</Grid>
+
+							<Grid container size={12} spacing={2} className="mainPanelGrid">
+
+								<Grid size={12}>
+									<Item>
+										<span className={fieldHasChanges("bakkesmodOnField") ? "changedField" : ""}>
+											<strong>Bakkesmod Available?</strong>
+										</span>
+										<Switch
+											checked={bakkesmodOnField}
+											onChange={switchBakkesmod}
+											color={bakkesmodOnField ? "success" : "primary"}
+										/>
+									</Item>
+								</Grid>
+							</Grid>
+
 
 							<Grid container size={12} spacing={0} className="gridRow">
 

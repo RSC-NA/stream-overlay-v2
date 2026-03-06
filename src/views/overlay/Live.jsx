@@ -28,7 +28,7 @@ const Live = (props) => {
         ? true : false;
 
 	return (
-		<div className={`livePlay ${props.gameData.isOT ? "overtime" : ""}`}>
+		<div className={`livePlay ${props.gameData.isOT ? "overtime" : ""} ${props.config.bakkesmod ? "" : "noBakkesmod"}`}>
 
 			<div className="scoreboard">
 
@@ -40,11 +40,13 @@ const Live = (props) => {
 					tier={props.config.general.headers[0] === "%%RSCHEADER%%" ? props.config.general.tier : null}
 				/>
 
-				<Clock
-					time={props.gameData.time_seconds}
-					overtime={props.gameData.isOT}
-					goalTeam={props.showGoalTeam && props.lastGoal.scorer.hasOwnProperty("teamnum") ? props.lastGoal.scorer.teamnum : null}
-				/>
+				{props.config.bakkesmod ?
+					<Clock
+						time={props.gameData.time_seconds}
+						overtime={props.gameData.isOT}
+						goalTeam={props.showGoalTeam && props.lastGoal.scorer.hasOwnProperty("teamnum") ? props.lastGoal.scorer.teamnum : null}
+					/>
+				: null }
 
 				{props.config.series.show || props.config.series.override ? (
 					<SeriesInfo seriesScore={props.seriesScore} seriesGame={props.seriesGame} seriesConfig={props.config.series} />
@@ -64,11 +66,13 @@ const Live = (props) => {
 								logo={props.config.teams[teamnum].logo}
 							/>
 						) : null}
-						<TeamScore
-							team={teamnum}
-							score={team.score}
-							long={longScores}
-						/>
+						{props.config.bakkesmod ?
+							<TeamScore
+								team={teamnum}
+								score={team.score}
+								long={longScores}
+							/>
+						: null }
 						{props.config.series.show ? (
 							<TeamSeriesScore
 								team={teamnum}
@@ -81,7 +85,7 @@ const Live = (props) => {
 
 			</div>
 
-			{props.config.general.show.players ? (
+			{props.config.bakkesmod && props.config.general.show.players ? (
 				<Fragment>
 					<TeamPlayerBoxes
 						gameMode={props.gameMode}
@@ -119,7 +123,7 @@ const Live = (props) => {
 				<Splash count={props.splash.count} />
 			: null}
 
-            {!props.gameData.isReplay && props.gameData.target && props.playerData.hasOwnProperty(props.gameData.target) ? (
+            {props.config.bakkesmod && !props.gameData.isReplay && props.gameData.target && props.playerData.hasOwnProperty(props.gameData.target) ? (
                 <Watching
 					gameMode={props.gameMode}
 					player={props.playerData[props.gameData.target]}
@@ -127,14 +131,16 @@ const Live = (props) => {
 				/>
             ) : null}
 
-            {!props.gameData.isReplay && props.clockRunning && props.config.general.show.ball ? (
+            {props.config.bakkesmod && !props.gameData.isReplay && props.clockRunning && props.config.general.show.ball ? (
                 <Ball ball={props.gameData.ball} />
             ) : null}
 
-            <Replay
-                lastGoal={props.lastGoal}
-                show={props.gameData.isReplay && !props.gameData.hasWinner && props.lastGoal.hasOwnProperty("scorer") && props.lastGoal.scorer.hasOwnProperty("teamnum")}
-            />
+			{props.config.bakkesmod ?
+				<Replay
+					lastGoal={props.lastGoal}
+					show={props.gameData.isReplay && !props.gameData.hasWinner && props.lastGoal.hasOwnProperty("scorer") && props.lastGoal.scorer.hasOwnProperty("teamnum")}
+				/>
+			: null}
 
 		</div>
 	)
