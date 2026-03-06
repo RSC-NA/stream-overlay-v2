@@ -141,7 +141,7 @@ const ImageGenerator = () => {
 
 	const [imageType, setImageType] = useState("regular");
 	const [season, setSeason] = useState(currentSeason); // TODO: Update default each season?
-	const [matchday, setMatchday] = useState(1);
+	const [matchday, setMatchday] = useState("1");
 	const [gameCount, setGameCount] = useState(2);
 	const [scheduleTimes, setScheduleTimes] = useState(["",""]);
 	const [scheduleTiers, setScheduleTiers] = useState(["",""]);
@@ -361,7 +361,7 @@ const ImageGenerator = () => {
 	const resetFields = () => {
 
 		setSeason(currentSeason);
-		setMatchday(1);
+		setMatchday("1");
 		setGameCount(2);
 		setScheduleTimes(["",""]);
 		setScheduleTiers(["",""]);
@@ -603,19 +603,13 @@ const ImageGenerator = () => {
 											<TextField
 												fullWidth
 												required
-												inputProps={{
-													min: 1,
-													step: 1,
-												}}
 												id="matchday"
-												type="number"
 												size="small"
-												label="Matchday"
+												label="Matchday(s)"
 												value={matchday}
 												disabled={imageType !== "regular"}
-												onKeyDown={(e) => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
 												onChange={(e) => setMatchday(e.target.value)}
-												className={matchday === "" || matchday < 1 ? "errorField" : ""}
+												className={matchday === "" ? "errorField" : ""}
 											/>
 
 											<FormControl size="small" fullWidth>
