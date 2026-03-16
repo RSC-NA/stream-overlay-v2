@@ -5,7 +5,10 @@ import sheetsPlugin from "./sheetsPlugin.js"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react(), sheetsPlugin()],
+	plugins: [
+		react(),
+		sheetsPlugin(), // serves /api/sheets/teams and /api/sheets/players endpoints server-side to avoid CSP issues
+	],
 	server: {
 		watch: {
 				usePolling: true

@@ -26,9 +26,12 @@ export const getTeamListByTier = async (league, tier, season) =>
 
 export const getTeamPlayerStats = async (team) => {
 	if (USE_SHEETS) {
+		// Proxied through sheetsPlugin.js — fetches Contracts sheet for roster,
+		// then Player Totals sheet for stats, joined by RSC ID
 		const response = await fetch(`/api/sheets/players/${encodeURIComponent(team)}`);
 		return response.json();
 	}
+	// Fallback: devleague API (requires manual sync, may be stale)
 	return new Promise((resolve, reject) => {
 		callStats("get", `players/${team}`, {})
 			.then((response) => resolve(response.data))
@@ -38,9 +41,12 @@ export const getTeamPlayerStats = async (team) => {
 
 export const getTeamStatsByTier = async (tier) => {
 	if (USE_SHEETS) {
+		// Proxied through sheetsPlugin.js — fetches Team Totals for stats,
+		// Standings sheet for accurate wins/losses (accounts for forfeits)
 		const response = await fetch(`/api/sheets/teams/${encodeURIComponent(tier)}`);
 		return response.json();
 	}
+	// Fallback: devleague API (requires manual sync, may be stale)
 	return new Promise((resolve, reject) => {
 		callStats("get", `teams/${tier}`, {})
 			.then((response) => resolve(response.data))

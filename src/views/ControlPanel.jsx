@@ -817,6 +817,7 @@ const ControlPanel = () => {
 					.then(() => {
 						// set team stats from tier list
 						for (let teamnum in teamFields) {
+							// case-insensitive match to handle any casing differences between the sheet and the RSC API team names
 							const filteredTeamStats = tierTeamStats.filter((t) => t.teamName.trim().toLowerCase() === teamFields[teamnum].name.trim().toLowerCase());
 							if (filteredTeamStats.length === 1) {
 								teamStats[teamnum] = filteredTeamStats[0];
