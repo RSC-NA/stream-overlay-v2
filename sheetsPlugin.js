@@ -109,14 +109,14 @@ const playersHandler = async (req, res, next) => {
 			fetch(PLAYER_TOTALS_URL).then(r => r.text()),
 		]);
 
-		// Build RSC ID -> player name map for rostered players on this team
+		// Build RSC ID -> player name map for rostered, and Free Agents/PFA to account for subs and players on this team
 		const rosterMap = {};
 		parseCSV(contractsText).slice(1).forEach(row => {
 			const rscId          = row[0]?.trim(); // A
 			const playerName     = row[1]?.trim(); // B
 			const teamName       = row[3]?.trim(); // D
 			const contractStatus = row[6]?.trim(); // G
-			if (rscId && teamName.toLowerCase() === team.toLowerCase() && contractStatus === "Rostered") {
+			if (rscId && teamName.toLowerCase() === team.toLowerCase() && ["Rostered", "Free Agent", "Permanent Free Agent"].includes(contractStatus)) {
 				rosterMap[rscId] = playerName;
 			}
 		});
