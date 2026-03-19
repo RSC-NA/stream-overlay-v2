@@ -1,10 +1,14 @@
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
 import path from "path"
+import sheetsPlugin from "./sheetsPlugin.js"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react()],
+	plugins: [
+		react(),
+		sheetsPlugin(), // serves /api/sheets/teams and /api/sheets/players endpoints server-side to avoid CSP issues
+	],
 	server: {
 		watch: {
 				usePolling: true
