@@ -1,0 +1,10 @@
+services:
+  overlay:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rl-overlay:latest
+    container_name: rl-overlay
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8085:80"
