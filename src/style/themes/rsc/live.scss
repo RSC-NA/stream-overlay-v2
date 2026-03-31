@@ -1,3 +1,6 @@
+@use "sass:meta";
+@use "theme" as *;
+
 .livePlay {
 	position: absolute;
 	left: 0;
@@ -9,22 +12,22 @@
 	font-weight: 400;
 	background: transparent;
 
-	// @import "ball";
-	@import "clock";
-	@import "header";
-	@import "playerBoxes";
-	@import "replay";
-	@import "seriesInfo";
-	@import "scoreboard";
-	@import "socialMedia";
-	@import "splash";
-	@import "teamLogo";
-	@import "teamName";
-	@import "teamScore";
-	@import "teamSeriesScore";
-	@import "watching";
-	@import "watermark";
+	// @include meta.load-css("ball");
+	@include meta.load-css("clock");
+	@include meta.load-css("header");
+	@include meta.load-css("playerBoxes");
+	@include meta.load-css("replay");
+	@include meta.load-css("seriesInfo");
+	@include meta.load-css("scoreboard");
+	@include meta.load-css("socialMedia");
+	@include meta.load-css("splash");
+	@include meta.load-css("teamLogo");
+	@include meta.load-css("teamName");
+	@include meta.load-css("teamScore");
+	@include meta.load-css("teamSeriesScore");
+	@include meta.load-css("watching");
+	@include meta.load-css("watermark");
 
-	@import "noBakkesmod";
+	@include meta.load-css("noBakkesmod");
 
 }

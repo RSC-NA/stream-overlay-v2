@@ -1,3 +1,5 @@
+@use "theme" as *;
+
 .replay {
     position: absolute;
     right: calc(-100px - $replayWidth);

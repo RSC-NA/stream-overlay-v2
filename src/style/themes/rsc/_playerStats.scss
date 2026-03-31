@@ -1,3 +1,6 @@
+@use "sass:meta";
+@use "theme" as *;
+
 $statPlayerWidth: 400px;
 $statWidth: 100px;
 $statPadding: 15px 20px;
@@ -46,7 +49,7 @@ $statPadding: 15px 20px;
 			}
 		}
 
-		@import "header";
+		@include meta.load-css("header");
 
 		.header0 {
 			grid-area: header;

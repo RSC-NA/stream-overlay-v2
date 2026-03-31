@@ -1,0 +1,79 @@
+$borderSize: 5px;
+
+$windowWidth: 1920px;
+$windowHeight: 1080px;
+
+$pregameLeagueLogoSize: 250px;
+$pregameLeagueLogoSizeSmall: 150px;
+$matchupTeamLogoSize: 320px;
+$statsTeamLogoSize: 150px;
+
+$scoreboardWidth: 852px;
+
+$topHeaderHeight: 22px;
+$mainHeaderHeight: 33px;
+$headerHeight: 32px;
+$headerWidth: 586px;
+$headerGradientWidth: 120px;
+$spanSpacing: .5em;
+$pipeSpacing: .2em;
+
+$mainBarHeight: 66px;
+$clockWidth: 230px;
+$overtimeHeight: 19px;
+
+$teamScoreFromMiddle: 95px;
+$teamScoreWidth: 68px;
+
+$teamNameWidth: calc($scoreboardWidth * .5 - $teamScoreFromMiddle - $teamScoreWidth - 10px);
+
+$seriesInfoWidth: 621px;
+$seriesInfoHeight: 25px;
+
+$seriesScoreWidth: 126px;
+$seriesScoreIconWidth: 18px;
+
+$teamLogoSize: 90px;
+$teamLogoSpacing: 5px;
+$teamLogoOpacity: .7;
+
+$watchingHeight: 40px;
+$watchingWidth: 550px;
+$watchingBoostSize: 300px;
+
+$replayHeight: 150px;
+$replayWidth: 550px;
+$replayLabelHeight: 38px;
+
+$playerBoxWidth: 360px;
+$playerBoxMargin: 10px;
+$playerBoxBorderSize: 3px;
+$playerBoxPadding: 5px;
+$playerBoxBoostTextWidth: 60px;
+$playerBoxEventSize: 28px;
+$playerBoxEventLimit: 3;
+
+// colors (team colors use css variables from React component)
+$textColor: #ffffff;
+$secondaryTextColor: #cccccc;
+$highlightColor: #f5ca19;
+
+$backgroundColor: #231f20;
+$backgroundHighlight: #333333;
+$backgroundTranslucent: rgba($backgroundColor, .4);
+$backgroundTransparent: rgba($backgroundColor, 0);
+$highlightTranslucent: rgba($highlightColor, .4);
+
+$rscOrange: #f48020;
+$rscOrangeTone: rgba($rscOrange, .7);
+$rscOrangeFade: rgba($rscOrange, .25);
+$rscBlue: rgba(#4378bb, 1);
+$rscBlueTone: rgba($rscBlue, .7);
+$rscBlueFade: rgba($rscBlue, .25);
+
+$timeColor: #000000;
+$overtimeColor: #d8262e;
+
+$transitionDelay: 3s;
+
+$interviewLogoWidth: 450px;

@@ -1,3 +1,6 @@
+@use "sass:meta";
+@use "themes/rsc/fonts";
+
 $backgroundTransparent: rgba(0, 0, 0, 0);
 $backgroundHighlight: #333333;
 
@@ -8,8 +11,6 @@ $backgroundHighlight: #333333;
 body:has(#ImageGenerator) {
 	overflow: auto;
 }
-
-@import "themes/rsc/fonts";
 
 #ImageGenerator {
 	--fontCooper: "CooperHewitt", Helvetica, Arial, sans-serif;
@@ -51,8 +52,8 @@ body:has(#ImageGenerator) {
 			top: 0;
 		}
 
-		@import "themes/rsc/imageGen/streamSchedule";
-		@import "themes/rsc/imageGen/playoffBracket";
+		@include meta.load-css("themes/rsc/imageGen/streamSchedule");
+		@include meta.load-css("themes/rsc/imageGen/playoffBracket");
 
 	}
 

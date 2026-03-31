@@ -1,3 +1,5 @@
+@use "theme" as *;
+
 .clock {
 	--clockBackgroundImage: url("/images/themes/rsc/clock-splatter.png");
 	--team0ClockColor: var(--team0);

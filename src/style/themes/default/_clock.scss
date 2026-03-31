@@ -1,3 +1,5 @@
+@use "variables" as *;
+
 .clock {
 	position: absolute;
 	top: $headerHeight;

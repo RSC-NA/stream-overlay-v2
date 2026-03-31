@@ -1,3 +1,6 @@
+@use "sass:meta";
+@use "variables" as *;
+
 $postgameTopHeight: $headerHeight + $mainBarHeight + $seriesInfoHeight;
 $postgameTitleWidth: $clockWidth + $teamScoreWidth * 2 + $teamNameWidth * 2 + $borderSize * 10;
 $mvpIconSize: 36px;
@@ -17,13 +20,13 @@ $mvpIconSize: 36px;
 	padding-top: $postgameTopHeight + 50px;
 	background: $backgroundColor;
 
-	@import "clock";
-	@import "header";
-	@import "seriesInfo";
-	@import "teamlogo";
-	@import "teamName";
-	@import "teamScore";
-	@import "teamSeriesScore";
+	@include meta.load-css("clock");
+	@include meta.load-css("header");
+	@include meta.load-css("seriesInfo");
+	@include meta.load-css("teamLogo");
+	@include meta.load-css("teamName");
+	@include meta.load-css("teamScore");
+	@include meta.load-css("teamSeriesScore");
 
 	.branding {
 

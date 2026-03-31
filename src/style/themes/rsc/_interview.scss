@@ -1,3 +1,6 @@
+@use "sass:meta";
+@use "theme" as *;
+
 .interview {
 	position: absolute;
     left: 0;
@@ -8,7 +11,7 @@
 	padding-top: 20px;
 	@include triangleFadingBackground;
 
-	@import "header";
+	@include meta.load-css("header");
 
 	.interviewHeader {
 		display: grid;
@@ -44,7 +47,7 @@
 			}
 		}
 
-		@import "header";
+		@include meta.load-css("header");
 
 		.header0 {
 			grid-area: header;

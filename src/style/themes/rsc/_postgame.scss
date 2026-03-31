@@ -1,3 +1,6 @@
+@use "sass:meta";
+@use "theme" as *;
+
 $postgameTopHeight: calc($headerHeight + $mainBarHeight + $seriesInfoHeight);
 $postgameTitleWidth: $scoreboardWidth;
 $mvpIconSize: 36px;
@@ -15,14 +18,14 @@ $postGameTableWidth: calc($windowWidth - 300px);
 	padding-top: $postgameTopHeight;
 	@include triangleFadingBackground;
 
-	@import "scoreboard";
-	@import "clock";
-	@import "header";
-	@import "seriesInfo";
-	@import "teamlogo";
-	@import "teamName";
-	@import "teamScore";
-	@import "teamSeriesScore";
+	@include meta.load-css("scoreboard");
+	@include meta.load-css("clock");
+	@include meta.load-css("header");
+	@include meta.load-css("seriesInfo");
+	@include meta.load-css("teamLogo");
+	@include meta.load-css("teamName");
+	@include meta.load-css("teamScore");
+	@include meta.load-css("teamSeriesScore");
 
 	.scoreboard {
 		background: transparent;
