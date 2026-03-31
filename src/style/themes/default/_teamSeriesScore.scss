@@ -1,3 +1,5 @@
+@use "variables" as *;
+
 .teamSeriesScore {
     position: absolute;
     top: $headerHeight + $mainBarHeight + $seriesInfoHeight * .5 + $borderSize * 2;

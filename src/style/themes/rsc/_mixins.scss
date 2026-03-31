@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "variables" as *;
 
 $highlightSidePadding: 400px;
 $highlightWidth: calc($windowWidth + $highlightSidePadding * 2);

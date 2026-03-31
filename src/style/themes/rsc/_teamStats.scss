@@ -1,3 +1,6 @@
+@use "sass:meta";
+@use "theme" as *;
+
 .teamStats {
 	position: absolute;
     left: 0;
@@ -42,7 +45,7 @@
 			}
 		}
 
-		@import "header";
+		@include meta.load-css("header");
 
 		.header0 {
 			grid-area: header;

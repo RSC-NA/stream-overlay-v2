@@ -1,10 +1,9 @@
-
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Oxanium:wght@200..800&display=swap");
-
 // TODO: dynamically load themes?
 // import available themes
-@import "themes/default/main";
-@import "themes/rsc/main";
+@use "themes/default/main" as defaultTheme;
+@use "themes/rsc/main" as rscTheme;
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Oxanium:wght@200..800&display=swap");
 
 
 :root {

@@ -1,4 +1,6 @@
-&.noBakkesmod {
+@use "theme" as *;
+
+.livePlay.noBakkesmod {
 
 	.watermark {
 		left: auto;

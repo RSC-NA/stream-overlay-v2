@@ -1,3 +1,6 @@
+@use "sass:meta";
+@use "theme" as *;
+
 .matchup {
 	@include triangleFadingBackground;
 	position: absolute;
@@ -54,7 +57,7 @@
 			padding: 70px 0 0 20px;
 		}
 
-		@import "header";
+		@include meta.load-css("header");
 
 		.header0 {
 			grid-area: header;

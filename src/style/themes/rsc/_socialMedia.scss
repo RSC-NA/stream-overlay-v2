@@ -1,3 +1,5 @@
+@use "theme" as *;
+
 .socialMedia {
     position: absolute;
     left: calc((0px - $watchingWidth - 100px) * 2);

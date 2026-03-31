@@ -11,3 +11,34 @@ Also sends information via Websocket (https://github.com/kj-joseph/rl-socket) to
 
 [Short clip of the stats page](https://youtu.be/yDxOHUj3Wxg)
 [![Screenshot of the stats page](https://img.youtube.com/vi/yDxOHUj3Wxg/maxresdefault.jpg)](https://youtu.be/yDxOHUj3Wxg)
+
+## Docker deployment (behind host Nginx)
+
+This repo now includes:
+
+- `Dockerfile` (multi-stage build with Nginx runtime)
+- `docker-compose.yml` (single service, restart enabled)
+- `deploy/nginx/overlay.rscna.com.conf` (example host Nginx vhost)
+
+### 1) Run/update the container
+
+```bash
+docker compose pull
+docker compose build --pull
+docker compose up -d
+```
+
+The container binds to `127.0.0.1:8085`, so it is only reachable from the host.
+
+### 2) Host Nginx config
+
+Use `deploy/nginx/overlay.rscna.com.conf` as your vhost template so:
+
+- `/ws/` continues to proxy to your websocket backend (`127.0.0.1:8321`)
+- `/` proxies to the overlay container (`127.0.0.1:8085`)
+
+Then reload Nginx:
+
+```bash
+sudo nginx -t && sudo systemctl reload nginx
+```

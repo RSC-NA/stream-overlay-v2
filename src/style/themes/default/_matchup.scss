@@ -1,3 +1,5 @@
+@use "variables" as *;
+
 $canvasHeight: $windowHeight - ($headerHeight + $borderSize * 3);
 $teamColorHeight: 25px;
 $teamColorFadeHeight: 50px;

@@ -1,3 +1,5 @@
+@use "variables" as *;
+
 .seriesInfo {
 	position: absolute;
 	top: $headerHeight + $mainBarHeight + $borderSize * 2;
