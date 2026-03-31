@@ -9,7 +9,7 @@ const USE_SHEETS = true;
 // `S## RSC Stats Totals` sheet for team and player total stats
 const STAT_TOTALS_ID    = "1Df8tmEbUC4gGzBQ6SD8DLf-0OzU7blaXZtUDeSF_jKk";
 const TEAM_TOTALS_GID   = "669024021";   // "Team Totals" tab
-const PLAYER_TOTALS_GID = "1005539084"; // "Player Totals" tab
+const PLAYER_TOTALS_GID = "855518274"; // "Player Totals" tab
 
 // `S## RSC 3s Contracts` sheet for player-team mapping
 const CONTRACTS_ID  = "1bqmviA6pfWXuM3S5huG7KNwsv9ENvelW9Im4q_4AMRM";
