@@ -463,6 +463,18 @@ const Overlay = () => {
 	});
 
 	// handle data from BakkesMod websocket
+	const isBogusGoalScoredEvent = (goalData = {}) => {
+		const goalSpeed = goalData.goal_speed ?? goalData.goalSpeed ?? goalData.GoalSpeed;
+		const goalTime = goalData.goal_time ?? goalData.goalTime ?? goalData.GoalTime;
+		const scorer = goalData.scorer ?? goalData.Scorer ?? {};
+		const rawScorerName = scorer.name ?? scorer.Name ?? "";
+		const scorerName = typeof rawScorerName === "string" ? rawScorerName.trim() : "";
+		const hasGoalMovement = goalSpeed > 0 || goalTime > 0;
+		const hasScorer = scorerName !== "";
+
+		return !(hasGoalMovement && hasScorer);
+	};
+
 	const handleGameData = d => {
 		// console.log(d);
 		let data, dataParse = {};
@@ -512,6 +524,10 @@ const Overlay = () => {
 				break;
 
 			case "game:goal_scored":
+				if (isBogusGoalScoredEvent(data)) {
+					break;
+				}
+
 				setLastGoal(data);
 				setShowGoalTeam(true);
 				triggerTransition(
