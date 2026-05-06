@@ -1581,7 +1581,7 @@ const ControlPanel = () => {
 
 						{streamTypeField !== "other" ?
 
-							<Grid container size={12} spacing={0} border={1} marginTop={3} className="mainPanelGrid">
+							<Grid container size={12} spacing={0} border={1} marginTop={3} className="mainPanelGrid interviewCard">
 
 								<Grid size={12} paddingLeft={1}>
 									<p>Interview</p>

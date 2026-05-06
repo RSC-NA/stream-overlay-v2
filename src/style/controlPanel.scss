@@ -1,15 +1,17 @@
 :root:has(#ControlPanel) {
-	background: black;
+	background: radial-gradient(circle at 20% 0%, #232a33 0%, #161b22 50%, #101317 100%);
 }
 
 body:has(#ControlPanel) {
 	overflow: auto;
+	background: radial-gradient(circle at 20% 0%, #232a33 0%, #161b22 50%, #101317 100%);
 }
 
 #ControlPanel {
 	font-size: .75rem;
 	color: white;
-	background: black;
+	min-height: 100vh;
+	background: transparent;
 
 	h1 {
 		font-size: .75rem;
@@ -41,6 +43,8 @@ body:has(#ControlPanel) {
 
 	.team {
 		border: 1px solid #999999;
+		border-radius: 10px;
+		overflow: hidden;
 	}
 
 	.gridRow {
@@ -55,18 +59,27 @@ body:has(#ControlPanel) {
 
 	.pregameButtons {
 		margin-bottom: 15px;
-		background: #222222;
-		border: 1px solid #666666;
+		background: linear-gradient(90deg, rgba(35, 42, 51, .45) 0%, rgba(22, 27, 34, .45) 50%, rgba(16, 19, 23, .45) 100%);
+		border: 1px solid #6f7680;
+		border-radius: 10px;
+		overflow: hidden;
 
 		h2 {
 			font-size: .75rem;
 			text-align: center;
 			margin: 0 0 .2rem 0;
 			padding: .2rem;
-			background-color: #333333;
-			border-bottom: 1px solid #999999;
+			background-color: rgba(255, 255, 255, .06);
+			border-bottom: 1px solid #8c939c;
 
 		}
+	}
+
+	.interviewCard {
+		border-radius: 10px;
+		overflow: hidden;
+		border-color: #8c939c;
+		background: linear-gradient(90deg, rgba(35, 42, 51, .35) 0%, rgba(22, 27, 34, .35) 50%, rgba(16, 19, 23, .35) 100%);
 	}
 
 	.mainPanelGrid {
