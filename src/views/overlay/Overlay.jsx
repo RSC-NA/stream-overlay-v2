@@ -464,13 +464,19 @@ const Overlay = () => {
 
 	// handle data from BakkesMod websocket
 	const isBogusGoalScoredEvent = (goalData = {}) => {
-		const goalSpeed = goalData.goal_speed ?? goalData.goalSpeed ?? goalData.GoalSpeed;
-		const goalTime = goalData.goal_time ?? goalData.goalTime ?? goalData.GoalTime;
+		const goalSpeedRaw = goalData.goal_speed ?? goalData.goalSpeed ?? goalData.goalspeed ?? goalData.GoalSpeed;
+		const goalTimeRaw = goalData.goal_time ?? goalData.goalTime ?? goalData.goaltime ?? goalData.GoalTime;
+		const goalSpeed = Number(goalSpeedRaw);
+		const goalTime = Number(goalTimeRaw);
 		const scorer = goalData.scorer ?? goalData.Scorer ?? {};
 		const rawScorerName = scorer.name ?? scorer.Name ?? "";
+		const rawScorerId = scorer.id ?? scorer.Id ?? "";
+		const scorerTeamNum = scorer.teamnum ?? scorer.teamNum ?? scorer.TeamNum ?? null;
 		const scorerName = typeof rawScorerName === "string" ? rawScorerName.trim() : "";
-		const hasGoalMovement = goalSpeed > 0 || goalTime > 0;
-		const hasScorer = scorerName !== "";
+		const scorerId = typeof rawScorerId === "string" ? rawScorerId.trim() : "";
+		const hasGoalMovement = (Number.isFinite(goalSpeed) && goalSpeed > 0)
+			|| (Number.isFinite(goalTime) && goalTime > 0);
+		const hasScorer = scorerName !== "" || scorerId !== "" || scorerTeamNum !== null;
 
 		return !(hasGoalMovement && hasScorer);
 	};
@@ -525,6 +531,7 @@ const Overlay = () => {
 
 			case "game:goal_scored":
 				if (isBogusGoalScoredEvent(data)) {
+					console.log("[overlay] Ignored bogus game:goal_scored event", data);
 					break;
 				}
 
