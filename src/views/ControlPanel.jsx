@@ -1035,6 +1035,15 @@ const ControlPanel = () => {
 									>
 										New Random Id
 									</Button>
+									<Button
+										variant="outlined"
+										color="primary"
+										href="/overlay"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Open Overlay
+									</Button>
 								</Item>
 							</Grid>
 
