@@ -1,0 +1,10 @@
+services:
+  overlay:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: stream-overlay-v2
+    ports:
+      - "5137:80"
+      - "8321:8321"
+    restart: unless-stopped

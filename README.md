@@ -11,3 +11,54 @@ Also sends information via Websocket (https://github.com/kj-joseph/rl-socket) to
 
 [Short clip of the stats page](https://youtu.be/yDxOHUj3Wxg)
 [![Screenshot of the stats page](https://img.youtube.com/vi/yDxOHUj3Wxg/maxresdefault.jpg)](https://youtu.be/yDxOHUj3Wxg)
+
+## Docker deployment (VPS)
+
+This container runs two processes:
+
+- Vite static site via nginx on host port `5137`
+- WebSocket relay (`ws-server.js`) via node on host port `8321`
+
+Example nginx reverse proxy:
+
+```nginx
+location /ws/ {
+	proxy_pass http://localhost:8321/;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection "Upgrade";
+	proxy_set_header Host $host;
+	proxy_set_header X-Forwarded-For $remote_addr;
+}
+
+location / {
+	proxy_pass http://localhost:5137/;
+	proxy_set_header Host $host;
+	proxy_set_header X-Forwarded-For $remote_addr;
+}
+```
+
+### First deploy
+
+```bash
+docker compose up -d --build
+```
+
+### Rebuild/redeploy after updates
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+### Useful commands
+
+```bash
+# View logs
+docker compose logs -f
+
+# Restart container
+docker compose restart
+
+# Stop container
+docker compose down
+```
