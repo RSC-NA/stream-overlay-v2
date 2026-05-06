@@ -14,12 +14,18 @@ body:has(#ControlPanel) {
 	background: transparent;
 
 	h1 {
-		font-size: .75rem;
+		font-size: clamp(1rem, 1.5vw, 1.35rem);
+		font-weight: 700;
+		letter-spacing: .08em;
+		text-transform: uppercase;
 		text-align: center;
-		margin: 0 0 .2rem 0;
-		padding: .2rem;
-		background-color: #333333;
-		border-bottom: 1px solid #999999;
+		margin: .4rem .5rem .8rem;
+		padding: .55rem .8rem;
+		color: #f2f6ff;
+		background: linear-gradient(90deg, rgba(24, 31, 40, .95) 0%, rgba(40, 51, 64, .95) 50%, rgba(24, 31, 40, .95) 100%);
+		border: 1px solid #7f8fa5;
+		border-radius: 10px;
+		box-shadow: 0 6px 22px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .08);
 	}
 
 	.MuiButton-root {
@@ -55,6 +61,8 @@ body:has(#ControlPanel) {
 		margin-bottom: 15px;
 		background: #222222;
 		border: 1px solid #999999;
+		border-radius: 10px;
+		overflow: hidden;
 	}
 
 	.pregameButtons {
