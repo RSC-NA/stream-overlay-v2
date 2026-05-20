@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getFranchiseList } from "@/services/franchiseService";
 import { getTeamListByTier, getTeamPlayerStats, getTeamStats } from "@/services/teamService";
 import { getTierList } from "@/services/tierService";
+import { getCurrentSeason } from "@/services/seasonService";
 
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -42,8 +43,6 @@ const defaultTeamData = [
 ];
 
 const defaultSeriesScore = [0, 0];
-// TODO: pull current season from API?
-const currentSeason = 26;
 
 let panelTheme = createTheme({
 	palette: {
@@ -102,7 +101,7 @@ const ControlPanel = () => {
 	const [teamFields, setTeamFields] = useState(["", ""]);
 	const [brandLogoField, setBrandLogoField] = useState("");
 	const [headerField, setHeaderField] = useState(""); // TODO: handle multiple headers?
-	const [seasonNumberField, setSeasonNumberField] = useState(currentSeason);
+	const [seasonNumberField, setSeasonNumberField] = useState("");
 	const [matchdayNumberField, setMatchdayNumberField] = useState(1);
 	const [tierField, setTierField] = useState("");
 	const [showSeriesField, setShowSeriesField] = useState(false);
@@ -124,6 +123,8 @@ const ControlPanel = () => {
 
 
  	useEffect(() => {
+
+		getCurrentSeason(1).then(number => setSeasonNumberField(number)).catch(console.error);
 
 		// on start, check for existing items in localstorage; if not, send default
 
@@ -445,7 +446,7 @@ const ControlPanel = () => {
 		if (!Array.isArray(currentTeamLists[league][tier]) || currentTeamLists[league][tier] < 1 ) {
 			openDialog("loading");
 
-			getTeamListByTier(league, tier, currentSeason)
+			getTeamListByTier(league, tier, seasonNumberField)
 				.then((loadedTeamList) => {
 					currentTeamLists[league][tier] = loadedTeamList;
 					setTeamLists(currentTeamLists);

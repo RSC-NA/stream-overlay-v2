@@ -1,11 +1,12 @@
 import axios from "axios";
 
 const apiLocation        = "https://api.rscna.com/api/v1/";
-const apiStagingLocation = "https://staging-api.rscna.com/api/v1/";
+const apiStagingLocation = "https://staging-api.rscna.com/api/v1/"; // used until endpoints are promoted to prod
 
 export const callApi = (method, path, params) =>
 	makeServerCall(method, path, params, "api");
 
+// temporary: swap to callApi once player_stats is live in prod
 export const callStagingApi = (method, path, params) =>
 	makeServerCall(method, path, params, "staging");
 
