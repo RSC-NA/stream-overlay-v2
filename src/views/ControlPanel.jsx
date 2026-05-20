@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { getFranchiseList } from "@/services/franchiseService";
-import { getTeamListByTier, getTeamPlayerStats, getTeamStatsByTier } from "@/services/teamService";
+import { getTeamListByTier, getTeamPlayerStats, getTeamStats } from "@/services/teamService";
 import { getTierList } from "@/services/tierService";
 
 import Button from "@mui/material/Button";
@@ -735,7 +735,7 @@ const ControlPanel = () => {
 
 		const playerStats = [];
 		const teamStats = [];
-		const tierTeamStats = [];
+
 
 		// check for required fields
 		if (streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final") {
@@ -770,20 +770,6 @@ const ControlPanel = () => {
 				const loadPregameStats = (seriesScoreFields[0] === 0 && seriesScoreFields[1] === 0);
 				const apiPromises = [];
 
-				// load team stats
-				if (loadPregameStats) {
-					apiPromises.push(
-						getTeamStatsByTier(tierField)
-							.then((loadedTeamStats) => {
-								tierTeamStats.push(...loadedTeamStats);
-							})
-							.catch((error) => {
-								console.error(error);
-								openSnackbar("Error getting team stats from old API");
-							})
-					);
-				}
-
 				for (let teamnum in teamFields) {
 
 					const teamFranchise = franchiseLists[leagueId].filter((franchise) => franchise.id === teamFields[teamnum].franchise.id);
@@ -792,44 +778,42 @@ const ControlPanel = () => {
 						// set franchise logos
 						teamFranchiseLogos[teamnum] = teamFranchise[0].logo;
 
-						// load player stats if both teams at 0 games
 						if (loadPregameStats) {
-								apiPromises.push(
-								getTeamPlayerStats(teamFields[teamnum].name)
-								.then((loadedPlayerStats) => {
-									playerStats[teamnum] = loadedPlayerStats;
-								})
-								.catch((error) => {
-									console.error(error);
-									openSnackbar("Error getting team stats from stats service");
-								})
-							)
+							apiPromises.push(
+								getTeamStats(teamFields[teamnum].name, tierField, seasonNumberField)
+									.then((loadedTeamStats) => {
+										teamStats[teamnum] = loadedTeamStats;
+									})
+									.catch((error) => {
+										console.error(error);
+										openSnackbar("Error getting team stats from API");
+									})
+							);
+
+							apiPromises.push(
+								getTeamPlayerStats(teamFields[teamnum].id, seasonNumberField)
+									.then((loadedPlayerStats) => {
+										playerStats[teamnum] = loadedPlayerStats;
+									})
+									.catch((error) => {
+										console.error(error);
+										openSnackbar("Error getting player stats from stats service");
+									})
+							);
 						}
 
 					}
 				}
 
 				if (loadPregameStats) {
-					// load team and player stats
 					openDialog("loading");
 
 					Promise.all(apiPromises)
 					.then(() => {
-						// set team stats from tier list
-						for (let teamnum in teamFields) {
-							// case-insensitive match to handle any casing differences between the sheet and the RSC API team names
-							const filteredTeamStats = tierTeamStats.filter((t) => t.teamName.trim().toLowerCase() === teamFields[teamnum].name.trim().toLowerCase());
-							if (filteredTeamStats.length === 1) {
-								teamStats[teamnum] = filteredTeamStats[0];
-							}
-						}
-
-						// save pregame stats to local storagge
 						localStorage.setItem("pregameStats", JSON.stringify({
 							playerStats,
 							teamStats,
 						}));
-
 						closeDialog();
 					})
 					.catch((error) => {

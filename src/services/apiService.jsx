@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const apiLocation = "https://api.rscna.com/api/v1/";
-const statServiceLocation = "https://devleague.rscna.com/";
+const apiLocation        = "https://api.rscna.com/api/v1/";
+const apiStagingLocation = "https://staging-api.rscna.com/api/v1/";
 
 export const callApi = (method, path, params) =>
 	makeServerCall(method, path, params, "api");
 
-export const callStats = (method, path, params) =>
-	makeServerCall(method, path, params, "stats");
+export const callStagingApi = (method, path, params) =>
+	makeServerCall(method, path, params, "staging");
 
 export const makeServerCall = (method, path, params, service) =>
 
@@ -29,7 +29,7 @@ export const makeServerCall = (method, path, params, service) =>
 
 		const axiosRequest = {
 			method,
-			url: `${service === "stats" ? statServiceLocation : apiLocation}${path}`,
+			url: `${service === "staging" ? apiStagingLocation : apiLocation}${path}`,
 		};
 
 		if (method === "get") {

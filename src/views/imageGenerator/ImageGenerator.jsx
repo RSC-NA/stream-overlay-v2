@@ -5,7 +5,7 @@ import PlayoffBracket from "@/views/imageGenerator/PlayoffBracket";
 import StreamSchedule from "@/views/imageGenerator/StreamSchedule";
 
 import { getFranchiseList } from "@/services/franchiseService";
-import { getTeamListByTier, getTeamPlayerStats, getTeamStatsByTier } from "@/services/teamService";
+import { getTeamListByTier } from "@/services/teamService";
 import { getTierList } from "@/services/tierService";
 
 import Button from "@mui/material/Button";
