@@ -23,7 +23,7 @@ import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
 
-import defaultConfig from "@/data/config.json";
+import defaultConfig from "@/data/config.json"; // season is 0 in config.json — real value is always fetched from the API on mount
 
 import ("@/style/controlPanel.scss");
 
