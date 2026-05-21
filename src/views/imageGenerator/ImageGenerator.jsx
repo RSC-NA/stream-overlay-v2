@@ -5,8 +5,9 @@ import PlayoffBracket from "@/views/imageGenerator/PlayoffBracket";
 import StreamSchedule from "@/views/imageGenerator/StreamSchedule";
 
 import { getFranchiseList } from "@/services/franchiseService";
-import { getTeamListByTier, getTeamPlayerStats, getTeamStatsByTier } from "@/services/teamService";
+import { getTeamListByTier } from "@/services/teamService";
 import { getTierList } from "@/services/tierService";
+import { getCurrentSeason } from "@/services/seasonService";
 
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -34,7 +35,6 @@ const defaultTimes = {
 	regular: ["10:50", "11:30"],
 	finals: ["9:30", "10:30"],
 }
-const currentSeason = 26; // TODO: set on new season (or dynamically?)
 
 // TODO: don't have formats yet
 const imageSizes = [
@@ -140,7 +140,8 @@ const ImageGenerator = () => {
 	const [teamLists, setTeamLists] = useState({});
 
 	const [imageType, setImageType] = useState("regular");
-	const [season, setSeason] = useState(currentSeason); // TODO: Update default each season?
+	const [currentSeason, setCurrentSeason] = useState(null);
+	const [season, setSeason] = useState("");
 	const [matchday, setMatchday] = useState("1");
 	const [gameCount, setGameCount] = useState(2);
 	const [scheduleTimes, setScheduleTimes] = useState(["",""]);
@@ -162,6 +163,15 @@ const ImageGenerator = () => {
 	const [currentDialog, setCurrentDialog] = useState(null);
 	const [snackbarIsOpen, setSnackbarIsOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
+
+	useEffect(() => {
+		getCurrentSeason(1)
+			.then(number => {
+				setCurrentSeason(number);
+				setSeason(number);
+			})
+			.catch(console.error);
+	}, []);
 
 	useEffect(() => {
 		if(leagueId > -1) {
