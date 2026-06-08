@@ -1,4 +1,4 @@
-import { callApi, callStagingApi } from "@/services/apiService";
+import { callApi } from "@/services/apiService";
 
 export const getTeamStats = async (teamName, tier, season) => {
 	// Step 1: resolve team name to an ID
@@ -45,7 +45,7 @@ export const getTeamListByTier = async (league, tier, season) =>
 
 export const getTeamPlayerStats = async (teamId, season) => {
 	// Players with 0 games played are included by the API with zeroes for all stats
-	const response = await callStagingApi("get", `teams/${teamId}/player_stats/`, { season });
+	const response = await callApi("get", `teams/${teamId}/player_stats/`, { season });
 	return response.data.map(p => {
 		const goals = p.goals;
 		const shots = p.shots;
