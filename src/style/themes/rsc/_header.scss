@@ -52,6 +52,11 @@ $pipeSpacing: .2em;
 
 	}
 
+
+	&.tierLegend .tier,
+	&.tierFinal.tierLegend {
+		color: var(--tierLegend);
+	}
 	&.tierPremier .tier,
 	&.tierFinal.tierPremier {
 		color: var(--tierPremier);

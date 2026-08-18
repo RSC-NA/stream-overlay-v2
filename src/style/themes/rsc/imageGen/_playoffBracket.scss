@@ -336,6 +336,9 @@ $highlightTranslucent: rgba($highlightColor, .4);
 
 	}
 
+	&.tierLegend {
+		--tierColor: #cccccc;
+	};
 	&.tierPremier {
 		--tierColor: #d600d6;
 	};
