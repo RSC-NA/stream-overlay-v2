@@ -743,10 +743,6 @@ const ControlPanel = () => {
 					.then((loadedTeamStats) => {
 						teamStats[teamnum] = loadedTeamStats;
 					})
-					.catch((error) => {
-						console.error(error);
-						openSnackbar("Error getting team stats from API");
-					})
 			);
 
 			apiPromises.push(
@@ -754,15 +750,12 @@ const ControlPanel = () => {
 					.then((loadedPlayerStats) => {
 						playerStats[teamnum] = loadedPlayerStats;
 					})
-					.catch((error) => {
-						console.error(error);
-						openSnackbar("Error getting player stats from stats service");
-					})
 			);
 		}
 
 		openDialog("loading");
 
+		// all or nothing: a partial or empty result would replace good stats with n/a
 		Promise.all(apiPromises)
 		.then(() => {
 			localStorage.setItem("pregameStats", JSON.stringify({
@@ -774,7 +767,7 @@ const ControlPanel = () => {
 		.catch((error) => {
 			closeDialog();
 			console.error(error);
-			openSnackbar("Error loading from stats service");
+			openSnackbar("Couldn't load stats; the overlay keeps its previous stats. Try Reload Stats.");
 		});
 	}
 
