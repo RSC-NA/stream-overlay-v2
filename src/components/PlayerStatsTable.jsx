@@ -43,7 +43,7 @@ const PlayerStatsTable = (props) => {
 
 			<tbody>
 
-				{props.pregameStats.playerStats[props.team].sort((a, b) => Number(a.gp) < Number(b.gp) ? 1 : Number(a.gp) > Number(b.gp) ? -1 : Number(a.goals) < Number(b.goals) ? 1 : Number(a.goals) > Number(b.goals) ? -1 : 0)
+				{(props.pregameStats.playerStats?.[props.team] ?? []).sort((a, b) => Number(a.gp) < Number(b.gp) ? 1 : Number(a.gp) > Number(b.gp) ? -1 : Number(a.goals) < Number(b.goals) ? 1 : Number(a.goals) > Number(b.goals) ? -1 : 0)
 					.map((player, playerIndex) => (
 						<tr key={playerIndex} className={`team${props.team}`}>
 							<th scope="row" className="playerName">{player.playerName}</th>

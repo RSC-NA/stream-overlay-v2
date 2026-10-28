@@ -7,7 +7,7 @@ export const getTeamStats = async (teamName, tier, season) => {
 	if (!teamId) throw new Error(`No team found for "${teamName}" in ${tier}`);
 
 	// Step 2: fetch season stats for that team
-	const statsResponse = await callApi("get", `teams/${teamId}/stats/`, { season });
+	const statsResponse = await callApi("get", `teams/${teamId}/stats/`, { season_number: season });
 	const s = statsResponse.data;
 	return {
 		teamName:  s.team,
@@ -45,7 +45,7 @@ export const getTeamListByTier = async (league, tier, season) =>
 
 export const getTeamPlayerStats = async (teamId, season) => {
 	// Players with 0 games played are included by the API with zeroes for all stats
-	const response = await callApi("get", `teams/${teamId}/player_stats/`, { season });
+	const response = await callApi("get", `teams/${teamId}/player_stats/`, { season_number: season });
 	return response.data.map(p => {
 		const goals = p.goals;
 		const shots = p.shots;
