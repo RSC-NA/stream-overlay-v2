@@ -731,11 +731,55 @@ const ControlPanel = () => {
 	}
 
 
-	const saveToLocalStorage = () => {
-		const teamFranchiseLogos = ["", ""];
-
+	// fetch both teams' season stats and hand them to the overlay
+	const loadPregameStats = () => {
 		const playerStats = [];
 		const teamStats = [];
+		const apiPromises = [];
+
+		for (let teamnum in teamFields) {
+			apiPromises.push(
+				getTeamStats(teamFields[teamnum].name, tierField, seasonNumberField)
+					.then((loadedTeamStats) => {
+						teamStats[teamnum] = loadedTeamStats;
+					})
+			);
+
+			apiPromises.push(
+				getTeamPlayerStats(teamFields[teamnum].id, seasonNumberField)
+					.then((loadedPlayerStats) => {
+						playerStats[teamnum] = loadedPlayerStats;
+					})
+			);
+		}
+
+		openDialog("loading");
+
+		// all or nothing: a partial or empty result would replace good stats with n/a
+		Promise.all(apiPromises)
+		.then(() => {
+			localStorage.setItem("pregameStats", JSON.stringify({
+				playerStats,
+				teamStats,
+			}));
+			closeDialog();
+		})
+		.catch((error) => {
+			closeDialog();
+			console.error(error);
+			openSnackbar("Couldn't load stats; the overlay keeps its previous stats. Try Reload Stats.");
+		});
+	}
+
+	// reload only for what's on the overlay, not for unsaved team/tier/season edits
+	const canReloadStats = (streamTypeField === "RSC3-regular" || streamTypeField === "RSC3-final")
+		&& tierField !== ""
+		&& !teamFields.includes("")
+		&& seasonNumberField !== ""
+		&& !["tierField", "teamField0", "teamField1", "seasonNumberField"].some(fieldHasChanges);
+
+	const saveToLocalStorage = () => {
+		const teamFranchiseLogos = ["", ""];
 
 
 		// check for required fields
@@ -767,10 +811,6 @@ const ControlPanel = () => {
 			}
 
 			if (Array.isArray(franchiseLists[leagueId]) && franchiseLists[leagueId].length > 0) {
-				// only load stats when series score set to 0-0
-				const loadPregameStats = (seriesScoreFields[0] === 0 && seriesScoreFields[1] === 0);
-				const apiPromises = [];
-
 				for (let teamnum in teamFields) {
 
 					const teamFranchise = franchiseLists[leagueId].filter((franchise) => franchise.id === teamFields[teamnum].franchise.id);
@@ -779,50 +819,12 @@ const ControlPanel = () => {
 						// set franchise logos
 						teamFranchiseLogos[teamnum] = teamFranchise[0].logo;
 
-						if (loadPregameStats) {
-							apiPromises.push(
-								getTeamStats(teamFields[teamnum].name, tierField, seasonNumberField)
-									.then((loadedTeamStats) => {
-										teamStats[teamnum] = loadedTeamStats;
-									})
-									.catch((error) => {
-										console.error(error);
-										openSnackbar("Error getting team stats from API");
-									})
-							);
-
-							apiPromises.push(
-								getTeamPlayerStats(teamFields[teamnum].id, seasonNumberField)
-									.then((loadedPlayerStats) => {
-										playerStats[teamnum] = loadedPlayerStats;
-									})
-									.catch((error) => {
-										console.error(error);
-										openSnackbar("Error getting player stats from stats service");
-									})
-							);
-						}
-
 					}
 				}
 
-				if (loadPregameStats) {
-					openDialog("loading");
-
-					Promise.all(apiPromises)
-					.then(() => {
-						localStorage.setItem("pregameStats", JSON.stringify({
-							playerStats,
-							teamStats,
-						}));
-						closeDialog();
-					})
-					.catch((error) => {
-						closeDialog();
-						console.error(error);
-						openSnackbar("Error loading from stats service");
-					});
-
+				// only load stats when series score set to 0-0
+				if (seriesScoreFields[0] === 0 && seriesScoreFields[1] === 0) {
+					loadPregameStats();
 				}
 
 			}
@@ -1061,6 +1063,14 @@ const ControlPanel = () => {
 										onClick={resetFieldValues}
 									>
 										Reset
+									</Button>
+									<Button
+										disabled={!canReloadStats}
+										variant="outlined"
+										color="info"
+										onClick={loadPregameStats}
+									>
+										Reload Stats
 									</Button>
 									<Button
 										// disabled={!hasChanges}
