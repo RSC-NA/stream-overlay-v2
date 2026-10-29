@@ -555,6 +555,12 @@ const Overlay = () => {
 
 			case "game:match_ended":
 				setClockRunning(false);
+				// Rocket League v2.76+ reports WinnerTeamNum -1 for a no-contest:
+				// there is no winner, so don't announce one or award a series point.
+				if (data.no_contest === true || data.winner_team_num === -1) {
+					console.log("[overlay] Match ended as no-contest; skipping winner flow", data);
+					break;
+				}
 				const winningTeam = gameData.teams[0].score > gameData.teams[1].score ? 0 : 1;
 				setTimeout(() => {
 					triggerTransition(
