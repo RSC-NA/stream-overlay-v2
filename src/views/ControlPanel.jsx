@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import useWebSocket, { ReadyState } from "react-use-websocket";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -6,6 +7,7 @@ import { getFranchiseList } from "@/services/franchiseService";
 import { getTeamListByTier, getTeamPlayerStats, getTeamStats } from "@/services/teamService";
 import { getTierList } from "@/services/tierService";
 import { getCurrentSeason } from "@/services/seasonService";
+import socketServerUrl from "@/utils/socketServerUrl";
 
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -117,6 +119,33 @@ const ControlPanel = () => {
 	const [interviewSaved, setInterviewSaved] = useState({});
 	const [interviewNameField, setInterviewNameField] = useState("");
 	const [interviewTeamField, setInterviewTeamField] = useState(-1);
+
+	const lastOverlayHeartbeatRef = useRef(0);
+	const [overlayLive, setOverlayLive] = useState(false);
+
+	const { sendJsonMessage: sendJsonMessageServer, readyState: readyStateServer } = useWebSocket(socketServerUrl, {
+		onMessage: () => {
+			lastOverlayHeartbeatRef.current = Date.now();
+		},
+		shouldReconnect: () => true,
+		reconnectAttempts: Infinity,
+	});
+
+	useEffect(() => {
+		if (!clientId || readyStateServer !== ReadyState.OPEN) {
+			return;
+		}
+		lastOverlayHeartbeatRef.current = 0;
+		sendJsonMessageServer({ clientId, event: "register", data: "overlay:heartbeat" });
+		return () => sendJsonMessageServer({ clientId, event: "unregister", data: "overlay:heartbeat" }, false);
+	}, [clientId, readyStateServer]);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setOverlayLive(Date.now() - lastOverlayHeartbeatRef.current < 3000);
+		}, 1000);
+		return () => clearInterval(interval);
+	}, []);
 
 	const thisUrl = new URL(document.location.href);
 	const statsUrlPrefix = `${thisUrl.protocol}//${thisUrl.host}`;
@@ -351,9 +380,26 @@ const ControlPanel = () => {
 		openSnackbar("New random Client ID saved");
 	}
 
+	const copyText = async (text) => {
+		try {
+			await navigator.clipboard.writeText(text);
+		} catch {
+			// Embedded browsers such as OBS docks deny the async clipboard API.
+			const textarea = document.createElement("textarea");
+			textarea.value = text;
+			document.body.appendChild(textarea);
+			textarea.select();
+			const copied = document.execCommand("copy");
+			textarea.remove();
+			if (!copied) {
+				throw new Error("copy command was rejected");
+			}
+		}
+	}
+
 	const copyClientIdToClipboard = async () => {
 		try {
-			await navigator.clipboard.writeText(clientId);
+			await copyText(clientId);
 			openSnackbar("Client ID Copied");
 		} catch (err) {
 			console.error(err.message);
@@ -361,10 +407,9 @@ const ControlPanel = () => {
 		}
 	}
 
-	// TODO: doesn't work in OBS currently; figure out how to fix?
 	const copyStatsUrlToClipboard = async () => {
 		try {
-			await navigator.clipboard.writeText(`${thisUrl.protocol}//${thisUrl.host}/stats/${clientId}`);
+			await copyText(`${thisUrl.protocol}//${thisUrl.host}/stats/${clientId}`);
 			openSnackbar("Stats page URL Copied");
 		} catch (err) {
 			console.error(err.message);
@@ -1002,6 +1047,15 @@ const ControlPanel = () => {
 							<Grid size={{xs: 12, md: 5}}>
 								<Item >
 									<strong>Stats page URL:</strong><br />{thisUrl.protocol}//{thisUrl.host}/stats/{clientId}
+									<div className={`overlayStatus ${overlayLive ? "live" : ""}`}>
+										{readyStateServer !== ReadyState.OPEN ?
+											"Can't reach the stats server"
+										: overlayLive ?
+											"Overlay is live on this ID"
+										:
+											"No overlay is sending on this ID. Casters using this link will see no data."
+										}
+									</div>
 								</Item>
 							</Grid>
 
@@ -1034,14 +1088,12 @@ const ControlPanel = () => {
 								</Item>
 							</Grid>
 
-		{/* can't copy from within OBS; figure out later? */
-		/* 					<Grid size={{xs: 12, md: 4}}>
+							<Grid size={{xs: 12, md: 4}}>
 								<Item>
 									<Button variant="contained" onClick={copyStatsUrlToClipboard}>Copy Stats URL</Button>
 									<Button variant="outlined" onClick={copyClientIdToClipboard}>Copy Id</Button>
 								</Item>
 							</Grid>
-		*/}
 
 							</Grid>
 

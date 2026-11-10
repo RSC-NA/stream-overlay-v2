@@ -35,27 +35,19 @@ Vite runs with `--host`, so you can open the site at:
 If you want to test local relay traffic (instead of the production websocket URL), run this in a second terminal:
 
 ```bash
-node ws-server.js
+node ws-server.cjs
 ```
 
 The relay listens on `ws://localhost:8321`.
 
-To use it from the app, switch the websocket constant in:
+To use it from the app, start Vite with the relay URL:
 
-- `src/views/overlay/Overlay.jsx`
-- `src/views/statboard/Statboard.jsx`
-
-Use the local line:
-
-```js
-const socketServerUrl = "ws://localhost:8321"; // local testing
+```bash
+VITE_SOCKET_SERVER_URL=ws://localhost:8321 npm run dev
 ```
 
-instead of the production line:
-
-```js
-const socketServerUrl = "https://overlay.rscna.com/ws/"; // prod
-```
+Without it, the app uses the production relay at `wss://overlay.rscna.com/ws/` (see `src/utils/socketServerUrl.js`).
+The URL must use `ws://` or `wss://`. Browsers older than Chrome 125 and OBS 31 reject `http(s)://` in `new WebSocket()`.
 
 ### Live game feed (optional)
 
@@ -68,7 +60,7 @@ If that feed is not running, the site still loads, but live in-game updates will
 This container runs two processes:
 
 - Vite static site via nginx on host port `5137`
-- WebSocket relay (`ws-server.js`) via node on host port `8321`
+- WebSocket relay (`ws-server.cjs`, built from [stream-ws-server](https://github.com/RSC-NA/stream-ws-server)) via node on host port `8321`
 
 Example nginx reverse proxy:
 
