@@ -1,21 +1,19 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useWebSocket from "react-use-websocket";
+import useWebSocket, { ReadyState } from "react-use-websocket";
 
 import LiveStats from "@/views/statboard/LiveStats";
 import PlayerStats from "@/views/statboard/PlayerStats";
 import TeamStats from "@/views/statboard/TeamStats";
 
 import Header from "@/components/Header";
+import socketServerUrl from "@/utils/socketServerUrl";
 
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid2";
 import { styled } from "@mui/material/styles";
 
 import "@/style/statboard.scss";
-
-const socketServerUrl = "https://overlay.rscna.com/ws/"; // prod
-// const socketServerUrl = "ws://localhost:8321"; // local testing
 
 const Item = styled("div")(({ theme }) => ({
 	background: "transparent",
@@ -43,6 +41,7 @@ const Statboard = () => {
 	const [pregameStats, setPregameStats] = useState([]);
 	const [seriesScore, setSeriesScore] = useState([0,0]);
 	const [splash, setSplash] = useState({});
+	const [viewState, setViewState] = useState("");
 
 	const [statboardView, setStatboardView] = useState("live");
 
@@ -57,6 +56,7 @@ const Statboard = () => {
 		onOpen: () => subscribeToServerFeed(),
 		onMessage: (msg) => handleServerData(msg.data),
 		shouldReconnect: (closeEvent) => true,
+		reconnectAttempts: Infinity,
 	});
 
 	const subscribeToServerFeed = () => {
@@ -98,9 +98,6 @@ const Statboard = () => {
 					setConfig(data.config);
 					setDataReceived(true);
 				}
-				if (data.hasOwnProperty("endGameData")) {
-					setEndGameData(data.endGameData);
-				}
 				if (data.hasOwnProperty("gameData")) {
 					setGameData(data.gameData);
 				}
@@ -122,6 +119,9 @@ const Statboard = () => {
 				}
 				if (data.hasOwnProperty("splash")) {
 					setSplash(data.splash);
+				}
+				if (data.hasOwnProperty("viewState")) {
+					setViewState(data.viewState);
 				}
 			break;
 
@@ -215,6 +215,7 @@ const Statboard = () => {
 								playerStats={playerStats}
 								seriesScore={seriesScore}
 								splash={splash}
+								seriesGame={seriesScore[0] + seriesScore[1] + (viewState === "postgame" ? 0 : 1)}
 								teamColors={[teamColor(0), teamColor(1)]}
 							/>
 
@@ -242,7 +243,15 @@ const Statboard = () => {
 
 				:
 
-					<div>No data received from producer overlay</div>
+					<div className="statboardStatus">
+						{readyStateServer === ReadyState.OPEN ?
+							`Connected. Waiting for the producer overlay to send data for ID ${params.clientId}. Make sure the overlay is running and this link matches the one in the control panel.`
+						: readyStateServer === ReadyState.CONNECTING ?
+							"Connecting to the stats server..."
+						:
+							"Can't reach the stats server. Retrying every few seconds. If this doesn't clear, update your browser or try a different one."
+						}
+					</div>
 
 				}
 

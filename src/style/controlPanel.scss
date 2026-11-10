@@ -57,6 +57,15 @@ body:has(#ControlPanel) {
 		margin-bottom: 5px;
 	}
 
+	.overlayStatus {
+		margin-top: 4px;
+		color: #ff8a80;
+
+		&.live {
+			color: #69f0ae;
+		}
+	}
+
 	.idGrid {
 		margin-bottom: 15px;
 		background: #222222;

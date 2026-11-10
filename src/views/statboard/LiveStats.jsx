@@ -20,7 +20,7 @@ const LiveStats = (props) => {
 			<Clock time={props.gameData.time_seconds} overtime={props.gameData.isOT} />
 
 			{props.config.series.show || props.config.series.override ? (
-				<SeriesInfo seriesScore={props.seriesScore} seriesGame={props.seriesScore[0] + props.seriesScore[1] + 1} seriesConfig={props.config.series} />
+				<SeriesInfo seriesScore={props.seriesScore} seriesGame={props.seriesGame} seriesConfig={props.config.series} />
 			) : null}
 
 			<table className="statboardLiveStatsTable">

@@ -16,7 +16,7 @@ WORKDIR /app
 
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
-COPY ws-server.js /app/ws-server.js
+COPY ws-server.cjs /app/ws-server.cjs
 COPY docker/start.sh /app/start.sh
 
 RUN chmod +x /app/start.sh

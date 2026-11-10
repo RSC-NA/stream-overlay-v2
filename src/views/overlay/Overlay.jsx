@@ -14,13 +14,11 @@ import Transition from "@/views/overlay/Transition";
 
 import hexToRgba from "@/utils/hexToRgba";
 import imageLocation from "@/utils/imageLocation";
+import socketServerUrl from "@/utils/socketServerUrl";
 import { v4 as uuidv4 } from "uuid";
 
 const expireEventsInMs = 7000;
 const gameSocketUrl = "ws://localhost:49122";
-
-const socketServerUrl = "https://overlay.rscna.com/ws/"; // prod
-// const socketServerUrl = "ws://localhost:8321"; // local testing
 
 const Overlay = () => {
 
@@ -238,6 +236,7 @@ const Overlay = () => {
 					pregameStats: pregameStatsRef.current,
 					seriesScore: seriesScoreRef.current,
 					splash: splashRef.current,
+					viewState: viewStateRef.current,
 				}
 			});
 
@@ -430,7 +429,18 @@ const Overlay = () => {
 				}
 		};
 
-		return () => clearInterval(sendExternalInterval);
+		const heartbeatInterval = setInterval(() => {
+			sendJsonMessageServer({
+				clientId: clientIdRef.current,
+				event: "overlay:heartbeat",
+				data: {},
+			});
+		}, 1000);
+
+		return () => {
+			clearInterval(sendExternalInterval);
+			clearInterval(heartbeatInterval);
+		};
 
 	}, []);
 
@@ -446,6 +456,7 @@ const Overlay = () => {
 		onOpen: () => {},
 		onMessage: (msg) => handleGameData(msg.data),
 		shouldReconnect: (closeEventGame) => true,
+		reconnectAttempts: Infinity,
 	});
 
 	// my websocket server for updating stats page
@@ -460,6 +471,7 @@ const Overlay = () => {
 		onOpen: () => subscribeToServerFeed(),
 		onMessage: (msg) => handleServerData(msg.data),
 		shouldReconnect: (closeEvent) => true,
+		reconnectAttempts: Infinity,
 	});
 
 	// handle data from BakkesMod websocket
